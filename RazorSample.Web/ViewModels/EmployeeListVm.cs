@@ -1,18 +1,12 @@
 ﻿using RazorSample.Data;
+using RazorSample.Web.Queries;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace RazorSample.Web.Models
+namespace RazorSample.Web.ViewModels
 {
-    public class EmployeeListVm
+    public class EmployeeListVm : ListVmBase<SearchEmployeesQuery, EmployeeListItemVm>
     {
-        public IEnumerable<EmployeeListItemVm> Items { get; set; }
-
-        public int PageNo { get; set; }
-        public int PageSize { get; set; }
-        public int PageCount { get; set; }
-
         internal EmployeeListVm Use(Page<EmployeeEntity> employees)
         {
             Items = employees.Select(employee => new EmployeeListItemVm(employee)).ToArray();

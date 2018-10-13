@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RazorSample.Data;
-using RazorSample.Web.Models;
+using RazorSample.Web.ViewModels;
 using System;
 using System.Threading.Tasks;
 
