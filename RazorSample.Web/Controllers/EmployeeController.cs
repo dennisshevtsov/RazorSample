@@ -12,10 +12,12 @@ namespace RazorSample.Web.Controllers
   public sealed class EmployeeController : Controller
   {
     private readonly IEmployeeService _employeeService;
+    private readonly IRandomGenerator _randomGenerator;
 
-    public EmployeeController(IEmployeeService employeeService)
+    public EmployeeController(IEmployeeService employeeService, IRandomGenerator randomGenerator)
     {
       _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
+      _randomGenerator = randomGenerator ?? throw new ArgumentNullException(nameof(randomGenerator));
     }
 
     [HttpGet]
@@ -29,11 +31,35 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
+    public IActionResult Add()
+    {
+      var vm = new EmployeeAddFormVm().Controller(this)
+                                      .Command(_randomGenerator.RandomEmployee());
+
+      return View("AddView", vm);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Add(CreateEmployeeCommand command)
+    {
+      if (ModelState.IsValid == false)
+      {
+        var vm = new EmployeeAddFormVm().Command(command);
+
+        return View("EditView", vm);
+      }
+
+      await _employeeService.HandleAsync(command);
+
+      return RedirectToAction(nameof(Index), new SearchEmployeesQuery(command.EmployeeNo));
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Edit(GetEmployeeQuery query)
     {
-      var vm = new EmployeeVm().Controller(this)
-                               .Query(query)
-                               .Command(await _employeeService.HandleAsync(query));
+      var vm = new EmployeeEditFormVm().Controller(this)
+                                       .Query(query)
+                                       .Command(await _employeeService.HandleAsync(query));
 
       return View("EditView", vm);
     }
@@ -43,8 +69,8 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = new EmployeeVm().Query(query)
-                                 .Command(command);
+        var vm = new EmployeeEditFormVm().Query(query)
+                                         .Command(command);
 
         return View("EditView", vm);
       }

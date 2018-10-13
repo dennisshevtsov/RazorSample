@@ -57,5 +57,20 @@ namespace RazorSample.Web.Services
 
       return CommandExecutionResult.Success;
     }
+
+    public async Task<CommandExecutionResult> HandleAsync(CreateEmployeeCommand command)
+    {
+      var employeeEntity = new EmployeeEntity();
+
+      employeeEntity.EmployeeId = Guid.NewGuid();
+      employeeEntity.FirstName = command.FirstName;
+      employeeEntity.LastName = command.LastName;
+      employeeEntity.EmployeeNo = command.EmployeeNo;
+      employeeEntity.Email = command.Email;
+
+      await _repository.InsertAsync(employeeEntity);
+
+      return CommandExecutionResult.Success;
+    }
   }
 }
