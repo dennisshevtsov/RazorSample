@@ -1,0 +1,29 @@
+﻿@model RazorSample.Web.ViewModels.EmployeeListVm
+
+<table>
+    <thead>
+        <tr>
+            <th><input type="checkbox"></th>
+            <th><span>Name</span></th>
+            <th><span>Employee No</span></th>
+            <th><span>Created</span></th>
+        </tr>
+        <tr>
+            <th><span></span></th>
+            <th><span></span></th>
+            <th><input type="text" placeholder="Employee No"></th>
+            <th><span></span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td><input type="checkbox"></td>
+                <td><a href="#"><span>@item.FullName</span></a></td>
+                <td><span>@item.EmployeeNo</span></td>
+                <td><span>@item.Created</span></td>
+            </tr>
+        }
+    </tbody>
+</table>

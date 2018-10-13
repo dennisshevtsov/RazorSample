@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RazorSample.Data
+namespace RazorSample.Data.Entities
 {
     public sealed class EmployeeEntity
     {

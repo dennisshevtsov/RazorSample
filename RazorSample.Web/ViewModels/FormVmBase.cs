@@ -1,4 +1,4 @@
-﻿namespace RazorSample.Web.ViewModels
+﻿namespace RazorSample.Web.ViewModels    
 {
     public abstract class FormVmBase<TQuery, TCommand> : VmBase<TQuery>
         where TQuery : class

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RazorSample.Data;
+using RazorSample.Web.Extensions;
+using RazorSample.Web.Queries;
+using RazorSample.Web.Services;
 using RazorSample.Web.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -8,18 +10,20 @@ namespace RazorSample.Web.Controllers
 {
     public sealed class EmployeeController : Controller
     {
-        private readonly IRepository _repository;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(IRepository repository)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SearchEmployeesQuery query)
         {
-            var vm = new EmployeeListVm().Use(await _repository.PageAsync(new AllEmployeesSpecification(), 10, 0));
+            var vm = new EmployeeListVm().Controller(this)
+                                         .Query(query)
+                                         .Items(await _employeeService.HandleAsync(query));
 
-            return View();
+            return View("ListView", vm);
         }
     }
 }
