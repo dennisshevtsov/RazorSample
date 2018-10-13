@@ -16,7 +16,7 @@ namespace RazorSample.Data.Configurations
             builder.Property(entity => entity.LastName).IsRequired().HasMaxLength(256);
             builder.Property(entity => entity.EmployeeNo).IsRequired().HasMaxLength(256);
             builder.Property(entity => entity.Email).IsRequired().HasMaxLength(256);
-            builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd();
+            builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
             builder.Property(entity => entity.IsActive).IsRequired().HasDefaultValue(true);
         }
     }

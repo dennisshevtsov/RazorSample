@@ -20,6 +20,7 @@ namespace RazorSample.Web
 
       services.AddScoped<IRepository, Repository>();
 
+      services.AddScoped<IRandomGenerator, RandomGenerator>();
       services.AddScoped<IEmployeeService, EmployeeService>();
     }
 

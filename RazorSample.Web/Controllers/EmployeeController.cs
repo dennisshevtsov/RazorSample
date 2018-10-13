@@ -39,7 +39,7 @@ namespace RazorSample.Web.Controllers
       return View("AddView", vm);
     }
 
-    [HttpGet]
+    [HttpPost]
     public async Task<IActionResult> Add(CreateEmployeeCommand command)
     {
       if (ModelState.IsValid == false)
@@ -77,7 +77,7 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return RedirectToAction(nameof(Edit), query);
+      return RedirectToAction(nameof(Index), new SearchEmployeesQuery(command.EmployeeNo));
     }
   }
 }

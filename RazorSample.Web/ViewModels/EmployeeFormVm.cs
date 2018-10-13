@@ -3,7 +3,13 @@ using RazorSample.Web.Queries;
 
 namespace RazorSample.Web.ViewModels
 {
-  public sealed class EmployeeAddFormVm : FormVmBase<GetEmployeeQuery, CreateEmployeeCommand> { }
+  public interface IEmployeeFormVm<out TCommand> : ICommandSource<TCommand>
+    where TCommand : EmployeeFormCommandBase
+  { }
 
-  public sealed class EmployeeEditFormVm : FormVmBase<GetEmployeeQuery, UpdateEmployeeCommand> { }
+  public sealed class EmployeeAddFormVm : FormVmBase<CreateEmployeeCommand>, IEmployeeFormVm<CreateEmployeeCommand> { }
+
+  public sealed class EmployeeEditFormVm : FormVmBase<GetEmployeeQuery, UpdateEmployeeCommand>,
+                                           IEmployeeFormVm<UpdateEmployeeCommand>
+  { }
 }
