@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using RazorSample.Data;
+using RazorSample.Data.Entities;
 using RazorSample.Data.Specifications;
+using RazorSample.Web.Commands;
 using RazorSample.Web.Queries;
 using RazorSample.Web.ViewModels;
 
@@ -30,6 +32,30 @@ namespace RazorSample.Web.Services
       var queryExecutionResult = new QueryExecutionResult<Page<EmployeeListItemVm>>(employeeListPage);
 
       return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<UpdateEmployeeCommand>> HandleAsync(GetEmployeeQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var updateEmployeeCommand = new UpdateEmployeeCommand(employeeEntity);
+      var queryExecutionResult = new QueryExecutionResult<UpdateEmployeeCommand>(updateEmployeeCommand);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeCommand command)
+    {
+      var employeeEntity = new EmployeeEntity();
+
+      employeeEntity.EmployeeId = command.EmployeeId;
+      employeeEntity.FirstName = command.FirstName;
+      employeeEntity.LastName = command.LastName;
+      employeeEntity.EmployeeNo = command.EmployeeNo;
+      employeeEntity.Email = command.Email;
+
+      await _repository.UpdateAsync(employeeEntity);
+
+      return CommandExecutionResult.Success;
     }
   }
 }

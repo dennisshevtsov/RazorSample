@@ -1,0 +1,17 @@
+﻿@model RazorSample.Web.ViewModels.EmployeeVm
+
+<form method="post">
+  <label for="@nameof(Model.Command.FirstName)">First Name</label>
+  <input type="text" name="@nameof(Model.Command.FirstName)" value="@Model.Command.FirstName" >
+
+  <label for="@nameof(Model.Command.LastName)">Last Name:</label>
+  <input type="text" name="@nameof(Model.Command.LastName)" value="@Model.Command.LastName" >
+
+  <label for="@nameof(Model.Command.EmployeeNo)">Employee No:</label>
+  <input type="text" name="@nameof(Model.Command.EmployeeNo)" value="@Model.Command.EmployeeNo" >
+
+  <label for="@nameof(Model.Command.Email)">Email:</label>
+  <input type="email" name="@nameof(Model.Command.Email)" value="@Model.Command.Email" >
+
+  <button type="submit"><span>Ok</span></button>
+</form>
