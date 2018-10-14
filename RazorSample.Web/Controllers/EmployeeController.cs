@@ -33,8 +33,7 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public IActionResult Add()
     {
-      var vm = new EmployeeAddFormVm().Controller(this)
-                                      .Command(_randomGenerator.RandomEmployee());
+      var vm = new EmployeeAddFormVm().Command(_randomGenerator.RandomEmployee());
 
       return View("AddView", vm);
     }
@@ -57,8 +56,7 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public async Task<IActionResult> Edit(GetEmployeeQuery query)
     {
-      var vm = new EmployeeEditFormVm().Controller(this)
-                                       .Query(query)
+      var vm = new EmployeeEditFormVm().Query(query)
                                        .Command(await _employeeService.HandleAsync(query));
 
       return View("EditView", vm);
