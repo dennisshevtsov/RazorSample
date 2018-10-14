@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RazorSample.Data
 {
@@ -9,5 +10,6 @@ namespace RazorSample.Data
 
     Task<TEntity> InsertAsync<TEntity>(TEntity entity) where TEntity : class;
     Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class;
+    Task UpdateAsync<TEntity>(TEntity entity, IEnumerable<string> properties) where TEntity : class;
   }
 }

@@ -45,15 +45,13 @@ namespace RazorSample.Web.Services
 
     public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeCommand command)
     {
-      var employeeEntity = new EmployeeEntity();
+      var changeEntry = new ChangeEntry<EmployeeEntity>().Key(employee => employee.EmployeeId, command.EmployeeId)
+                                                         .Property(employee => employee.FirstName, command.FirstName)
+                                                         .Property(employee => employee.LastName, command.LastName)
+                                                         .Property(employee => employee.EmployeeNo, command.EmployeeNo)
+                                                         .Property(employee => employee.Email, command.Email);
 
-      employeeEntity.EmployeeId = command.EmployeeId;
-      employeeEntity.FirstName = command.FirstName;
-      employeeEntity.LastName = command.LastName;
-      employeeEntity.EmployeeNo = command.EmployeeNo;
-      employeeEntity.Email = command.Email;
-
-      await _repository.UpdateAsync(employeeEntity);
+      await _repository.UpdateAsync(changeEntry.Entity, changeEntry.Properties);
 
       return CommandExecutionResult.Success;
     }

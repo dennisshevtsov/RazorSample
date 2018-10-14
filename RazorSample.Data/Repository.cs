@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,6 +63,18 @@ namespace RazorSample.Data
     public async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
     {
       _dbContext.Update(entity);
+      await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync<TEntity>(TEntity entity, IEnumerable<string> properties) where TEntity : class
+    {
+      var entry = _dbContext.Attach(entity);
+
+      foreach (var property in properties)
+      {
+        entry.Property(property).IsModified = true;
+      }
+
       await _dbContext.SaveChangesAsync();
     }
   }
