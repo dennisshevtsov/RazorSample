@@ -9,6 +9,11 @@ namespace RazorSample.Web.Queries
 
   public sealed class UpdateClientQuery : IUpdateClientQuery
   {
+    public UpdateClientQuery(Guid clientId)
+    {
+      ClientId = clientId;
+    }
+
     public Guid ClientId { get; set; }
   }
 }

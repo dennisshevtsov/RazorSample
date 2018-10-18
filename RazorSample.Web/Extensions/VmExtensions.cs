@@ -3,6 +3,7 @@ using RazorSample.Data;
 using RazorSample.Web.Queries;
 using RazorSample.Web.ViewModels;
 using System;
+using System.Collections.Generic;
 
 namespace RazorSample.Web.Extensions
 {
@@ -60,6 +61,26 @@ namespace RazorSample.Web.Extensions
       {
         source.Items = queryExecutionResult.Result;
       }
+
+      return source;
+    }
+
+    public static TViewModel Items<TViewModel, TItem>(
+    this TViewModel source, IEnumerable<TItem> items)
+    where TViewModel : VmBase, IListSourceInternal<TItem>
+    where TItem : class
+    {
+      if (source == null)
+      {
+        throw new ArgumentNullException(nameof(source));
+      }
+
+      if (items == null)
+      {
+        throw new ArgumentNullException(nameof(items));
+      }
+
+      source.Items = items;
 
       return source;
     }
