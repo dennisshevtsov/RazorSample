@@ -24,6 +24,11 @@ namespace RazorSample.Web.Extensions
         throw new ArgumentNullException(nameof(source));
       }
 
+      if (name != null)
+      {
+        name = name.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
+      }
+
       return $"{name}{source.RandomToken()}";
     }
 
