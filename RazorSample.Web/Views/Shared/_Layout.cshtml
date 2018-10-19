@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>@ViewBag.Title</title>
+</head>
+<body>
+
+  <ul>
+    <li><a asp-controller="employee" asp-action="index"><span>Employees</span></a></li>
+    <li><a asp-controller="client" asp-action="index"><span>Clients</span></a></li>
+  </ul>
+
+  <div>
+    @RenderBody()
+  </div>
+</body>
+</html>

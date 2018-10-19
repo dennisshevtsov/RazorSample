@@ -22,6 +22,7 @@ namespace RazorSample.Web
 
       services.AddScoped<IRandomGenerator, RandomGenerator>();
       services.AddScoped<IEmployeeService, EmployeeService>();
+      services.AddScoped<IClientService, ClientService>();
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)

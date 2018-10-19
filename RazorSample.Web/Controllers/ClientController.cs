@@ -23,37 +23,80 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public async Task<IActionResult> Index(SearchClientQuery query)
     {
-      var vm = new ClientListVm().Query(query)
-                                 .Items((await _clientService.HandleAsync(query)).Result.Adapt<IEnumerable<ClientListItemVm>>());
+      var vm = new ClientListVm().Query(query);
+
+      var commandExecutionResult = await _clientService.HandleAsync(query);
+
+      if (commandExecutionResult.HasError == false)
+      {
+        var clientListItems = commandExecutionResult.Result.Adapt<IEnumerable<ClientListItemVm>>();
+
+        vm.Items(clientListItems);
+      }
 
       return View("ListView", vm);
     }
 
     [HttpGet]
-    public IActionResult Add(CreateClientQuery query)
+    public async Task<IActionResult> Add(CreateClientQuery query)
     {
       var vm = new ClientAddFormVm();
+
+      var commandExecutionResult = await _clientService.HandleAsync(query);
+
+      if (commandExecutionResult.HasError == false)
+      {
+        var command = commandExecutionResult.Result.Adapt<CreateClientCommand>();
+
+        vm.Command(command);
+      }
 
       return View("AddView", vm);
     }
 
     [HttpPost]
-    public IActionResult Add(CreateClientQuery query, CreateClientCommand command)
+    public async Task<IActionResult> Add(CreateClientQuery query, CreateClientCommand command)
     {
+      if (ModelState.IsValid == false)
+      {
+        var vm = new ClientAddFormVm().Command(command);
+
+        return View("AddView", vm);
+      }
+
+      await _clientService.HandleAsync(command);
+
       return RedirectToAction(nameof(Edit), new UpdateClientQuery(command.ClientId));
     }
 
     [HttpGet]
-    public IActionResult Edit(UpdateClientQuery query)
+    public async Task<IActionResult> Edit(UpdateClientQuery query)
     {
-      var vm = new ClientEditFormVm();
+      var vm = new ClientEditFormVm().Query(query);
 
-      return View("AddView", vm);
+      var commandExecutionResult = await _clientService.HandleAsync(query);
+
+      if (commandExecutionResult.HasError == false)
+      {
+        var command = commandExecutionResult.Result.Adapt<UpdateClientCommand>();
+
+        vm.Command(command);
+      }
+
+      return View("EditView", vm);
     }
 
     [HttpPost]
-    public IActionResult Edit(UpdateClientQuery query, UpdateClientCommand command)
+    public async Task<IActionResult> Edit(UpdateClientQuery query, UpdateClientCommand command)
     {
+      if (ModelState.IsValid == false)
+      {
+        var vm = new ClientEditFormVm().Query(query)
+                                       .Command(command);
+      }
+
+      await _clientService.HandleAsync(command);
+
       return RedirectToAction(nameof(Edit), new UpdateClientQuery(command.ClientId));
     }
   }

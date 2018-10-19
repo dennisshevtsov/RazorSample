@@ -10,6 +10,7 @@ namespace RazorSample.Data
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.ApplyConfiguration(new EmployeeEntityTypeConfiguration());
+      modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration());
     }
   }
 }

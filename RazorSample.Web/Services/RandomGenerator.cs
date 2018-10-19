@@ -9,6 +9,7 @@ namespace RazorSample.Web.Services
                                                           "Harry", "Marry", "George", "Zoe", "James", "Ann", };
     private static readonly string[] LastNames = new[] { "Johnson", "Johns", "Alexanderson", "Alexanders", "Danielson", "Daniels",
                                                          "Robertson", "Roberts", "Harryson", "Fitzpatric", "Jameson", };
+    private static readonly string[] CompanyNamePostfixes = new[] { "Ltd.", "Inc.", "Lab.", };
 
     private readonly Random _random;
 
@@ -17,7 +18,7 @@ namespace RazorSample.Web.Services
       _random = new Random();
     }
 
-    public string RadomToken()
+    public string RandomToken()
     {
       return Guid.NewGuid()
                  .ToString()
@@ -34,6 +35,11 @@ namespace RazorSample.Web.Services
     public string RandomLastName()
     {
       return RandomArrayElement(LastNames);
+    }
+
+    public string RandomCompanyName()
+    {
+      return $"{RandomToken()} {RandomArrayElement(CompanyNamePostfixes)}";
     }
 
     private string RandomArrayElement(string[] array)

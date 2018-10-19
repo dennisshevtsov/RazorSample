@@ -2,14 +2,14 @@
 {
   public interface ISearchClientsQuery
   {
-    string EmployeeNo { get; }
+    string ClientNo { get; }
 
     int PageNo { get; }
   }
 
   public class SearchClientsQuery : ISearchClientsQuery
   {
-    public string EmployeeNo { get; set; }
+    public string ClientNo { get; set; }
 
     public int PageNo { get; set; }
   }

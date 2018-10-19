@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using RazorSample.Web.Commands;
 
 namespace RazorSample.Web.ViewModels
 {
-  public class ClientAddFormVm
-  {
-  }
+  public class ClientAddFormVm : FormVmBase<CreateClientCommand> { }
 }

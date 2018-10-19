@@ -2,9 +2,11 @@
 {
   public interface IRandomGenerator
   {
-    string RadomToken();
+    string RandomToken();
 
     string RandomFirstName();
     string RandomLastName();
+
+    string RandomCompanyName();
   }
 }

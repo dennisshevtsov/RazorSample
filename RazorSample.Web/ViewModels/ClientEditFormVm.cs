@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using RazorSample.Web.Commands;
+using RazorSample.Web.Queries;
 
 namespace RazorSample.Web.ViewModels
 {
-  public class ClientEditFormVm
-  {
-  }
+  public sealed class ClientEditFormVm : FormVmBase<UpdateClientQuery, UpdateClientCommand> { }
 }
