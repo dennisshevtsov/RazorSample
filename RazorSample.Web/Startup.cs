@@ -34,6 +34,7 @@ namespace RazorSample.Web
         scope.ServiceProvider.GetRequiredService<DbContext>().Database.EnsureCreated();
       }
 
+      app.UseStaticFiles();
       app.UseMvc(options => options.MapRoute("default", "{controller=employee}/{action=index}"));
     }
   }

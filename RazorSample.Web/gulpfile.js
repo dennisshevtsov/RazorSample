@@ -18,6 +18,6 @@ gulp.task('css', ['sass'], function () {
              .pipe(gulp.dest('./wwwroot/'));
 });
 
-gulp.task('default', ['css'], function () {
-  gulp.watch('./Content/*.scss', ['sass']);
+gulp.task('default', function () {
+  gulp.watch('./Content/*.scss', ['sass', 'css']);
 });

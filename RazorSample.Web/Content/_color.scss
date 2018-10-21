@@ -1,11 +1,35 @@
-﻿$c0: #6c756b;
-$c1: #93acb5;
-$c2: #96c5f7;
-$c3: #a9d3ff;
-$c4: #f2f4ff;
+﻿$c0-1: #f04f48;
+$c00: #ef3e36;
+$c01: #da3932;
 
-$textColor: $c0;
-$linkColor: $c2;
-$linkActiveColor: $c3;
-$backgroundColor: $c4;
-$borderColor: $c1;
+
+$c1-1: #17a1d1;
+$c10: #0098cd;
+$c11: #008bbb;
+
+
+$c2-3: #ecebeb;
+$c2-2: #d9d7d8;
+$c2-1: #413b3d;
+$c20: #2e282a;
+$c21: #2a2527;
+
+
+$c3-1: #96be84;
+$c30: #7fb069;
+$c31: #7fb069;
+
+
+$c4-1: #e5d67c;
+$c40: #e3d26f;
+$c41: #cfbf65;
+
+$textColor: $c20;
+$linkColor: $c10;
+$linkActiveColor: $c1-1;
+$backgroundColor: $c2-3;
+$borderColor: $c2-2;
+
+$altTextColor: $c2-2;
+$altBackgroundColor: $c20;
+$borderColor: $c2-2;

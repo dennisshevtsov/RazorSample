@@ -1,0 +1,10 @@
+﻿@import '_color';
+@import '_typography';
+
+.main {
+  font-family: $textFontFamily;
+  font-size: $textSize;
+
+  color: $textColor;
+  background: $backgroundColor;
+}

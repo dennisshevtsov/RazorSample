@@ -6,16 +6,19 @@
 <head>
   <meta name="viewport" content="width=device-width" />
   <title>@ViewBag.Title</title>
+  <link rel="stylesheet" href="~/styles.min.css" />
 </head>
-<body>
+<body class="page">
 
-  <ul>
-    <li><a asp-controller="employee" asp-action="index"><span>Employees</span></a></li>
-    <li><a asp-controller="client" asp-action="index"><span>Clients</span></a></li>
-  </ul>
+  <header class="header"></header>
 
-  <div>
+  <nav class="nav-bar">
+    <a class="nav-bar__action" asp-controller="employee" asp-action="index"><span>Employees</span></a>
+    <a class="nav-bar__action" asp-controller="client" asp-action="index"><span>Clients</span></a>
+  </nav>
+
+  <main class="main">
     @RenderBody()
-  </div>
+  </main>
 </body>
 </html>
