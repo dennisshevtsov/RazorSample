@@ -17,19 +17,29 @@ namespace RazorSample.Web.Extensions
       return $"{firstName}.{lastName}_{source.RandomToken()}@test.test";
     }
 
-    public static string RandomNo(this IRandomGenerator source, string name)
+    public static string RandomClientNo(this IRandomGenerator source, string name)
     {
       if (source == null)
       {
         throw new ArgumentNullException(nameof(source));
       }
 
-      if (name != null)
+      if (string.IsNullOrWhiteSpace(name))
       {
-        name = name.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
+        return source.RandomToken();
       }
 
-      return $"{name}{source.RandomToken()}";
+      return name.Replace(" ", "");
+    }
+
+    public static string RandomEmployeeNo(this IRandomGenerator source, string firstName, string lastName)
+    {
+      if (source == null)
+      {
+        throw new ArgumentNullException(nameof(source));
+      }
+
+      return $"{firstName[0]}{lastName}{source.RandomToken()}".Replace(" ", "");
     }
 
     public static CreateEmployeeCommand RandomEmployee(this IRandomGenerator source)
@@ -46,7 +56,7 @@ namespace RazorSample.Web.Extensions
       };
 
       command.Email = source.RandomEmail(command.FirstName, command.LastName);
-      command.EmployeeNo = source.RandomNo(command.LastName);
+      command.EmployeeNo = source.RandomEmployeeNo(command.FirstName, command.LastName);
 
       return command;
     }
@@ -58,13 +68,13 @@ namespace RazorSample.Web.Extensions
         throw new ArgumentNullException(nameof(source));
       }
 
+      var companyName = source.RandomCompanyName();
       var command = new ClientEntity
       {
-        Name = source.RandomCompanyName(),
+        Name = $"{companyName} {source.RandomBusinessEntityType()}",
+        ClientNo = source.RandomClientNo(companyName),
+        OrganizationNo = source.RandomClientNo(companyName),
       };
-
-      command.ClientNo = source.RandomNo(command.Name);
-      command.OrganizationNo = source.RandomNo(command.Name);
 
       return command;
     }

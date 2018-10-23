@@ -8,5 +8,6 @@
     string RandomLastName();
 
     string RandomCompanyName();
+    string RandomBusinessEntityType();
   }
 }

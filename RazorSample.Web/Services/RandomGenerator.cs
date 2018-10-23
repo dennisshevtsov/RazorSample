@@ -9,7 +9,11 @@ namespace RazorSample.Web.Services
                                                           "Harry", "Marry", "George", "Zoe", "James", "Ann", };
     private static readonly string[] LastNames = new[] { "Johnson", "Johns", "Alexanderson", "Alexanders", "Danielson", "Daniels",
                                                          "Robertson", "Roberts", "Harryson", "Fitzpatric", "Jameson", };
-    private static readonly string[] CompanyNamePostfixes = new[] { "Ltd.", "Inc.", "Lab.", };
+    private static readonly string[] CompanyTypes = new[] { "Ltd.", "Inc.", "GmbH", };
+    private static readonly string[] CompanyNameFirstWords = new[] { "ABC", "XYZ", "First", "Best", "Industrial",
+                                                                     "Media", "City", "Europe", "West", "East", };
+    private static readonly string[] CompanyNameSecondWords = new[] { "Group", "Lab", "Solutions", "Research",
+                                                                      "Products", "Intertament", "Production", };
 
     private readonly Random _random;
 
@@ -39,7 +43,12 @@ namespace RazorSample.Web.Services
 
     public string RandomCompanyName()
     {
-      return $"{RandomToken()} {RandomArrayElement(CompanyNamePostfixes)}";
+      return $"{RandomArrayElement(CompanyNameFirstWords)} {RandomArrayElement(CompanyNameSecondWords)} {RandomToken()}";
+    }
+
+    public string RandomBusinessEntityType()
+    {
+      return RandomArrayElement(CompanyTypes);
     }
 
     private string RandomArrayElement(string[] array)
