@@ -2,21 +2,21 @@
 @import '_typography';
 
 .nav-bar {
-  background: $c20;
+  background: $c2-3;
+  border-right: $borderColor 1px solid;
   display: flex;
   flex-direction: column;
 }
 
 .nav-bar__action {
-  color: $c2-2;
+  color: $c20;
   display: inline-block;
   text-decoration: none;
-
   padding-left: $gapLR;
 }
 
 .nav-bar__action:hover {
-  background: $c2-1;
+  background: $c2-2;
 }
 
 .nav-bar__action_active {

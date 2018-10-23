@@ -1,0 +1,12 @@
+﻿@import '_color';
+@import '_typography';
+
+.header {
+    background: $c20;
+    color: $c2-2;
+    padding-left: $gapLR;
+}
+
+.header__logo {
+    font-size: 20px;
+}

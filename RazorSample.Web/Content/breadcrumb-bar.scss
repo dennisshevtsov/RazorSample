@@ -1,0 +1,17 @@
+﻿@import '_color';
+@import '_typography';
+
+.breadcrumb-bar {
+    border-bottom: $borderColor 1px solid;
+    padding-left: $gapLR;
+}
+
+.breadcrumb-bar__item {
+  color: $textColor;
+}
+
+.breadcrumb-bar__item + .breadcrumb-bar__item::before {
+  content: "/";
+  margin-right: $gapLR;
+  margin-left: $gapLR;
+}

@@ -10,11 +10,18 @@
 </head>
 <body class="page">
 
-  <header class="header"></header>
+  <header class="header">
+      <a class="header__logo"><span>Razor Sample</span></a>
+  </header>
 
   <nav class="nav-bar">
     <a class="nav-bar__action" asp-controller="employee" asp-action="index"><span>Employees</span></a>
     <a class="nav-bar__action" asp-controller="client" asp-action="index"><span>Clients</span></a>
+  </nav>
+
+  <nav class="breadcrumb-bar">
+    <a class="breadcrumb-bar__item"><span>Employee</span></a>
+    <a class="breadcrumb-bar__item"><span>New Employee</span></a>
   </nav>
 
   <main class="main">

@@ -1,0 +1,19 @@
+﻿@import '_color';
+@import '_typography';
+
+.action-bar {
+  border-bottom: $borderColor 1px solid;
+  padding-left: $gapLR;
+}
+
+.action-bar__action {
+  color: $linkColor;
+}
+
+.action-bar__action:hover {
+  color: $linkActiveColor;
+}
+
+.action-bar__action + .action-bar__action {
+  margin-left: $gapLR;
+}
