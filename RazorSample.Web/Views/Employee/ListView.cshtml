@@ -3,7 +3,9 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <nav class="action-bar">
-  <a class="action-bar__action" asp-action="add"><span>+ new employee</span></a>
+  <nav class="action-list">
+    <a class="action-list__item" asp-action="add"><span>+ new employee</span></a>
+  </nav>
 </nav>
 <table class="grid">
   <thead>
@@ -14,21 +16,29 @@
       <th><span>Created</span></th>
     </tr>
     <tr>
-      <th><span></span></th>
-      <th><span></span></th>
+      <th></th>
+      <th></th>
       <th><input type="text" placeholder="Employee No"></th>
-      <th><span></span></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     @foreach (var item in Model.Items)
     {
-      <tr>
-        <td><input type="checkbox"></td>
-        <td><a asp-action="edit" asp-route-employeeid="@item.EmployeeId"><span>@item.FullName</span></a></td>
-        <td><span>@item.EmployeeNo</span></td>
-        <td><span>@item.Created</span></td>
-      </tr>
+    <tr>
+      <td><input type="checkbox"></td>
+      <td><a asp-action="edit" asp-route-employeeid="@item.EmployeeId"><span>@item.FullName</span></a></td>
+      <td><span>@item.EmployeeNo</span></td>
+      <td><span>@item.Created</span></td>
+      <td>
+        <nav class="action-list">
+          <a class="action-list__item" asp-action="add" asp-controller="client"><span>+ new client</span></a>
+          <a class="action-list__item" asp-action="activate"><span>activate</span></a>
+          <a class="action-list__item" asp-action="deactivate"><span>deactivate</span></a>
+        </nav>
+      </td>
+    </tr>
     }
   </tbody>
 </table>

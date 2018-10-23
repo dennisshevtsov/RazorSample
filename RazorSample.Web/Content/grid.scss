@@ -1,4 +1,40 @@
-﻿.grid {
+﻿@import '_color';
+@import '_typography';
 
+.grid {
+  text-align: left;
+  line-height: $lineHeight;
+  width: 100%;
 }
 
+.grid td:first-of-type, th:first-of-type {
+  padding-left: $gapLR;
+}
+
+.grid th {
+  font-weight: bold;
+}
+
+.grid th:first-of-type {
+  width: 50px;
+}
+
+.grid thead tr {
+  border-bottom: $borderColor solid 1px;
+}
+
+.grid tbody tr + tr {
+  border-top: $borderColor solid 1px;
+}
+
+.grid tbody tr:hover {
+  background: $backgroundColor;
+}
+
+.grid a {
+  color: $linkColor;
+}
+
+.grid a:hover {
+  color: $linkActiveColor;
+}

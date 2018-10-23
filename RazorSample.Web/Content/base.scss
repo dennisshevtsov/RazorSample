@@ -1,7 +1,11 @@
 ﻿@import '_typography';
 
-.page {
+body {
   line-height: $lineHeight;
   font-size: $textSize;
   font-family: $textFontFamily;
+}
+
+input {
+  margin: 0;
 }

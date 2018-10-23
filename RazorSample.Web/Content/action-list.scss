@@ -1,0 +1,17 @@
+﻿@import '_color';
+@import '_typography';
+
+.action-list {
+}
+
+.action-list__item {
+  color: $linkColor;
+}
+
+.action-list__item:hover {
+  color: $linkActiveColor;
+}
+
+.action-list__item + .action-list__item {
+  margin-left: $gapLR;
+}
