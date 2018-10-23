@@ -1,27 +1,45 @@
-﻿<!DOCTYPE html>
+﻿@model RazorSample.Web.ViewModels.VmBase;
 
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
 
 <html>
 <head>
   <meta name="viewport" content="width=device-width" />
-  <title>@ViewBag.Title</title>
+  <title>@Model.Title</title>
   <link rel="stylesheet" href="~/styles.min.css" />
 </head>
 <body class="page">
 
   <header class="header">
-      <a class="header__logo"><span>Razor Sample</span></a>
+    <a class="header__logo"><span>Razor Sample</span></a>
   </header>
 
   <nav class="nav-bar">
-    <a class="nav-bar__action" asp-controller="employee" asp-action="index"><span>Employees</span></a>
-    <a class="nav-bar__action" asp-controller="client" asp-action="index"><span>Clients</span></a>
+    @if (Model.NavActions != null && Model.NavActions.Length > 0)
+    {
+      foreach (var action in Model.NavActions)
+      {
+        if (action.Rel == Model.SelectedNavAction)
+        {
+          <a class="nav-bar__action nav-bar__action_active" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
+        }
+        else
+        {
+          <a class="nav-bar__action" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
+        }
+      }
+    }
   </nav>
 
   <nav class="breadcrumb-bar">
-    <a class="breadcrumb-bar__item"><span>Employee</span></a>
-    <a class="breadcrumb-bar__item"><span>New Employee</span></a>
+    @if (Model.BreadcrumbActions != null && Model.BreadcrumbActions.Length > 0)
+    {
+      for (var i = 0; i < Model.BreadcrumbActions.Length - 1; ++i)
+      {
+        <a class="breadcrumb-bar__item" rel="@Model.BreadcrumbActions[i].Rel" title="@Model.BreadcrumbActions[i].Title" href="@Model.BreadcrumbActions[i].Href"><span>@Model.BreadcrumbActions[i].Title</span></a>
+      }
+      <span class="breadcrumb-bar__item">@Model.BreadcrumbActions[Model.BreadcrumbActions.Length - 1].Title</span>
+    }
   </nav>
 
   <main class="main">

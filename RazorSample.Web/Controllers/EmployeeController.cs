@@ -27,6 +27,12 @@ namespace RazorSample.Web.Controllers
                                    .Query(query)
                                    .Items(await _employeeService.HandleAsync(query));
 
+      vm.Title = "Employee Search";
+      vm.BreadcrumbActions = new[] { new Link("self", "Employees", Url.Action(nameof(Index), query)) };
+      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action(nameof(Index))),
+                              new Link("client", "Clients", Url.Action("index", "client")), };
+      vm.SelectedNavAction = "employee";
+
       return View("ListView", vm);
     }
 

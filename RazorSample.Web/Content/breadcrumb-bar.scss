@@ -6,8 +6,12 @@
     padding-left: $gapLR;
 }
 
-.breadcrumb-bar__item {
+span.breadcrumb-bar__item {
   color: $textColor;
+}
+
+a.breadcrumb-bar__item {
+  color: $linkColor;
 }
 
 .breadcrumb-bar__item + .breadcrumb-bar__item::before {

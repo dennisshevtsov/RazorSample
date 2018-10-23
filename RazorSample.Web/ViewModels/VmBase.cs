@@ -1,7 +1,16 @@
-﻿namespace RazorSample.Web.ViewModels
+﻿using System.Collections.Generic;
+
+namespace RazorSample.Web.ViewModels
 {
   public abstract class VmBase
   {
+    public string Title { get; internal set; }
+
+    public Link[] NavActions { get; internal set; }
+    public string SelectedNavAction { get; internal set; }
+
+    public Link[] BreadcrumbActions { get; internal set; }
+
     public string InfoMessage { get; internal set; }
     public bool HasInfo => string.IsNullOrWhiteSpace(InfoMessage) == false;
 
