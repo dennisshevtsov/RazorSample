@@ -34,6 +34,12 @@ namespace RazorSample.Web.Controllers
         vm.Items(clientListItems);
       }
 
+      vm.Title = "Clients";
+      vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))), };
+      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
+                              new Link("client", "Clients", Url.Action(nameof(Index))), };
+      vm.SelectedNavAction = "client";
+
       return View("ListView", vm);
     }
 
@@ -51,6 +57,13 @@ namespace RazorSample.Web.Controllers
         vm.Command(command);
       }
 
+      vm.Title = "New Client";
+      vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
+                                     new Link("client.add", "New Client", Url.Action(nameof(Add))), };
+      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
+                              new Link("client", "Clients", Url.Action(nameof(Index))), };
+      vm.SelectedNavAction = "client";
+
       return View("AddView", vm);
     }
 
@@ -60,6 +73,13 @@ namespace RazorSample.Web.Controllers
       if (ModelState.IsValid == false)
       {
         var vm = new ClientAddFormVm().Command(command);
+
+        vm.Title = "New Client";
+        vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
+                                       new Link("client.add", "New Client", Url.Action(nameof(Add))), };
+        vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
+                                new Link("client", "Clients", Url.Action(nameof(Index))), };
+        vm.SelectedNavAction = "client";
 
         return View("AddView", vm);
       }
@@ -83,6 +103,13 @@ namespace RazorSample.Web.Controllers
         vm.Command(command);
       }
 
+      vm.Title = $"Clients - {vm.Command.Name}";
+      vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
+                                     new Link("client.edit", vm.Command.Name, Url.Action(nameof(Edit), query)), };
+      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
+                              new Link("client", "Clients", Url.Action(nameof(Index))), };
+      vm.SelectedNavAction = "client";
+
       return View("EditView", vm);
     }
 
@@ -93,6 +120,15 @@ namespace RazorSample.Web.Controllers
       {
         var vm = new ClientEditFormVm().Query(query)
                                        .Command(command);
+
+        vm.Title = $"Clients - {vm.Command.Name}";
+        vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
+                                       new Link("client.edit", vm.Command.Name, Url.Action(nameof(Edit), query)), };
+        vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
+                                new Link("client", "Clients", Url.Action(nameof(Index))), };
+        vm.SelectedNavAction = "client";
+
+        return View("EditView", vm);
       }
 
       await _clientService.HandleAsync(command);

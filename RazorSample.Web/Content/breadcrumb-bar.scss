@@ -2,8 +2,9 @@
 @import '_typography';
 
 .breadcrumb-bar {
-    border-bottom: $borderColor 1px solid;
-    padding-left: $gapLR;
+  background: $backgroundColor;
+  border-bottom: $borderColor 1px solid;
+  padding-left: $gapLR;
 }
 
 span.breadcrumb-bar__item {

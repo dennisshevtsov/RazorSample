@@ -41,6 +41,13 @@ namespace RazorSample.Web.Controllers
     {
       var vm = new EmployeeAddFormVm().Command(_randomGenerator.RandomEmployee());
 
+      vm.Title = "New Employee";
+      vm.BreadcrumbActions = new[] { new Link("self", "Employees", Url.Action(nameof(Index))),
+                                     new Link("employee.add", "New Employee", Url.Action(nameof(Add)))};
+      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action(nameof(Index))),
+                              new Link("client", "Clients", Url.Action("index", "client")), };
+      vm.SelectedNavAction = "employee";
+
       return View("AddView", vm);
     }
 
@@ -50,6 +57,13 @@ namespace RazorSample.Web.Controllers
       if (ModelState.IsValid == false)
       {
         var vm = new EmployeeAddFormVm().Command(command);
+
+        vm.Title = "New Employee";
+        vm.BreadcrumbActions = new[] { new Link("self", "Employees", Url.Action(nameof(Index))),
+                                     new Link("employee.add", "New Employee", Url.Action(nameof(Add)))};
+        vm.NavActions = new[] { new Link("employee", "Employees", Url.Action(nameof(Index))),
+                              new Link("client", "Clients", Url.Action("index", "client")), };
+        vm.SelectedNavAction = "employee";
 
         return View("EditView", vm);
       }
@@ -65,6 +79,13 @@ namespace RazorSample.Web.Controllers
       var vm = new EmployeeEditFormVm().Query(query)
                                        .Command(await _employeeService.HandleAsync(query));
 
+      vm.Title = $"Employee {vm.Command.LastName}, {vm.Command.FirstName}";
+      vm.BreadcrumbActions = new[] { new Link("self", "Employees", Url.Action(nameof(Index), query)),
+                                     new Link("employee.edit", $"{vm.Command.LastName}, {vm.Command.FirstName}", Url.Action(nameof(Add)))};
+      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action(nameof(Index))),
+                              new Link("client", "Clients", Url.Action("index", "client")), };
+      vm.SelectedNavAction = "employee";
+
       return View("EditView", vm);
     }
 
@@ -75,6 +96,13 @@ namespace RazorSample.Web.Controllers
       {
         var vm = new EmployeeEditFormVm().Query(query)
                                          .Command(command);
+
+        vm.Title = $"Employee {vm.Command.LastName}, {vm.Command.FirstName}";
+        vm.BreadcrumbActions = new[] { new Link("self", "Employees", Url.Action(nameof(Index))),
+                                       new Link("employee.edit", $"{vm.Command.LastName}, {vm.Command.FirstName}", Url.Action(nameof(Add), query))};
+        vm.NavActions = new[] { new Link("employee", "Employees", Url.Action(nameof(Index))),
+                                new Link("client", "Clients", Url.Action("index", "client")), };
+        vm.SelectedNavAction = "employee";
 
         return View("EditView", vm);
       }
