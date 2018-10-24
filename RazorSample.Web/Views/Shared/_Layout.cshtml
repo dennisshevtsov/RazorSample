@@ -15,34 +15,56 @@
   </header>
 
   <nav class="nav-bar">
-    @if (Model.NavActions != null && Model.NavActions.Length > 0)
+    @if (Model.Navs != null)
     {
-      foreach (var action in Model.NavActions)
+      foreach (var nav in Model.Navs)
       {
-        if (action.Rel == Model.SelectedNavAction)
+        if (nav.Rel == Model.SelectedNav)
         {
-          <a class="nav-bar__action nav-bar__action_active" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
+          <a class="nav-bar__action nav-bar__action_active" rel="@nav.Rel" title="@nav.Title" href="@nav.Href"><span>@nav.Title</span></a>
         }
         else
         {
-          <a class="nav-bar__action" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
+          <a class="nav-bar__action" rel="@nav.Rel" title="@nav.Title" href="@nav.Href"><span>@nav.Title</span></a>
         }
       }
     }
   </nav>
 
   <nav class="breadcrumb-bar">
-    @if (Model.BreadcrumbActions != null && Model.BreadcrumbActions.Length > 0)
+    @if (Model.Breadcrumbs != null)
     {
-      for (var i = 0; i < Model.BreadcrumbActions.Length - 1; ++i)
+      var enumerator = Model.Breadcrumbs.GetEnumerator();
+
+      if (enumerator.MoveNext())
       {
-        <a class="breadcrumb-bar__item" rel="@Model.BreadcrumbActions[i].Rel" title="@Model.BreadcrumbActions[i].Title" href="@Model.BreadcrumbActions[i].Href"><span>@Model.BreadcrumbActions[i].Title</span></a>
+        var current = enumerator.Current;
+
+        while (enumerator.MoveNext())
+        {
+          <a class="breadcrumb-bar__item" rel="@current.Rel" title="@current.Title" href="@current.Href"><span>@current.Title</span></a>
+
+          current = enumerator.Current;
+        }
+
+        <span class="breadcrumb-bar__item">@current.Title</span>
       }
-      <span class="breadcrumb-bar__item">@Model.BreadcrumbActions[Model.BreadcrumbActions.Length - 1].Title</span>
     }
   </nav>
 
   <main class="main">
+    @if (Model.Actions != null)
+    {
+      <nav class="action-bar">
+        <nav class="action-list">
+          @foreach (var action in Model.Actions)
+          {
+            <a class="action-list__item" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
+          }
+        </nav>
+      </nav>
+    }
+
     @RenderBody()
   </main>
 </body>

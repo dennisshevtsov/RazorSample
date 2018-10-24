@@ -6,10 +6,12 @@ namespace RazorSample.Web.ViewModels
   {
     public string Title { get; internal set; }
 
-    public Link[] NavActions { get; internal set; }
-    public string SelectedNavAction { get; internal set; }
+    public IEnumerable<Link> Navs { get; internal set; }
+    public string SelectedNav { get; internal set; }
 
-    public Link[] BreadcrumbActions { get; internal set; }
+    public IEnumerable<Link> Breadcrumbs { get; internal set; }
+
+    public IEnumerable<Link> Actions { get; set; }
 
     public string InfoMessage { get; internal set; }
     public bool HasInfo => string.IsNullOrWhiteSpace(InfoMessage) == false;

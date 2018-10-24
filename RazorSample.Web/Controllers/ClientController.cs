@@ -13,6 +13,10 @@ namespace RazorSample.Web.Controllers
 {
   public sealed class ClientController : Controller
   {
+    internal const string ClientSearchRel = "rs:client";
+    internal const string ClientCreateRel = "rs:client:add";
+    internal const string ClientUpdateRel = "rs:client:edit";
+
     private readonly IClientService _clientService;
 
     public ClientController(IClientService clientService)
@@ -35,10 +39,20 @@ namespace RazorSample.Web.Controllers
       }
 
       vm.Title = "Clients";
-      vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))), };
-      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
-                              new Link("client", "Clients", Url.Action(nameof(Index))), };
-      vm.SelectedNavAction = "client";
+      vm.Breadcrumbs = new[]
+      {
+        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+      };
+      vm.Navs = new[]
+      {
+        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+      };
+      vm.SelectedNav = ClientController.ClientSearchRel;
+      vm.Actions = new[]
+      {
+        Url.AppLink(ClientController.ClientCreateRel, "+ new client", nameof(ClientController.Add), nameof(ClientController)),
+      };
 
       return View("ListView", vm);
     }
@@ -58,11 +72,17 @@ namespace RazorSample.Web.Controllers
       }
 
       vm.Title = "New Client";
-      vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
-                                     new Link("client.add", "New Client", Url.Action(nameof(Add))), };
-      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
-                              new Link("client", "Clients", Url.Action(nameof(Index))), };
-      vm.SelectedNavAction = "client";
+      vm.Breadcrumbs = new[]
+      {
+        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+        Url.AppLink(ClientController.ClientCreateRel, "+ new client", nameof(ClientController.Add), nameof(ClientController)),
+      };
+      vm.Navs = new[]
+      {
+        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+      };
+      vm.SelectedNav = ClientController.ClientSearchRel;
 
       return View("AddView", vm);
     }
@@ -75,11 +95,18 @@ namespace RazorSample.Web.Controllers
         var vm = new ClientAddFormVm().Command(command);
 
         vm.Title = "New Client";
-        vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
-                                       new Link("client.add", "New Client", Url.Action(nameof(Add))), };
-        vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
-                                new Link("client", "Clients", Url.Action(nameof(Index))), };
-        vm.SelectedNavAction = "client";
+        vm.Breadcrumbs = new[]
+        {
+          Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+          Url.AppLink(ClientController.ClientCreateRel, "+ new client", nameof(ClientController.Add), nameof(ClientController)),
+        };
+        vm.Navs = new[]
+        {
+          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+          Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+        };
+        vm.SelectedNav = ClientController.ClientSearchRel;
+        vm.SelectedNav = "client";
 
         return View("AddView", vm);
       }
@@ -104,11 +131,17 @@ namespace RazorSample.Web.Controllers
       }
 
       vm.Title = $"Clients - {vm.Command.Name}";
-      vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
-                                     new Link("client.edit", vm.Command.Name, Url.Action(nameof(Edit), query)), };
-      vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
-                              new Link("client", "Clients", Url.Action(nameof(Index))), };
-      vm.SelectedNavAction = "client";
+      vm.Breadcrumbs = new[]
+      {
+        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+        Url.AppLink(ClientController.ClientCreateRel, vm.Command.Name, nameof(ClientController.Edit), nameof(ClientController), query),
+      };
+      vm.Navs = new[]
+      {
+        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+      };
+      vm.SelectedNav = ClientController.ClientSearchRel;
 
       return View("EditView", vm);
     }
@@ -122,11 +155,17 @@ namespace RazorSample.Web.Controllers
                                        .Command(command);
 
         vm.Title = $"Clients - {vm.Command.Name}";
-        vm.BreadcrumbActions = new[] { new Link("self", "Clients", Url.Action(nameof(Index))),
-                                       new Link("client.edit", vm.Command.Name, Url.Action(nameof(Edit), query)), };
-        vm.NavActions = new[] { new Link("employee", "Employees", Url.Action("index", "employee")),
-                                new Link("client", "Clients", Url.Action(nameof(Index))), };
-        vm.SelectedNavAction = "client";
+        vm.Breadcrumbs = new[]
+        {
+          Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+          Url.AppLink(ClientController.ClientCreateRel, vm.Command.Name, nameof(ClientController.Edit), nameof(ClientController), query),
+        };
+        vm.Navs = new[]
+        {
+          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+          Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
+        };
+        vm.SelectedNav = ClientController.ClientSearchRel;
 
         return View("EditView", vm);
       }
