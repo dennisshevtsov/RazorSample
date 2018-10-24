@@ -27,25 +27,18 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public async Task<IActionResult> Index(SearchEmployeesQuery query)
     {
-      var vm = new EmployeeListVm().Controller(this)
-                                   .Query(query)
-                                   .Items(await _employeeService.HandleAsync(query));
+      var builder = new VmBuilder<SearchEmployeesQuery, EmployeeListItemVm>();
+      var vm = builder.Title("Employee Search")
+                      .Nav(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                      .Nav(Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)))
+                      .Breadcrumb(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController), query))
+                      .Action(Url.AppLink(EmployeeController.EmployeeCreateRel, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                      .Build()
+                      .Controller(this)
+                      .Query(query)
+                      .Items(await _employeeService.HandleAsync(query));
 
-      vm.Title = "Employee Search";
-      vm.Breadcrumbs = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController), query),
-      };
-      vm.Navs = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
-      };
       vm.SelectedNav = EmployeeController.EmployeeSearchRel;
-      vm.Actions = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeCreateRel, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)),
-      };
 
       return View("ListView", vm);
     }
@@ -53,19 +46,15 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public IActionResult Add()
     {
-      var vm = new EmployeeAddFormVm().Command(_randomGenerator.RandomEmployee());
+      var builder = new FormVmBuilder<CreateEmployeeCommand>();
+      var vm = builder.Title("New Employee")
+                      .Breadcrumb(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                      .Breadcrumb(Url.AppLink(EmployeeController.EmployeeCreateRel, "New Employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                      .Nav(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                      .Nav(Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)))
+                      .Build()
+                      .Command(_randomGenerator.RandomEmployee());
 
-      vm.Title = "New Employee";
-      vm.Breadcrumbs = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-        Url.AppLink(EmployeeController.EmployeeCreateRel, "New Employee", nameof(EmployeeController.Add), nameof(EmployeeController)),
-      };
-      vm.Navs = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
-      };
       vm.SelectedNav = EmployeeController.EmployeeSearchRel;
 
       return View("AddView", vm);
@@ -76,19 +65,16 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = new EmployeeAddFormVm().Command(command);
+        var builder = new FormVmBuilder<CreateEmployeeCommand>();
+        var vm = builder.Title("New Employee")
+                        .Breadcrumb(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                        .Breadcrumb(Url.AppLink(EmployeeController.EmployeeCreateRel, "New Employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                        .Nav(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                        .Nav(Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)))
+                        .Action(Url.AppLink(EmployeeController.EmployeeCreateRel, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                        .Build()
+                        .Command(command);
 
-        vm.Title = "New Employee";
-        vm.Breadcrumbs = new[]
-        {
-          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-          Url.AppLink(EmployeeController.EmployeeCreateRel, "New Employee", nameof(EmployeeController.Add), nameof(EmployeeController)),
-        };
-        vm.Navs = new[]
-        {
-          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-          Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
-        };
         vm.SelectedNav = EmployeeController.EmployeeSearchRel;
 
         return View("EditView", vm);
@@ -102,25 +88,16 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public async Task<IActionResult> Edit(GetEmployeeQuery query)
     {
-      var vm = new EmployeeEditFormVm().Query(query)
-                                       .Command(await _employeeService.HandleAsync(query));
-
-      vm.Title = $"Employee {vm.Command.LastName}, {vm.Command.FirstName}";
-      vm.Breadcrumbs = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-        Url.AppLink(EmployeeController.EmployeeUpdateRel, $"{vm.Command.LastName}, {vm.Command.FirstName}", nameof(EmployeeController.Add), nameof(EmployeeController)),
-      };
-      vm.Navs = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-        Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
-      };
-      vm.SelectedNav = EmployeeController.EmployeeSearchRel;
-      vm.Actions = new[]
-      {
-        Url.AppLink(EmployeeController.EmployeeCreateRel, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)),
-      };
+      var builder = new FormVmBuilder<GetEmployeeQuery, UpdateEmployeeCommand>();
+      var vm = builder.Title("Employee")
+                      .Breadcrumb(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                      .Breadcrumb(Url.AppLink(EmployeeController.EmployeeUpdateRel, "LastName, FirstName", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                      .Nav(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                      .Nav(Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)))
+                      .Action(Url.AppLink(EmployeeController.EmployeeCreateRel, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                      .Build()
+                      .Query(query)
+                      .Command(await _employeeService.HandleAsync(query));
 
       return View("EditView", vm);
     }
@@ -130,25 +107,16 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = new EmployeeEditFormVm().Query(query)
-                                         .Command(command);
-
-        vm.Title = $"Employee {vm.Command.LastName}, {vm.Command.FirstName}";
-        vm.Breadcrumbs = new[]
-        {
-          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-          Url.AppLink(EmployeeController.EmployeeUpdateRel, $"{vm.Command.LastName}, {vm.Command.FirstName}", nameof(EmployeeController.Add), nameof(EmployeeController)),
-        };
-        vm.Navs = new[]
-        {
-          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
-          Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
-        };
-        vm.SelectedNav = EmployeeController.EmployeeSearchRel;
-        vm.Actions = new[]
-        {
-          Url.AppLink(EmployeeController.EmployeeCreateRel, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)),
-        };
+        var builder = new FormVmBuilder<GetEmployeeQuery, UpdateEmployeeCommand>();
+        var vm = builder.Title("Employee")
+                        .Breadcrumb(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                        .Breadcrumb(Url.AppLink(EmployeeController.EmployeeUpdateRel, "LastName, FirstName", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                        .Nav(Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+                        .Nav(Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)))
+                        .Action(Url.AppLink(EmployeeController.EmployeeCreateRel, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                        .Build()
+                        .Query(query)
+                        .Command(command);
 
         return View("EditView", vm);
       }

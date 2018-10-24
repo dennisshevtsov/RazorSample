@@ -1,4 +1,7 @@
-﻿@model RazorSample.Web.ViewModels.ClientListVm
+﻿@using RazorSample.Web.ViewModels;
+@using RazorSample.Web.Queries;
+
+@model ListVmBase<SearchClientQuery, ClientListItemVm>
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 

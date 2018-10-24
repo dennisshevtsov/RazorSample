@@ -1,4 +1,7 @@
-﻿@model RazorSample.Web.ViewModels.IEmployeeFormVm<RazorSample.Web.Commands.EmployeeFormCommandBase>
+﻿@using RazorSample.Web.Commands;
+@using RazorSample.Web.ViewModels;
+
+@model ICommandSource<EmployeeFormCommandBase>
 
 <form id="employee" method="post" class="form">
   <div class="form__controls">

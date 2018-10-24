@@ -2,7 +2,7 @@
 
 namespace RazorSample.Web.Queries
 {
-    public sealed class UpdateClientTeamQuery : ISearchClientsQuery, IUpdateClientQuery
+    public sealed class UpdateClientTeamQuery : IUpdateClientQuery
     {
         public Guid ClientId { get; set; }
 
