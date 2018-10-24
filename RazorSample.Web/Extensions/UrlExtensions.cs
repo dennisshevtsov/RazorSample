@@ -25,7 +25,7 @@ namespace RazorSample.Web.Extensions
       }
 
       var controllerShortName = controller.Replace("controller", "", StringComparison.InvariantCultureIgnoreCase);
-      var uri = source.Action(action, controllerShortName, query);
+      var uri = source.Action(action, controllerShortName, query).ToLowerInvariant();
 
       return uri;
     }
