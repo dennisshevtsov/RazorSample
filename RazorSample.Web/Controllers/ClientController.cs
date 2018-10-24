@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using RazorSample.Vm;
 using RazorSample.Web.Commands;
 using RazorSample.Web.Extensions;
 using RazorSample.Web.Queries;
@@ -27,6 +28,13 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public async Task<IActionResult> Index(SearchClientQuery query)
     {
+      //var vm = new ResourceBuilder().Link(Url.AppLink(RelTypes.Breadcrumb, "Clients", nameof(Index), nameof(ClientController)))
+      //                              .Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
+      //                              .Link(Url.AppLink(RelTypes.Nav, "Clients", nameof(ClientController.Index), nameof(ClientController)))
+      //                              .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController)))
+      //                              .ToListVm();
+
+
       var vm = new ClientListVm().Query(query);
 
       var commandExecutionResult = await _clientService.HandleAsync(query);

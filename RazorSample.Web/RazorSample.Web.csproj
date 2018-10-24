@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RazorSample.Data\RazorSample.Data.csproj" />
+    <ProjectReference Include="..\RazorSample.Vm\RazorSample.Vm.csproj" />
   </ItemGroup>
 
 </Project>

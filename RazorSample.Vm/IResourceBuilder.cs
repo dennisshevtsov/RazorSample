@@ -1,6 +1,6 @@
 ﻿namespace RazorSample.Vm
 {
-  interface IResourceBuilder
+  public interface IResourceBuilder
   {
     IResourceBuilder Link(Link link);
 
