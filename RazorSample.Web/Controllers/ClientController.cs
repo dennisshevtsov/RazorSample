@@ -75,7 +75,7 @@ namespace RazorSample.Web.Controllers
       vm.Breadcrumbs = new[]
       {
         Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
-        Url.AppLink(ClientController.ClientCreateRel, "+ new client", nameof(ClientController.Add), nameof(ClientController)),
+        Url.AppLink(ClientController.ClientCreateRel, "New client", nameof(ClientController.Add), nameof(ClientController)),
       };
       vm.Navs = new[]
       {

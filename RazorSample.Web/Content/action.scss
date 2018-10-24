@@ -1,0 +1,24 @@
+﻿@import '_color';
+@import '_typography';
+
+$actionWidth: 100px;
+
+.action {
+  font-family: $textFontFamily;
+  font-size: $textSize;
+  line-height: $lineHeight / 2;
+
+  color: $textColor;
+  border: $borderColor 1px solid;
+
+  cursor: pointer;
+  min-width: $actionWidth;
+}
+
+.action:hover {
+  background: $c2-3;
+}
+
+.action_primary {
+  background: $c2-2;
+}

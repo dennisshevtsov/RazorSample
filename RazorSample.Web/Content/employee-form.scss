@@ -1,0 +1,9 @@
+﻿#employee #control_FirstName,
+#employee #control_LastName,
+#employee #control_EmployeeNo {
+  grid-column: 1 / 2;
+}
+
+#employee #control_Email {
+  grid-column: 2 / 3;
+}

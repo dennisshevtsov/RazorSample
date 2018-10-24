@@ -1,0 +1,26 @@
+﻿@import '_color';
+@import '_typography';
+
+$controlItemWidth: 250px;
+
+.control {
+
+}
+
+.control__label {
+  display: inline-block;
+  min-width: $controlItemWidth;
+}
+
+.control__label_required {
+  font-weight: bold;
+}
+
+.control__field {
+  width: $controlItemWidth;
+  color: $textColor;
+  border: $borderColor 1px solid;
+  font-size: $textSize;
+  font-family: $textFontFamily;
+  padding: $textSize / 2;
+}

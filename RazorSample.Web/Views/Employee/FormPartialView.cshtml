@@ -1,17 +1,25 @@
 ﻿@model RazorSample.Web.ViewModels.IEmployeeFormVm<RazorSample.Web.Commands.EmployeeFormCommandBase>
 
-<form method="post">
-  <label for="@nameof(Model.Command.FirstName)">First Name</label>
-  <input type="text" name="@nameof(Model.Command.FirstName)" value="@Model.Command.FirstName">
-
-  <label for="@nameof(Model.Command.LastName)">Last Name:</label>
-  <input type="text" name="@nameof(Model.Command.LastName)" value="@Model.Command.LastName">
-
-  <label for="@nameof(Model.Command.EmployeeNo)">Employee No:</label>
-  <input type="text" name="@nameof(Model.Command.EmployeeNo)" value="@Model.Command.EmployeeNo">
-
-  <label for="@nameof(Model.Command.Email)">Email:</label>
-  <input type="email" name="@nameof(Model.Command.Email)" value="@Model.Command.Email">
-
-  <button type="submit"><span>Ok</span></button>
+<form id="employee" method="post" class="form">
+  <div class="form__controls">
+    <div class="control" id="control_@nameof(Model.Command.FirstName)">
+      <label class="control__label control__label_required" for="@nameof(Model.Command.FirstName)">First Name</label>
+      <input class="control__field" type="text" name="@nameof(Model.Command.FirstName)" value="@Model.Command.FirstName">
+    </div>
+    <div class="control" id="control_@nameof(Model.Command.LastName)">
+      <label class="control__label control__label_required" for="@nameof(Model.Command.LastName)">Last Name:</label>
+      <input class="control__field" type="text" name="@nameof(Model.Command.LastName)" value="@Model.Command.LastName">
+    </div>
+    <div class="control" id="control_@nameof(Model.Command.EmployeeNo)">
+      <label class="control__label control__label_required" for="@nameof(Model.Command.EmployeeNo)">Employee No:</label>
+      <input class="control__field" type="text" name="@nameof(Model.Command.EmployeeNo)" value="@Model.Command.EmployeeNo">
+    </div>
+    <div class="control" id="control_@nameof(Model.Command.Email)">
+      <label class="control__label control__label_required" for="@nameof(Model.Command.Email)">Email:</label>
+      <input class="control__field" type="email" name="@nameof(Model.Command.Email)" value="@Model.Command.Email">
+    </div>
+  </div>
+  <div class="form__actions">
+    <button type="submit" class="action action_primary"><span>Ok</span></button>
+  </div>
 </form>

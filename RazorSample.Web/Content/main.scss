@@ -7,4 +7,19 @@
 
   color: $textColor;
   background: $backgroundColor;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main > .action-bar {
+  flex: 0 1 auto;
+}
+
+.main > .form {
+  flex: 1 1 auto;
+}
+
+.main > .form > .form__controls {
+  padding-left: $gapLR;
 }
