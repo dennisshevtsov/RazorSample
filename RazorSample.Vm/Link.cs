@@ -6,7 +6,7 @@ namespace RazorSample.Vm
 {
   public sealed class Link
   {
-    internal Link(string rel, string title, string href)
+    public Link(string rel, string title, string href)
     {
       Rel = rel ?? throw new ArgumentNullException(nameof(rel));
       Title = title ?? throw new ArgumentNullException(nameof(title));

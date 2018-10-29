@@ -4,10 +4,25 @@ namespace RazorSample.Vm
 {
   public interface IVm
   {
+    IEnumerable<Property> Properties { get; }
+    IEnumerable<Link> Actions { get; }
+  }
+
+  public interface IPageVm : IVm
+  {
     string Title { get; }
 
     IEnumerable<Link> Navs { get; }
     IEnumerable<Link> Breadcrumbs { get; }
-    IEnumerable<Link> Actions { get; }
+  }
+
+  public interface IListVm<TItem> : IPageVm where TItem : IVm
+  {
+    IEnumerable<TItem> Items { get; }
+  }
+
+  public interface IFormVm<TForm> : IPageVm where TForm : IVm
+  {
+    TForm Form { get; }
   }
 }
