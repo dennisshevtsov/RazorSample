@@ -1,47 +1,59 @@
 ﻿@model RazorSample.Vm.IListVm
 
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
 <table class="grid">
-  <thead>
-    <tr>
-      <th><input type="checkbox"></th>
-      <th class="grid_col"><span>Name</span></th>
-      <th class="grid_col"><span>Employee No</span></th>
-      <th class="grid_col"><span>Created</span></th>
-      <th></th>
-    </tr>
-    <tr>
-      <th></th>
-      <th></th>
-      <th><input type="text" placeholder="Employee No"></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var item in Model.Items)
-    {
-      @*<tr>
-        <td><input type="checkbox"></td>
-        <td><a asp-action="edit" asp-route-employeeid="@item.EmployeeId"><span>@item.FullName</span></a></td>
-        <td><span>@item.EmployeeNo</span></td>
-        <td><span>@item.Created</span></td>
-        <td>
-          <nav class="action-list">
-            <a class="action-list__item" asp-action="add" asp-controller="client"><span>+ new client</span></a>
-            <a class="action-list__item" asp-action="activate"><span>activate</span></a>
-            <a class="action-list__item" asp-action="deactivate"><span>deactivate</span></a>
-          </nav>
-        </td>
-      </tr>*@
-      <tr>
-          <td><input type="checkbox"></td>
-          @foreach (var property in item.Properties)
-          {
-              <td><span>@property.Value</span></td>
-          }
-      </tr>
-    }
-  </tbody>
+    <thead>
+        <tr>
+            <th><input type="checkbox"></th>
+            @foreach (var col in Model.Columns)
+            {
+                <th class="grid_col"><span>@col.DisplayName</span></th>
+            }
+            <th></th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th><input type="text" placeholder="Employee No"></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Rows)
+        {
+            @*<tr>
+                  <td><input type="checkbox"></td>
+                  <td><a asp-action="edit" asp-route-employeeid="@item.EmployeeId"><span>@item.FullName</span></a></td>
+                  <td><span>@item.EmployeeNo</span></td>
+                  <td><span>@item.Created</span></td>
+                  <td>
+
+                  </td>
+                </tr>*@
+            <tr>
+                <td><input type="checkbox"></td>
+                @foreach (var property in item.Properties)
+                {
+                    <td>
+                        @if (item.Self.Title == property.DisplayName)
+                        {
+                            <a href="@item.Self.Href" rel="@item.Self.Rel" title="@item.Self">@property.Value</a>
+                        }
+                        else
+                        {
+                            <span>@property.Value</span>
+                        }
+                    </td>
+                }
+                <td>
+                    <nav class="action-list">
+                        @foreach (var action in item.Actions)
+                        {
+                            <a class="action-list__item" title="@action.Title" href="@action.Href" rel="@action.Rel"><span>@action.Title</span></a>
+                        }
+                    </nav>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

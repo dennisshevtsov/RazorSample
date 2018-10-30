@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RazorSample.Web.ViewModels;
+using RazorSample.Vm;
 using System;
 
 namespace RazorSample.Web.Extensions

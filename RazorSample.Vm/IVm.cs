@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RazorSample.Vm
 {
@@ -6,6 +7,8 @@ namespace RazorSample.Vm
   {
     IEnumerable<Property> Properties { get; }
     IEnumerable<Link> Actions { get; }
+    
+    Link Self { get; }
   }
 
   public interface IPageVm //: IVm
@@ -16,9 +19,22 @@ namespace RazorSample.Vm
     IEnumerable<Link> Breadcrumbs { get; }
   }
 
+  public sealed class Column
+  {
+    public Column(string name, string displayName)
+    {
+      Name = name ?? throw new ArgumentNullException(nameof(name));
+      DisplayName = displayName ?? throw new ArgumentNullException(nameof(displayName));
+    }
+
+    public string Name { get; }
+    public string DisplayName { get; }
+  }
+
   public interface IListVm<TItem> : IPageVm where TItem : IVm
   {
-    IEnumerable<TItem> Items { get; }
+    IEnumerable<Column> Columns { get; }
+    IEnumerable<TItem> Rows { get; }
   }
 
   public interface IListVm : IListVm<IVm> { }
