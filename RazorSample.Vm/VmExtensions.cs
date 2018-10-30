@@ -2,26 +2,26 @@
 
 namespace RazorSample.Vm
 {
-  //public static class VmExtensions
-  //{
-  //  public static IListVm<TItem> ToListVm<TItem>(this IResource source) where TItem : class
-  //  {
-  //    if (source == null)
-  //    {
-  //      throw new ArgumentNullException(nameof(source));
-  //    }
+  public static class VmExtensions
+  {
+    public static IListVm ToListVm(this IResource source)
+    {
+      if (source == null)
+      {
+        throw new ArgumentNullException(nameof(source));
+      }
 
-  //    return new ListVm<TItem> { Links = source.Links, };
-  //  }
+      return new ListVm(source);
+    }
 
-  //  public static IFormVm<TItem> ToFormVm<TItem>(this IResource source) where TItem : class
-  //  {
-  //    if (source == null)
-  //    {
-  //      throw new ArgumentNullException(nameof(source));
-  //    }
+    public static IFormVm ToFormVm(this IResource source)
+    {
+      if (source == null)
+      {
+        throw new ArgumentNullException(nameof(source));
+      }
 
-  //    return new FormVm<TItem> { Links = source.Links, };
-  //  }
-  //}
+      return new FormVm(source);
+    }
+  }
 }

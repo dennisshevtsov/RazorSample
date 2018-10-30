@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RazorSample.Vm
 {
-  //public interface IListVm<TItem> : IVm, IListSource<TItem> where TItem : class { }
+  public sealed class ListVm : VmBase, IListVm
+  {
+    public ListVm(IResource resource) : base(resource) { }
 
-  //public sealed class ListVm<TItem> : VmBase, IListVm<TItem> where TItem : class
-  //{
-  //  public IEnumerable<TItem> Items { get; internal set; }
-  //}
+    public IEnumerable<Column> Columns => _resource.Embedded.FirstOrDefault(resource => resource.Key == RelTypes.Row)
+                                                            .Value?.Properties.Select(property => new Column(property.Name,
+                                                                                                             property.DisplayName));
+
+    public IEnumerable<IVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
+                                                      .Select(resource => new ListItemVm(resource.Value));
+  }
 }

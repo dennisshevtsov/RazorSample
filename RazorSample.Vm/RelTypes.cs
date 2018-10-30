@@ -9,6 +9,6 @@
     public const string Breadcrumb = "rt:breadcrumb";
     public const string Nav = "rt:nav";
     public const string Action = "rt:action";
-    public const string List = "rt:list";
+    public const string Row = "rt:row";
   }
 }

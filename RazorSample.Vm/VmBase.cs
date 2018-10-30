@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RazorSample.Vm
 {
-  //public abstract class VmBase : IVm, IResource
-  //{
-  //  public string Title { get; internal set; }
+    public abstract class VmBase : IPageVm
+    {
+        protected readonly IResource _resource;
 
-  //  public IEnumerable<Link> Breadcrumbs => Links.Where(link => link.Rel == RelTypes.Breadcrumb);
+        protected VmBase(IResource resource)
+        {
+            _resource = resource ?? throw new ArgumentNullException(nameof(resource));
+        }
 
-  //  public IEnumerable<Link> Navs => Links.Where(link => link.Rel == RelTypes.Nav);
+        public string Title { get; set; }
 
-  //  public IEnumerable<Link> Actions => Links.Where(link => link.Rel == RelTypes.Action);
+        public IEnumerable<Link> Navs => _resource.Links.Where(link => link.Rel == RelTypes.Nav);
 
-  //  public IEnumerable<Link> Links { get; internal set; }
-  //}
+        public IEnumerable<Link> Breadcrumbs => _resource.Links.Where(link => link.Rel == RelTypes.Breadcrumb);
+    }
 }
