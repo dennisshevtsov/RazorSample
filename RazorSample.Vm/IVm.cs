@@ -8,7 +8,7 @@ namespace RazorSample.Vm
     IEnumerable<Link> Actions { get; }
   }
 
-  public interface IPageVm : IVm
+  public interface IPageVm //: IVm
   {
     string Title { get; }
 
@@ -20,6 +20,8 @@ namespace RazorSample.Vm
   {
     IEnumerable<TItem> Items { get; }
   }
+
+  public interface IListVm : IListVm<IVm> { }
 
   public interface IFormVm<TForm> : IPageVm where TForm : IVm
   {

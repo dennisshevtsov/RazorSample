@@ -53,7 +53,7 @@ namespace RazorSample.Web.Controllers
       };
       vm.Navs = new[]
       {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+        Url.AppLink(/*EmployeeController.EmployeeSearchRel*/"", "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
         Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
       };
       vm.SelectedNav = ClientController.ClientSearchRel;
@@ -87,7 +87,7 @@ namespace RazorSample.Web.Controllers
       };
       vm.Navs = new[]
       {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+        Url.AppLink(/*EmployeeController.EmployeeSearchRel*/"", "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
         Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
       };
       vm.SelectedNav = ClientController.ClientSearchRel;
@@ -110,7 +110,7 @@ namespace RazorSample.Web.Controllers
         };
         vm.Navs = new[]
         {
-          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+          Url.AppLink(/*EmployeeController.EmployeeSearchRel*/"", "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
           Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
         };
         vm.SelectedNav = ClientController.ClientSearchRel;
@@ -146,7 +146,7 @@ namespace RazorSample.Web.Controllers
       };
       vm.Navs = new[]
       {
-        Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+        Url.AppLink(/*EmployeeController.EmployeeSearchRel*/"", "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
         Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
       };
       vm.SelectedNav = ClientController.ClientSearchRel;
@@ -170,7 +170,7 @@ namespace RazorSample.Web.Controllers
         };
         vm.Navs = new[]
         {
-          Url.AppLink(EmployeeController.EmployeeSearchRel, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
+          Url.AppLink(/*EmployeeController.EmployeeSearchRel*/"", "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)),
           Url.AppLink(ClientController.ClientSearchRel, "Clients", nameof(ClientController.Index), nameof(ClientController)),
         };
         vm.SelectedNav = ClientController.ClientSearchRel;

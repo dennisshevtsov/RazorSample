@@ -12,6 +12,8 @@ namespace RazorSample.Vm
     internal BuildingResource()
     {
       _links = new Collection<Link>();
+      _properties = new Collection<Property>();
+      _embedded = new Collection<KeyValuePair<string, IResource>>();
     }
 
     public IEnumerable<Link> Links => _links;

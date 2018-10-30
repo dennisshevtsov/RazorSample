@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RazorSample.Data;
+using RazorSample.Vm;
 using RazorSample.Web.Configurations;
 using RazorSample.Web.Services;
 
@@ -19,6 +20,8 @@ namespace RazorSample.Web
         options.UseSqlServer(factory.GetRequiredService<DbConfiguration>().ConnectionString));
 
       services.AddScoped<IRepository, Repository>();
+
+      services.AddScoped<IResourceBuilder, ResourceBuilder>();
 
       services.AddScoped<IRandomGenerator, RandomGenerator>();
       services.AddScoped<IEmployeeService, EmployeeService>();

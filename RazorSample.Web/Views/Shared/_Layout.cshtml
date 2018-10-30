@@ -1,4 +1,4 @@
-﻿@model RazorSample.Web.ViewModels.VmBase;
+﻿@model RazorSample.Vm.IPageVm;
 
 <!DOCTYPE html>
 
@@ -19,15 +19,15 @@
     {
       foreach (var nav in Model.Navs)
       {
-        if (nav.Rel == Model.SelectedNav)
+        @*if (nav.Rel == Model.SelectedNav)
         {
           <a class="nav-bar__action nav-bar__action_active" rel="@nav.Rel" title="@nav.Title" href="@nav.Href"><span>@nav.Title</span></a>
         }
         else
-        {
+        {*@
           <a class="nav-bar__action" rel="@nav.Rel" title="@nav.Title" href="@nav.Href"><span>@nav.Title</span></a>
+            //}
         }
-      }
     }
   </nav>
 
@@ -53,7 +53,7 @@
   </nav>
 
   <main class="main">
-    @if (Model.Actions != null && Model.Actions.Any())
+    @*@if (Model.Actions != null && Model.Actions.Any())
     {
       <nav class="action-bar">
         <nav class="action-list">
@@ -63,7 +63,7 @@
           }
         </nav>
       </nav>
-    }
+    }*@
 
     @RenderBody()
   </main>

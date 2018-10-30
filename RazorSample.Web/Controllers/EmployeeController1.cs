@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace RazorSample.Web.Controllers
 {
-  public sealed class EmployeeController1 : Controller
+  public sealed class EmployeeController : Controller
   {
     private readonly IResourceBuilder _builder;
     private readonly IEmployeeService _employeeService;
 
-    public EmployeeController1(IResourceBuilder builder, IEmployeeService employeeService)
+    public EmployeeController(IResourceBuilder builder, IEmployeeService employeeService)
     {
       _builder = builder ?? throw new ArgumentNullException(nameof(builder));
       _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
@@ -40,9 +40,9 @@ namespace RazorSample.Web.Controllers
       }
 
       var resource = _builder.Build();
-      //var vm = resource as IListVm<>;
+      IListVm vm = new ListVm(resource);
 
-      return View();
+      return View("ListView", vm);
     }
   }
 }

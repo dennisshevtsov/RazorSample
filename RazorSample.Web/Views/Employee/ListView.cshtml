@@ -1,7 +1,4 @@
-﻿@using RazorSample.Web.ViewModels;
-@using RazorSample.Web.Queries;
-
-@model ListVmBase<SearchEmployeesQuery, EmployeeListItemVm>
+﻿@model RazorSample.Vm.IListVm
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -25,7 +22,7 @@
   <tbody>
     @foreach (var item in Model.Items)
     {
-      <tr>
+      @*<tr>
         <td><input type="checkbox"></td>
         <td><a asp-action="edit" asp-route-employeeid="@item.EmployeeId"><span>@item.FullName</span></a></td>
         <td><span>@item.EmployeeNo</span></td>
@@ -37,6 +34,13 @@
             <a class="action-list__item" asp-action="deactivate"><span>deactivate</span></a>
           </nav>
         </td>
+      </tr>*@
+      <tr>
+          <td><input type="checkbox"></td>
+          @foreach (var property in item.Properties)
+          {
+              <td><span>@property.Value</span></td>
+          }
       </tr>
     }
   </tbody>
