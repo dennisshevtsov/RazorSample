@@ -39,7 +39,7 @@ namespace RazorSample.Web.Controllers
         foreach (var employee in employees.Result)
         {
           _builder.Embedded(RelTypes.Row)
-                  .Property(new Property(nameof(employee.FullName), "Name", employee.FullName))
+                  .Property(new Property("name", "Name", $"{employee.LastName}, {employee.FirstName}"))
                   .Property(new Property(nameof(employee.EmployeeNo), "Employee No", employee.EmployeeNo))
                   .Property(new Property(nameof(employee.Created), "Created", employee.Created))
                   .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(employee.EmployeeId)));
