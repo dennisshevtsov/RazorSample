@@ -1,0 +1,16 @@
+﻿@model RazorSample.Vm.IFormVm
+
+<form id="employee" method="post" class="form">
+  <div class="form__controls">
+    @foreach (var property in Model.Form.Properties)
+    {
+      <div class="control" id="control_@property.Name">
+        <label class="control__label control__label_required" for="@property.Name">First Name</label>
+        <input class="control__field" type="text" name="@property.Name" value="@property.Value">
+      </div>
+    }
+  </div>
+  <div class="form__actions">
+    <button type="submit" class="action action_primary"><span>Ok</span></button>
+  </div>
+</form>

@@ -8,5 +8,7 @@ namespace RazorSample.Vm
 
     IEnumerable<Link> Navs { get; }
     IEnumerable<Link> Breadcrumbs { get; }
+
+    Link SelectedNav { get; }
   }
 }

@@ -34,7 +34,7 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<QueryExecutionResult<UpdateEmployeeCommand>> HandleAsync(GetEmployeeQuery query)
+    public async Task<QueryExecutionResult<UpdateEmployeeCommand>> HandleAsync(UpdateEmployeeQuery query)
     {
       var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
       var updateEmployeeCommand = new UpdateEmployeeCommand(employeeEntity);

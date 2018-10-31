@@ -7,7 +7,7 @@ namespace RazorSample.Web.Services
 {
   public interface IEmployeeService :
     IQueryHandler<SearchEmployeesQuery, Page<EmployeeListItemVm>>,
-    IQueryHandler<GetEmployeeQuery, UpdateEmployeeCommand>,
+    IQueryHandler<UpdateEmployeeQuery, UpdateEmployeeCommand>,
     ICommandHandler<UpdateEmployeeCommand>,
     ICommandHandler<CreateEmployeeCommand>
   { }

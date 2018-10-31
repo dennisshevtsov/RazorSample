@@ -9,7 +9,7 @@ namespace RazorSample.Web.ViewModels
 
   public sealed class EmployeeAddFormVm : FormVmBase<CreateEmployeeCommand>, IEmployeeFormVm<CreateEmployeeCommand> { }
 
-  public sealed class EmployeeEditFormVm : FormVmBase<GetEmployeeQuery, UpdateEmployeeCommand>,
+  public sealed class EmployeeEditFormVm : FormVmBase<UpdateEmployeeQuery, UpdateEmployeeCommand>,
                                            IEmployeeFormVm<UpdateEmployeeCommand>
   { }
 }

@@ -19,15 +19,15 @@
     {
       foreach (var nav in Model.Navs)
       {
-        @*if (nav.Rel == Model.SelectedNav)
+        if (nav == Model.SelectedNav)
         {
           <a class="nav-bar__action nav-bar__action_active" rel="@nav.Rel" title="@nav.Title" href="@nav.Href"><span>@nav.Title</span></a>
         }
         else
-        {*@
+        {
           <a class="nav-bar__action" rel="@nav.Rel" title="@nav.Title" href="@nav.Href"><span>@nav.Title</span></a>
-            //}
         }
+      }
     }
   </nav>
 
@@ -54,16 +54,16 @@
 
   <main class="main">
     @*@if (Model.Actions != null && Model.Actions.Any())
-    {
-      <nav class="action-bar">
-        <nav class="action-list">
-          @foreach (var action in Model.Actions)
-          {
-            <a class="action-list__item" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
-          }
+      {
+        <nav class="action-bar">
+          <nav class="action-list">
+            @foreach (var action in Model.Actions)
+            {
+              <a class="action-list__item" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
+            }
+          </nav>
         </nav>
-      </nav>
-    }*@
+      }*@
 
     @RenderBody()
   </main>
