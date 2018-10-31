@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RazorSample.Hr;
 using RazorSample.Vm;
 using System;
 

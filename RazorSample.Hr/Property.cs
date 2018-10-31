@@ -1,4 +1,4 @@
-﻿namespace RazorSample.Vm
+﻿namespace RazorSample.Hr
 {
   public sealed class Property
   {

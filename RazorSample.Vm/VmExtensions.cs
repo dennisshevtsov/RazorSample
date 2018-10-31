@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RazorSample.Hr;
+using System;
 
 namespace RazorSample.Vm
 {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RazorSample.Data;
-using RazorSample.Vm;
+using RazorSample.Hr;
 using RazorSample.Web.Configurations;
 using RazorSample.Web.Services;
 

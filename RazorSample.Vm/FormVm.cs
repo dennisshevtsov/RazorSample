@@ -1,4 +1,6 @@
-﻿namespace RazorSample.Vm
+﻿using RazorSample.Hr;
+
+namespace RazorSample.Vm
 {
   public sealed class FormVm : VmBase, IFormVm
   {

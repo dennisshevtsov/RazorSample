@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace RazorSample.Vm
+namespace RazorSample.Hr
 {
   public sealed class Link
   {

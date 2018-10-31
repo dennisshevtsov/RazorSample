@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RazorSample.Vm
+namespace RazorSample.Hr
 {
   public sealed class ResourceBuilder : IResourceBuilder
   {

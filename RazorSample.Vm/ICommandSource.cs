@@ -1,4 +1,6 @@
-﻿namespace RazorSample.Vm
+﻿using RazorSample.Hr;
+
+namespace RazorSample.Vm
 {
   public interface ICommandSource<TCommand> where TCommand : class
   {

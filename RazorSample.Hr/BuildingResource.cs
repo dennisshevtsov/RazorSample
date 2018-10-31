@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace RazorSample.Vm
+namespace RazorSample.Hr
 {
   internal sealed class BuildingResource : IResource
   {

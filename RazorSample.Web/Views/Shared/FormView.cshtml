@@ -5,7 +5,7 @@
     @foreach (var property in Model.Form.Properties)
     {
       <div class="control" id="control_@property.Name">
-        <label class="control__label control__label_required" for="@property.Name">First Name</label>
+        <label class="control__label control__label_required" for="@property.Name">@property.DisplayName</label>
         <input class="control__field" type="text" name="@property.Name" value="@property.Value">
       </div>
     }

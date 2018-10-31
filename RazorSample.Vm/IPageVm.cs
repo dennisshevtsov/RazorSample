@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RazorSample.Hr;
+using System.Collections.Generic;
 
 namespace RazorSample.Vm
 {

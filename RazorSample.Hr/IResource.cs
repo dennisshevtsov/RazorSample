@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RazorSample.Vm
+namespace RazorSample.Hr
 {
   public interface IResource
   {

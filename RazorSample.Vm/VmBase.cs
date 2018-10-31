@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RazorSample.Hr;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
