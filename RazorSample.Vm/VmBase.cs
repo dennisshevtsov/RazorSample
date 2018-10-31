@@ -24,6 +24,6 @@ namespace RazorSample.Vm
     public IEnumerable<Link> Breadcrumbs => _breadcrumbs ?? (_breadcrumbs = _resource.Links.Where(link => link.Rel == RelTypes.Breadcrumb));
 
     private Link _selectedNav;
-    public Link SelectedNav => _selectedNav ?? (_selectedNav = Navs.First());
+    public Link SelectedNav => _selectedNav ?? (_selectedNav = Breadcrumbs.First());
   }
 }
