@@ -24,15 +24,15 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(SearchEmployeesQuery query)
     {
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Action, "new employee", nameof(Add), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(Add), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Index), nameof(EmployeeController)));
 
-      var employees = await _employeeService.HandleAsync(new SearchEmployeesQuery());
+      var employees = await _employeeService.HandleAsync(query);
 
       if (employees.HasError == false)
       {

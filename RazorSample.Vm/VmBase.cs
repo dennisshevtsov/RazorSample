@@ -25,5 +25,8 @@ namespace RazorSample.Vm
 
     private Link _selectedNav;
     public Link SelectedNav => _selectedNav ?? (_selectedNav = Breadcrumbs.First());
+
+    private IEnumerable<Link> _actions;
+    public IEnumerable<Link> Actions => _actions ?? (_actions = _resource.Links.Where(link => link.Rel == RelTypes.Action));
   }
 }

@@ -7,7 +7,7 @@ namespace RazorSample.Vm
   {
     IEnumerable<Property> Properties { get; }
     IEnumerable<Link> Actions { get; }
-    
+
     Link Self { get; }
   }
 }

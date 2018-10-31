@@ -53,17 +53,17 @@
   </nav>
 
   <main class="main">
-    @*@if (Model.Actions != null && Model.Actions.Any())
-      {
-        <nav class="action-bar">
-          <nav class="action-list">
-            @foreach (var action in Model.Actions)
-            {
-              <a class="action-list__item" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
-            }
-          </nav>
+    @if (Model.Actions != null && Model.Actions.Any())
+    {
+      <nav class="action-bar">
+        <nav class="action-list">
+          @foreach (var action in Model.Actions)
+          {
+            <a class="action-list__item" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
+          }
         </nav>
-      }*@
+      </nav>
+    }
 
     @RenderBody()
   </main>
