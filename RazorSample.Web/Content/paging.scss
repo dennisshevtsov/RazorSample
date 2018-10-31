@@ -1,7 +1,20 @@
-﻿.paging {
+﻿@import '_color';
+@import '_typography';
 
+.paging {
+  border-left: $borderColor 1px solid;
+  padding-left: $gapLR;
 }
 
 .paging__action {
+  margin-right: $gapLR;
+}
 
+a.paging__action {
+  color: $linkColor;
+  text-decoration: none;
+}
+
+a.paging__action:hover {
+  color: $linkActiveColor;
 }

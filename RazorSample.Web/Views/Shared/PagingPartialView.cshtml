@@ -1,0 +1,36 @@
+﻿@model RazorSample.Vm.IPagingSource
+
+<nav class="paging">
+  @if (Model.FirstPage != null)
+  {
+    <a class="paging__action" href="@Model.FirstPage.Href" rel="@Model.FirstPage.Rel" title="@Model.FirstPage.Title"><span><<</span></a>
+  }
+  else
+  {
+    <span class="paging__action"><<</span>
+  }
+  @if (Model.PrevPage != null)
+  {
+    <a class="paging__action" href="@Model.PrevPage.Href" rel="@Model.PrevPage.Rel" title="@Model.PrevPage.Title"><span><</span></a>
+  }
+  else
+  {
+    <span class="paging__action"><</span>
+  }
+  @if (Model.NextPage != null)
+  {
+    <a class="paging__action" href="@Model.NextPage.Href" rel="@Model.NextPage.Rel" title="@Model.NextPage.Title"><span>></span></a>
+  }
+  else
+  {
+    <span class="paging__action">></span>
+  }
+  @if (Model.LastPage != null)
+  {
+    <a class="paging__action" href="@Model.LastPage.Href" rel="@Model.LastPage.Rel" title="@Model.LastPage.Title"><span>>></span></a>
+  }
+  else
+  {
+    <span class="paging__action">>></span>
+  }
+</nav>

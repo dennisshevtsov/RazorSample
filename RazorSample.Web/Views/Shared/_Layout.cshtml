@@ -62,6 +62,11 @@
             <a class="action-list__item" rel="@action.Rel" title="@action.Title" href="@action.Href"><span>@action.Title</span></a>
           }
         </nav>
+
+        @if (Model is RazorSample.Vm.IPagingSource)
+        {
+          await Html.RenderPartialAsync("PagingPartialView");
+        }
       </nav>
     }
 

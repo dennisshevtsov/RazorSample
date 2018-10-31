@@ -6,6 +6,6 @@ namespace RazorSample.Vm
   {
     public FormVm(IResource resource) : base(resource) { }
 
-    public IVm Form => new ListItemVm(_resource);
+    public IVm Form => new Vm(_resource);
   }
 }

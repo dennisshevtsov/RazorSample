@@ -13,7 +13,7 @@ namespace RazorSample.Vm
                                                                                                              property.DisplayName));
 
     public IEnumerable<IVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
-                                                      .Select(resource => new ListItemVm(resource.Value));
+                                                      .Select(resource => new Vm(resource.Value));
 
     private Link _firstPage;
     public Link FirstPage => _firstPage ?? (_firstPage = _resource.Links.SingleOrDefault(link => link.Rel == RelTypes.First));

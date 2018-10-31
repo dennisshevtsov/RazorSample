@@ -4,4 +4,6 @@
 .action-bar {
   border-bottom: $borderColor 1px solid;
   padding-left: $gapLR;
+
+  display: flex;
 }
