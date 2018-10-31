@@ -26,6 +26,9 @@ namespace RazorSample.Data
     public int PageCount { get; }
     public int PageSize { get; }
 
+    public int FirstPageNo => 0;
+    public int LastPageNo => PageCount - 1;
+
     public IEnumerator<TEntity> GetEnumerator() => _entities.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => _entities.GetEnumerator();

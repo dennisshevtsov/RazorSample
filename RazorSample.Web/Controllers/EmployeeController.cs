@@ -36,18 +36,30 @@ namespace RazorSample.Web.Controllers
 
       if (employees.HasError == false)
       {
+        if (employees.Result.PageNo > employees.Result.FirstPageNo)
+        {
+          _builder.Link(Url.AppLink(RelTypes.First, "First", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.FirstPageNo)))
+                  .Link(Url.AppLink(RelTypes.Prev, "Previous", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.PageNo - 1)));
+        }
+
+        if (employees.Result.PageNo < employees.Result.LastPageNo)
+        {
+          _builder.Link(Url.AppLink(RelTypes.Next, "Next", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.PageNo + 1)))
+                  .Link(Url.AppLink(RelTypes.Last, "Last", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.LastPageNo)));
+        }
+
         foreach (var employee in employees.Result)
         {
           _builder.Embedded(RelTypes.Row)
-                  .Property(new Property("name", "Name", $"{employee.LastName}, {employee.FirstName}"))
-                  .Property(new Property(nameof(employee.EmployeeNo), "Employee No", employee.EmployeeNo))
-                  .Property(new Property(nameof(employee.Created), "Created", employee.Created))
+                  .Property("name", "Name", $"{employee.LastName}, {employee.FirstName}")
+                  .Property(nameof(employee.EmployeeNo), "Employee No", employee.EmployeeNo)
+                  .Property(nameof(employee.Created), "Created", employee.Created)
                   .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(employee.EmployeeId)));
         }
       }
 
       var vm = _builder.Build()
-                       .ToListVm();
+                       .ToGridVm();
 
       return View("GridView", vm);
     }
@@ -117,9 +129,9 @@ namespace RazorSample.Web.Controllers
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Property(new Property(nameof(command.FirstName), "First Name", command.FirstName))
-              .Property(new Property(nameof(command.LastName), "Last Name", command.LastName))
-              .Property(new Property(nameof(command.EmployeeNo), "Employee No", command.EmployeeNo))
-              .Property(new Property(nameof(command.Email), "Email", command.Email));
+              .Property(nameof(command.FirstName), "First Name", command.FirstName)
+              .Property(nameof(command.LastName), "Last Name", command.LastName)
+              .Property(nameof(command.EmployeeNo), "Employee No", command.EmployeeNo)
+              .Property(nameof(command.Email), "Email", command.Email);
   }
 }

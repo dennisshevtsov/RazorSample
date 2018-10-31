@@ -10,5 +10,7 @@
     public const string Nav = "rt:nav";
     public const string Action = "rt:action";
     public const string Row = "rt:row";
+    public const string First = "rt:first";
+    public const string Last = "rt:last";
   }
 }

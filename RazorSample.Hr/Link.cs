@@ -17,19 +17,33 @@ namespace RazorSample.Hr
 
     public static bool operator ==(Link left, Link right)
     {
+      if ((object.ReferenceEquals(left, null) == false &&
+           object.ReferenceEquals(right, null)) ||
+          (object.ReferenceEquals(left, null) &&
+           object.ReferenceEquals(right, null) == false))
+      {
+        return false;
+      }
+
+      if (object.ReferenceEquals(left, null) &&
+          object.ReferenceEquals(right, null))
+      {
+        return true;
+      }
+
       return left.Href == right.Href;
     }
 
     public static bool operator !=(Link left, Link right)
     {
-      return left.Href != right.Href;
+      return (left == right) == false;
     }
 
     public override bool Equals(object obj)
     {
       if (obj is Link link)
       {
-        return Href == link.Href;
+        return this == link;
       }
 
       return false;

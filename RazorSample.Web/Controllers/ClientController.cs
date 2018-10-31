@@ -37,14 +37,14 @@ namespace RazorSample.Web.Controllers
       foreach (var client in commandExecutionResult.Result)
       {
         _builder.Embedded(RelTypes.Row)
-                        .Property(new Property(nameof(client.Name), "Name", client.Name))
-                        .Property(new Property(nameof(client.ClientNo), "Client No", client.ClientNo))
-                        .Property(new Property(nameof(client.Created), "Created", client.Created))
+                        .Property(nameof(client.Name), "Name", client.Name)
+                        .Property(nameof(client.ClientNo), "Client No", client.ClientNo)
+                        .Property(nameof(client.Created), "Created", client.Created)
                         .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(ClientController), new UpdateClientQuery(client.ClientId)));
       }
 
       var vm = _builder.Build()
-                               .ToListVm();
+                               .ToGridVm();
 
       return View("GridView", vm);
     }
@@ -101,9 +101,9 @@ namespace RazorSample.Web.Controllers
       _builder.Link(Url.AppLink(RelTypes.Breadcrumb, "Clients", nameof(Index), nameof(ClientController)))
               .Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Clients", nameof(ClientController.Index), nameof(ClientController)))
-              .Property(new Property(nameof(clientEntity.Name), "Name", clientEntity.Name))
-              .Property(new Property(nameof(clientEntity.ClientNo), "Client No", clientEntity.ClientNo))
-              .Property(new Property(nameof(clientEntity.OrganizationNo), "Organization No", clientEntity.OrganizationNo));
+              .Property(nameof(clientEntity.Name), "Name", clientEntity.Name)
+              .Property(nameof(clientEntity.ClientNo), "Client No", clientEntity.ClientNo)
+              .Property(nameof(clientEntity.OrganizationNo), "Organization No", clientEntity.OrganizationNo);
 
     private IFormVm BuildAddForm(ClientEntity clientEntity) =>
       BuildFormBase(clientEntity).Link(Url.AppLink(RelTypes.Breadcrumb, "New Client", nameof(Add), nameof(ClientController)))

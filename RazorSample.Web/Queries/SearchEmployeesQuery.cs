@@ -9,7 +9,12 @@ namespace RazorSample.Web.Queries
 
     public SearchEmployeesQuery(string employeeNo)
     {
-      EmployeeNo = employeeNo ?? throw new ArgumentNullException(nameof(employeeNo));
+      EmployeeNo = employeeNo;
+    }
+
+    public SearchEmployeesQuery(string employeeNo, int pageNo) : this(employeeNo)
+    {
+      PageNo = pageNo;
     }
 
     [FromQuery]
