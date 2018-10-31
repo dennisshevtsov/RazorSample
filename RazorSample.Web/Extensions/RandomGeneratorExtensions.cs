@@ -39,7 +39,7 @@ namespace RazorSample.Web.Extensions
         throw new ArgumentNullException(nameof(source));
       }
 
-      return $"{firstName[0]}{lastName}{source.RandomToken()}".Replace(" ", "");
+      return $"{firstName[0]}{lastName}{source.RandomToken()}".Replace(" ", "").ToLowerInvariant();
     }
 
     public static CreateEmployeeCommand RandomEmployee(this IRandomGenerator source)
