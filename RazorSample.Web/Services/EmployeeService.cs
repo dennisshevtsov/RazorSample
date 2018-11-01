@@ -17,7 +17,7 @@ namespace RazorSample.Web.Services
       _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
-    public async Task<QueryExecutionResult<Page<EmployeeEntity>>> HandleAsync(SearchEmployeesQuery query)
+    public async Task<QueryExecutionResult<Page<EmployeeEntity>>> HandleAsync(SearchEmployeeQuery query)
     {
       var employeeEntities = await _repository.PageAsync(new EmployeesLikeSpecification(query.EmployeeNo),
                                                          query.PageSize,

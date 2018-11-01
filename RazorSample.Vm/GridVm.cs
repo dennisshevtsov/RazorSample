@@ -15,6 +15,8 @@ namespace RazorSample.Vm
     public IEnumerable<IVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
                                                       .Select(resource => new Vm(resource.Value));
 
+    public bool HasData => _resource.Embedded != null && _resource.Embedded.Any(resource => resource.Key == RelTypes.Row);
+
     private Link _firstPage;
     public Link FirstPage => _firstPage ?? (_firstPage = _resource.Links.SingleOrDefault(link => link.Rel == RelTypes.First));
 

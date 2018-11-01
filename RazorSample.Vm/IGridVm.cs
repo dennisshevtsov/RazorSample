@@ -6,6 +6,8 @@ namespace RazorSample.Vm
   {
     IEnumerable<Column> Columns { get; }
     IEnumerable<TItem> Rows { get; }
+
+    bool HasData { get; }
   }
 
   public interface IGridVm : IGridVm<IVm> { }

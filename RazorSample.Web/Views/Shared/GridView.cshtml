@@ -1,50 +1,53 @@
 ﻿@model RazorSample.Vm.IGridVm
 
-<table class="grid">
-  <thead>
-    <tr>
-      <th><input type="checkbox"></th>
-      @foreach (var col in Model.Columns)
-      {
-        <th class="grid_col"><span>@col.DisplayName</span></th>
-      }
-      <th></th>
-    </tr>
-    <tr>
-      <th></th>
-      <th></th>
-      <th><input type="text" placeholder="Employee No"></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var item in Model.Rows)
-    {
+@if (Model.HasData)
+{
+  <table class="grid">
+    <thead>
       <tr>
-        <td><input type="checkbox"></td>
-        @foreach (var property in item.Properties)
+        <th><input type="checkbox"></th>
+        @foreach (var col in Model.Columns)
         {
-          <td>
-            @if (item.Self.Title == property.DisplayName)
-            {
-              <a href="@item.Self.Href" rel="@item.Self.Rel" title="@item.Self.Title">@property.Value</a>
-            }
-            else
-            {
-              <span>@property.Value</span>
-            }
-          </td>
+          <th class="grid_col"><span>@col.DisplayName</span></th>
         }
-        <td>
-          <nav class="action-list">
-            @foreach (var action in item.Actions)
-            {
-              <a class="action-list__item" title="@action.Title" href="@action.Href" rel="@action.Rel"><span>@action.Title</span></a>
-            }
-          </nav>
-        </td>
+        <th></th>
       </tr>
-    }
-  </tbody>
-</table>
+      <tr>
+        <th></th>
+        <th></th>
+        <th><input type="text" placeholder="Employee No"></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model.Rows)
+      {
+        <tr>
+          <td><input type="checkbox"></td>
+          @foreach (var property in item.Properties)
+          {
+            <td>
+              @if (item.Self.Title == property.DisplayName)
+              {
+                <a href="@item.Self.Href" rel="@item.Self.Rel" title="@item.Self.Title">@property.Value</a>
+              }
+              else
+              {
+                <span>@property.Value</span>
+              }
+            </td>
+          }
+          <td>
+            <nav class="action-list">
+              @foreach (var action in item.Actions)
+              {
+                <a class="action-list__item" title="@action.Title" href="@action.Href" rel="@action.Rel"><span>@action.Title</span></a>
+              }
+            </nav>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

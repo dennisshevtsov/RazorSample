@@ -34,17 +34,32 @@ namespace RazorSample.Web.Controllers
 
       var commandExecutionResult = await _clientService.HandleAsync(query);
 
-      foreach (var client in commandExecutionResult.Result)
+      if (commandExecutionResult.HasError == false)
       {
-        _builder.Embedded(RelTypes.Row)
-                        .Property(nameof(client.Name), "Name", client.Name)
-                        .Property(nameof(client.ClientNo), "Client No", client.ClientNo)
-                        .Property(nameof(client.Created), "Created", client.Created)
-                        .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(ClientController), new UpdateClientQuery(client.ClientId)));
+        if (commandExecutionResult.Result.PageNo > commandExecutionResult.Result.FirstPageNo)
+        {
+          _builder.Link(Url.AppLink(RelTypes.First, "First", nameof(Index), nameof(ClientController), new SearchClientQuery(query.ClientNo, commandExecutionResult.Result.FirstPageNo)))
+                  .Link(Url.AppLink(RelTypes.Prev, "Previous", nameof(Index), nameof(ClientController), new SearchClientQuery(query.ClientNo, commandExecutionResult.Result.PageNo - 1)));
+        }
+
+        if (commandExecutionResult.Result.PageNo < commandExecutionResult.Result.LastPageNo)
+        {
+          _builder.Link(Url.AppLink(RelTypes.Next, "Next", nameof(Index), nameof(ClientController), new SearchClientQuery(query.ClientNo, commandExecutionResult.Result.PageNo + 1)))
+                  .Link(Url.AppLink(RelTypes.Last, "Last", nameof(Index), nameof(ClientController), new SearchClientQuery(query.ClientNo, commandExecutionResult.Result.LastPageNo)));
+        }
+
+        foreach (var client in commandExecutionResult.Result)
+        {
+          _builder.Embedded(RelTypes.Row)
+                  .Property(nameof(client.Name), "Name", client.Name)
+                  .Property(nameof(client.ClientNo), "Client No", client.ClientNo)
+                  .Property(nameof(client.Created), "Created", client.Created)
+                  .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(ClientController), new UpdateClientQuery(client.ClientId)));
+        }
       }
 
       var vm = _builder.Build()
-                               .ToGridVm();
+                       .ToGridVm();
 
       return View("GridView", vm);
     }
@@ -63,21 +78,21 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddForm(command.Adapt<ClientEntity>());
+        var vm = BuildAddForm(command);
 
         return View("FormView", vm);
       }
 
       await _clientService.HandleAsync(command);
 
-      return RedirectToAction(nameof(Edit), new UpdateClientQuery(command.ClientId));
+      return Redirect(Url.AppUri(nameof(Edit), nameof(ClientController), new UpdateClientQuery(command.ClientId)));
     }
 
     [HttpGet]
     public async Task<IActionResult> Edit(UpdateClientQuery query)
     {
       var commandExecutionResult = await _clientService.HandleAsync(query);
-      var vm = BuildEditForm(commandExecutionResult.Result);
+      var vm = BuildEditForm(commandExecutionResult.Result.Adapt<UpdateClientCommand>());
 
       return View("FormView", vm);
     }
@@ -87,35 +102,36 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildEditForm(command.Adapt<ClientEntity>());
+        var vm = BuildEditForm(command);
 
         return View("FormView", vm);
       }
 
       await _clientService.HandleAsync(command);
 
-      return RedirectToAction(nameof(Edit), new UpdateClientQuery(command.ClientId));
+      return Redirect(Url.AppUri(nameof(Edit), nameof(ClientController), new UpdateClientQuery(command.ClientId)));
     }
 
-    private IResourceBuilder BuildFormBase(ClientEntity clientEntity) =>
+    private IResourceBuilder BuildFormBase(ClientCommandBase command) =>
       _builder.Link(Url.AppLink(RelTypes.Breadcrumb, "Clients", nameof(Index), nameof(ClientController)))
               .Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Clients", nameof(ClientController.Index), nameof(ClientController)))
-              .Property(nameof(clientEntity.Name), "Name", clientEntity.Name)
-              .Property(nameof(clientEntity.ClientNo), "Client No", clientEntity.ClientNo)
-              .Property(nameof(clientEntity.OrganizationNo), "Organization No", clientEntity.OrganizationNo);
+              .Property(nameof(command.Name), "Name", command.Name)
+              .Property(nameof(command.ClientNo), "Client No", command.ClientNo)
+              .Property(nameof(command.OrganizationNo), "Organization No", command.OrganizationNo)
+              .Property(nameof(command.ClientOwnerId), "Client Owner", command.ClientOwnerId);
 
-    private IFormVm BuildAddForm(ClientEntity clientEntity) =>
-      BuildFormBase(clientEntity).Link(Url.AppLink(RelTypes.Breadcrumb, "New Client", nameof(Add), nameof(ClientController)))
-                                 .Link(Url.AppLink(RelTypes.Self, "New Client", nameof(Add), nameof(ClientController)))
-                                 .Build()
-                                 .ToFormVm();
+    private IFormVm BuildAddForm(CreateClientCommand command) =>
+      BuildFormBase(command).Link(Url.AppLink(RelTypes.Breadcrumb, "New Client", nameof(Add), nameof(ClientController)))
+                            .Link(Url.AppLink(RelTypes.Self, "New Client", nameof(Add), nameof(ClientController)))
+                            .Build()
+                            .ToFormVm();
 
-    private IFormVm BuildEditForm(ClientEntity clientEntity) =>
-      BuildFormBase(clientEntity).Link(Url.AppLink(RelTypes.Breadcrumb, clientEntity.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
-                                 .Link(Url.AppLink(RelTypes.Self, clientEntity.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
-                                 .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController)))
-                                 .Build()
-                                 .ToFormVm();
+    private IFormVm BuildEditForm(UpdateClientCommand command) =>
+      BuildFormBase(command).Link(Url.AppLink(RelTypes.Breadcrumb, command.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(command.ClientId)))
+                            .Link(Url.AppLink(RelTypes.Self, command.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(command.ClientId)))
+                            .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController)))
+                            .Build()
+                            .ToFormVm();
   }
 }

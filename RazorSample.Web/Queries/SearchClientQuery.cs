@@ -4,9 +4,17 @@ namespace RazorSample.Web.Queries
 {
   public sealed class SearchClientQuery
   {
-    public string ClientNo { get; set; }
+    public SearchClientQuery() { }
 
+    public SearchClientQuery(string clientNo, int pageNo)
+    {
+      ClientNo = clientNo;
+      PageNo = pageNo;
+    }
+
+    public string ClientNo { get; set; }
     public int PageNo { get; set; }
-    public int PageSize => Page.DefaultPageSize;
+
+    internal int PageSize => Page.DefaultPageSize;
   }
 }

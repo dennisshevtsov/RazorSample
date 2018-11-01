@@ -16,6 +16,9 @@ namespace RazorSample.Data.Configurations
       builder.Property(entity => entity.Name).IsRequired().HasMaxLength(256);
       builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
       builder.Property(entity => entity.IsActive).IsRequired().HasDefaultValue(true);
+      builder.Property(entity => entity.ClientOwnerId).IsRequired();
+
+      builder.HasOne(entity => entity.ClientOwner).WithMany().HasForeignKey(entity => entity.ClientOwnerId);
     }
   }
 }

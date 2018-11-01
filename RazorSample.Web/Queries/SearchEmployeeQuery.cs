@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RazorSample.Web.Queries
 {
-  public sealed class SearchEmployeesQuery
+  public sealed class SearchEmployeeQuery
   {
-    public SearchEmployeesQuery() { }
+    public SearchEmployeeQuery() { }
 
-    public SearchEmployeesQuery(string employeeNo)
+    public SearchEmployeeQuery(string employeeNo)
     {
       EmployeeNo = employeeNo;
     }
 
-    public SearchEmployeesQuery(string employeeNo, int pageNo) : this(employeeNo)
+    public SearchEmployeeQuery(string employeeNo, int pageNo) : this(employeeNo)
     {
       PageNo = pageNo;
     }

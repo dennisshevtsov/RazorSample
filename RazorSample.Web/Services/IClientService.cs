@@ -6,7 +6,7 @@ using RazorSample.Web.Queries;
 namespace RazorSample.Web.Services
 {
   public interface IClientService : IQueryHandler<SearchClientQuery, Page<ClientEntity>>,
-                                    IQueryHandler<CreateClientQuery, ClientEntity>,
+                                    IQueryHandler<CreateClientQuery, CreateClientCommand>,
                                     IQueryHandler<UpdateClientQuery, ClientEntity>,
                                     ICommandHandler<CreateClientCommand>,
                                     ICommandHandler<UpdateClientCommand>

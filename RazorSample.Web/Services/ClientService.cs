@@ -30,10 +30,16 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public Task<QueryExecutionResult<ClientEntity>> HandleAsync(CreateClientQuery query)
+    public Task<QueryExecutionResult<CreateClientCommand>> HandleAsync(CreateClientQuery query)
     {
       var clientEntity = _randomGenerator.RandomClient();
-      var queryExecutionResult = new QueryExecutionResult<ClientEntity>(clientEntity);
+
+      if (query.ClientOwnerId != null)
+      {
+        clientEntity.ClientOwnerId = query.ClientOwnerId.Value;
+      }
+
+      var queryExecutionResult = new QueryExecutionResult<CreateClientCommand>(clientEntity);
 
       return Task.FromResult(queryExecutionResult);
     }

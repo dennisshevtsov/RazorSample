@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorSample.Web.Commands
 {
@@ -10,5 +11,8 @@ namespace RazorSample.Web.Commands
     public string OrganizationNo { get; set; }
 
     public string Name { get; set; }
+
+    [Required]
+    public Guid? ClientOwnerId { get; set; }
   }
 }

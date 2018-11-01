@@ -29,7 +29,7 @@ namespace RazorSample.Web.Extensions
         return source.RandomToken();
       }
 
-      return name.Replace(" ", "");
+      return name.Replace(" ", "").ToUpperInvariant();
     }
 
     public static string RandomEmployeeNo(this IRandomGenerator source, string firstName, string lastName)
@@ -61,7 +61,7 @@ namespace RazorSample.Web.Extensions
       return command;
     }
 
-    public static ClientEntity RandomClient(this IRandomGenerator source)
+    public static CreateClientCommand RandomClient(this IRandomGenerator source)
     {
       if (source == null)
       {
@@ -69,7 +69,7 @@ namespace RazorSample.Web.Extensions
       }
 
       var companyName = source.RandomCompanyName();
-      var command = new ClientEntity
+      var command = new CreateClientCommand
       {
         Name = $"{companyName} {source.RandomBusinessEntityType()}",
         ClientNo = source.RandomClientNo(companyName),

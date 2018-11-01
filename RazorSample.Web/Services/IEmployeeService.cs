@@ -6,7 +6,7 @@ using RazorSample.Web.Queries;
 namespace RazorSample.Web.Services
 {
   public interface IEmployeeService :
-    IQueryHandler<SearchEmployeesQuery, Page<EmployeeEntity>>,
+    IQueryHandler<SearchEmployeeQuery, Page<EmployeeEntity>>,
     IQueryHandler<UpdateEmployeeQuery, UpdateEmployeeCommand>,
     ICommandHandler<UpdateEmployeeCommand>,
     ICommandHandler<CreateEmployeeCommand>

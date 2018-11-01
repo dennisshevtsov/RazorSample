@@ -24,7 +24,7 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(SearchEmployeesQuery query)
+    public async Task<IActionResult> Index(SearchEmployeeQuery query)
     {
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
@@ -38,14 +38,14 @@ namespace RazorSample.Web.Controllers
       {
         if (employees.Result.PageNo > employees.Result.FirstPageNo)
         {
-          _builder.Link(Url.AppLink(RelTypes.First, "First", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.FirstPageNo)))
-                  .Link(Url.AppLink(RelTypes.Prev, "Previous", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.PageNo - 1)));
+          _builder.Link(Url.AppLink(RelTypes.First, "First", nameof(Index), nameof(EmployeeController), new SearchEmployeeQuery(query.EmployeeNo, employees.Result.FirstPageNo)))
+                  .Link(Url.AppLink(RelTypes.Prev, "Previous", nameof(Index), nameof(EmployeeController), new SearchEmployeeQuery(query.EmployeeNo, employees.Result.PageNo - 1)));
         }
 
         if (employees.Result.PageNo < employees.Result.LastPageNo)
         {
-          _builder.Link(Url.AppLink(RelTypes.Next, "Next", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.PageNo + 1)))
-                  .Link(Url.AppLink(RelTypes.Last, "Last", nameof(Index), nameof(EmployeeController), new SearchEmployeesQuery(query.EmployeeNo, employees.Result.LastPageNo)));
+          _builder.Link(Url.AppLink(RelTypes.Next, "Next", nameof(Index), nameof(EmployeeController), new SearchEmployeeQuery(query.EmployeeNo, employees.Result.PageNo + 1)))
+                  .Link(Url.AppLink(RelTypes.Last, "Last", nameof(Index), nameof(EmployeeController), new SearchEmployeeQuery(query.EmployeeNo, employees.Result.LastPageNo)));
         }
 
         foreach (var employee in employees.Result)
@@ -54,7 +54,8 @@ namespace RazorSample.Web.Controllers
                   .Property("name", "Name", $"{employee.LastName}, {employee.FirstName}")
                   .Property(nameof(employee.EmployeeNo), "Employee No", employee.EmployeeNo)
                   .Property(nameof(employee.Created), "Created", employee.Created)
-                  .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(employee.EmployeeId)));
+                  .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(employee.EmployeeId)))
+                  .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController), new CreateClientQuery(employee.EmployeeId)));
         }
       }
 
@@ -85,7 +86,7 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return RedirectToAction(nameof(Index), new SearchEmployeesQuery(command.EmployeeNo));
+      return RedirectToAction(nameof(Index), new SearchEmployeeQuery(command.EmployeeNo));
     }
 
     [HttpGet]
@@ -109,7 +110,7 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return RedirectToAction(nameof(Index), new SearchEmployeesQuery(command.EmployeeNo));
+      return RedirectToAction(nameof(Index), new SearchEmployeeQuery(command.EmployeeNo));
     }
 
     private IFormVm BuildAddFormVm(EmployeeFormCommandBase command) =>
