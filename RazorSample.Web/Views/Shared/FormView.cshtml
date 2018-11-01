@@ -13,7 +13,8 @@
     {
       <div class="control" id="control_@vm.Name">
         <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
-        <span class="control__field">@vm.DisplayValue</span>
+        <input class="control__field" type="text" value="@vm.DisplayValue">
+        <i class="icon icon_search"></i>
         <input type="hidden" name="@vm.Name" value="@vm.Value">
       </div>
     }
