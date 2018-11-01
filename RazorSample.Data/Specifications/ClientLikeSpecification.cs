@@ -1,4 +1,5 @@
-﻿using RazorSample.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RazorSample.Data.Entities;
 using System;
 using System.Linq;
 
@@ -21,7 +22,8 @@ namespace RazorSample.Data.Specifications
       }
 
       return query.OrderBy(client => client.ClientId)
-                  .OrderBy(client => client.Name);
+                  .OrderBy(client => client.Name)
+                  .AsNoTracking();
     }
   }
 }

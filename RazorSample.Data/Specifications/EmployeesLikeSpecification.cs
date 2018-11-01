@@ -1,4 +1,5 @@
-﻿using RazorSample.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RazorSample.Data.Entities;
 using System.Linq;
 
 namespace RazorSample.Data.Specifications
@@ -22,7 +23,8 @@ namespace RazorSample.Data.Specifications
       }
 
       return query.OrderBy(employee => employee.EmployeeId)
-                  .OrderBy(employee => employee.Created);
+                  .OrderBy(employee => employee.Created)
+                  .AsNoTracking();
     }
   }
 }
