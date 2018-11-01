@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RazorSample.Hr;
+using RazorSample.Random;
 using RazorSample.Vm;
 using RazorSample.Web.Commands;
 using RazorSample.Web.Extensions;

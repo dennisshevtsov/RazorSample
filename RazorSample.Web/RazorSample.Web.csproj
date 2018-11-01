@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RazorSample.Data\RazorSample.Data.csproj" />
+    <ProjectReference Include="..\RazorSample.Random\RazorSample.Random.csproj" />
     <ProjectReference Include="..\RazorSample.Vm\RazorSample.Vm.csproj" />
   </ItemGroup>
 

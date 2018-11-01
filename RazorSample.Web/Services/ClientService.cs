@@ -5,6 +5,7 @@ using Mapster;
 using RazorSample.Data;
 using RazorSample.Data.Entities;
 using RazorSample.Data.Specifications;
+using RazorSample.Random;
 using RazorSample.Web.Commands;
 using RazorSample.Web.Extensions;
 using RazorSample.Web.Queries;

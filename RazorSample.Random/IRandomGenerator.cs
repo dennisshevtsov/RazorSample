@@ -1,4 +1,8 @@
-﻿namespace RazorSample.Web.Services
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RazorSample.Random
 {
   public interface IRandomGenerator
   {

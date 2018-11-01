@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RazorSample.Web.Services
+namespace RazorSample.Random
 {
   public sealed class RandomGenerator : IRandomGenerator
   {
@@ -15,11 +15,11 @@ namespace RazorSample.Web.Services
     private static readonly string[] CompanyNameSecondWords = new[] { "Group", "Lab", "Solutions", "Research",
                                                                       "Products", "Intertament", "Production", };
 
-    private readonly Random _random;
+    private readonly System.Random _random;
 
     public RandomGenerator()
     {
-      _random = new Random();
+      _random = new System.Random();
     }
 
     public string RandomToken()

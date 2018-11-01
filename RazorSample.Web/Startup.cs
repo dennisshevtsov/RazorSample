@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RazorSample.Data;
 using RazorSample.Hr;
+using RazorSample.Random;
 using RazorSample.Web.Configurations;
 using RazorSample.Web.Services;
 

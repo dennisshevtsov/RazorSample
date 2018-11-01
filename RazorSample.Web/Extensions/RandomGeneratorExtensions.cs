@@ -1,6 +1,5 @@
-﻿using RazorSample.Data.Entities;
+﻿using RazorSample.Random;
 using RazorSample.Web.Commands;
-using RazorSample.Web.Services;
 using System;
 
 namespace RazorSample.Web.Extensions
