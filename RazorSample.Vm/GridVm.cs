@@ -8,12 +8,12 @@ namespace RazorSample.Vm
   {
     public GridVm(IResource resource) : base(resource) { }
 
-    public IEnumerable<Column> Columns => _resource.Embedded.FirstOrDefault(resource => resource.Key == RelTypes.Row)
-                                                            .Value?.Properties.Select(property => new Column(property.Name,
+    public IEnumerable<IColumnVm> Columns => _resource.Embedded.FirstOrDefault(resource => resource.Key == RelTypes.Row)
+                                                            .Value?.Properties.Select(property => new ColumnVm(property.Name,
                                                                                                              property.DisplayName));
 
-    public IEnumerable<IVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
-                                                      .Select(resource => new Vm(resource.Value));
+    public IEnumerable<IRowVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
+                                                         .Select(resource => new RowVm(resource.Value));
 
     public bool HasData => _resource.Embedded != null && _resource.Embedded.Any(resource => resource.Key == RelTypes.Row);
 

@@ -2,14 +2,14 @@
 
 <form id="employee" method="post" class="form">
   <div class="form__controls">
-    @foreach (var property in Model.Form.Properties)
+    @foreach (var vm in Model.Inputs)
     {
-      <div class="control" id="control_@property.Name">
-        <label class="control__label control__label_required" for="@property.Name">@property.DisplayName</label>
-        <input class="control__field" type="text" name="@property.Name" value="@property.Value">
+      <div class="control" id="control_@vm.Name">
+        <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
+        <input class="control__field" type="text" name="@vm.Name" value="@vm.Value">
       </div>
     }
-    @foreach (var vm in Model.Form.Selects)
+    @foreach (var vm in Model.Selects)
     {
       <div class="control" id="control_@vm.Name">
         <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>

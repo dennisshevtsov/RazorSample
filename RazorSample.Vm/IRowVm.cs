@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 namespace RazorSample.Vm
 {
-  public interface IVm
+  public interface IRowVm
   {
     IEnumerable<Property> Properties { get; }
-    //IEnumerable<IInputVm> Inputs { get; }
-    IEnumerable<ISelectVm> Selects { get; }
 
     IEnumerable<Link> Actions { get; }
 

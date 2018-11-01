@@ -5,19 +5,16 @@ using System.Linq;
 
 namespace RazorSample.Vm
 {
-  public sealed class Vm : IVm
+  public sealed class RowVm : IRowVm
   {
     private readonly IResource _resource;
 
-    public Vm(IResource resource)
+    public RowVm(IResource resource)
     {
       _resource = resource ?? throw new ArgumentNullException(nameof(resource));
     }
 
     public IEnumerable<Property> Properties => _resource.Properties;
-
-    public IEnumerable<ISelectVm> Selects => _resource.Embedded.Where(resource => resource.Key == RelTypes.Select)
-                                                               .Select(resource => new SelectVm(resource.Value));
 
     public IEnumerable<Link> Actions => _resource.Links.Where(link => link.Rel == RelTypes.Action);
 

@@ -1,4 +1,6 @@
 ﻿using RazorSample.Hr;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RazorSample.Vm
 {
@@ -6,6 +8,13 @@ namespace RazorSample.Vm
   {
     public FormVm(IResource resource) : base(resource) { }
 
-    public IVm Form => new Vm(_resource);
+    public IEnumerable<Property> Properties => _resource.Properties;
+
+    public IEnumerable<IInputVm> Inputs => _resource.Properties.Select(property => new InputVm(property));
+
+    public IEnumerable<ISelectVm> Selects => _resource.Embedded.Where(resource => resource.Key == RelTypes.Select)
+                                                               .Select(resource => new SelectVm(resource.Value));
+
+    public Link Self => _resource.Links.Single(link => link.Rel == RelTypes.Self);
   }
 }

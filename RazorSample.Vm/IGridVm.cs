@@ -2,13 +2,11 @@
 
 namespace RazorSample.Vm
 {
-  public interface IGridVm<TItem> : IPageVm, IPagingSource where TItem : IVm
+  public interface IGridVm : IPageVm, IPagingSource
   {
-    IEnumerable<Column> Columns { get; }
-    IEnumerable<TItem> Rows { get; }
+    IEnumerable<IColumnVm> Columns { get; }
+    IEnumerable<IRowVm> Rows { get; }
 
     bool HasData { get; }
   }
-
-  public interface IGridVm : IGridVm<IVm> { }
 }

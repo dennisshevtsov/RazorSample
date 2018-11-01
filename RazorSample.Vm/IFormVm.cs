@@ -1,9 +1,13 @@
-﻿namespace RazorSample.Vm
-{
-  public interface IFormVm<TForm> : IPageVm where TForm : IVm
-  {
-    TForm Form { get; }
-  }
+﻿using RazorSample.Hr;
+using System.Collections.Generic;
 
-  public interface IFormVm : IFormVm<IVm> { }
+namespace RazorSample.Vm
+{
+  public interface IFormVm : IPageVm
+  {
+    IEnumerable<IInputVm> Inputs { get; }
+    IEnumerable<ISelectVm> Selects { get; }
+
+    Link Self { get; }
+  }
 }
