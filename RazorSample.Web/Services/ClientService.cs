@@ -31,7 +31,7 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public Task<QueryExecutionResult<CreateClientCommand>> HandleAsync(CreateClientQuery query)
+    public Task<QueryExecutionResult<ClientEntity>> HandleAsync(CreateClientQuery query)
     {
       var clientEntity = _randomGenerator.RandomClient();
 
@@ -40,7 +40,7 @@ namespace RazorSample.Web.Services
         clientEntity.ClientOwnerId = query.ClientOwnerId.Value;
       }
 
-      var queryExecutionResult = new QueryExecutionResult<CreateClientCommand>(clientEntity);
+      var queryExecutionResult = new QueryExecutionResult<ClientEntity>(clientEntity);
 
       return Task.FromResult(queryExecutionResult);
     }

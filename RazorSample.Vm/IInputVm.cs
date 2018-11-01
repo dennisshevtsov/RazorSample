@@ -9,6 +9,6 @@ namespace RazorSample.Vm
     string Name { get; }
     string DisplayName { get; }
 
-    string Value { get; }
+    object Value { get; }
   }
 }

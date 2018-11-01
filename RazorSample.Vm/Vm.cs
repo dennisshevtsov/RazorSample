@@ -16,6 +16,9 @@ namespace RazorSample.Vm
 
     public IEnumerable<Property> Properties => _resource.Properties;
 
+    public IEnumerable<ISelectVm> Selects => _resource.Embedded.Where(resource => resource.Key == RelTypes.Select)
+                                                               .Select(resource => new SelectVm(resource.Value));
+
     public IEnumerable<Link> Actions => _resource.Links.Where(link => link.Rel == RelTypes.Action);
 
     public Link Self => _resource.Links.Single(link => link.Rel == RelTypes.Self);

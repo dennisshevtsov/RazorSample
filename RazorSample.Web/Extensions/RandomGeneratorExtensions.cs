@@ -1,4 +1,5 @@
-﻿using RazorSample.Random;
+﻿using RazorSample.Data.Entities;
+using RazorSample.Random;
 using RazorSample.Web.Commands;
 using System;
 
@@ -60,7 +61,7 @@ namespace RazorSample.Web.Extensions
       return command;
     }
 
-    public static CreateClientCommand RandomClient(this IRandomGenerator source)
+    public static ClientEntity RandomClient(this IRandomGenerator source)
     {
       if (source == null)
       {
@@ -68,7 +69,7 @@ namespace RazorSample.Web.Extensions
       }
 
       var companyName = source.RandomCompanyName();
-      var command = new CreateClientCommand
+      var command = new ClientEntity
       {
         Name = $"{companyName} {source.RandomBusinessEntityType()}",
         ClientNo = source.RandomClientNo(companyName),

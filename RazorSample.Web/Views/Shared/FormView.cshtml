@@ -9,6 +9,14 @@
         <input class="control__field" type="text" name="@property.Name" value="@property.Value">
       </div>
     }
+    @foreach (var vm in Model.Form.Selects)
+    {
+      <div class="control" id="control_@vm.Name">
+        <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
+        <span class="control__field">@vm.DisplayValue</span>
+        <input type="hidden" name="@vm.Name" value="@vm.Value">
+      </div>
+    }
   </div>
   <div class="form__actions">
     <button type="submit" class="action action_primary"><span>Ok</span></button>

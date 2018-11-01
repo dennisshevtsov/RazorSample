@@ -12,5 +12,7 @@
     public const string Row = "rt:row";
     public const string First = "rt:first";
     public const string Last = "rt:last";
+    public const string Search = "rt:search";
+    public const string Select = "rt:select";
   }
 }

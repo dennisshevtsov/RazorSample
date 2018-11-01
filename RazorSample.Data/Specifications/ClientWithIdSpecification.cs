@@ -1,4 +1,5 @@
-﻿using RazorSample.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RazorSample.Data.Entities;
 using System;
 using System.Linq;
 
@@ -15,7 +16,9 @@ namespace RazorSample.Data.Specifications
 
     protected internal override IQueryable<ClientEntity> Apply(IQueryable<ClientEntity> query)
     {
-      return query.Where(client => client.ClientId == ClientId);
+      return query.Where(client => client.ClientId == ClientId)
+                  .Include(client => client.ClientOwner)
+                  .AsNoTracking();
     }
   }
 }
