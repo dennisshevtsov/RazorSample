@@ -144,6 +144,8 @@ namespace RazorSample.Web.Controllers
       BuildFormBase(clientEntity).Link(Url.AppLink(RelTypes.Breadcrumb, clientEntity.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
                                  .Link(Url.AppLink(RelTypes.Self, clientEntity.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
                                  .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController)))
+                                 .Property(nameof(clientEntity.Phone), "Phone", clientEntity.Phone)
+                                 .Property(nameof(clientEntity.Address), "Address", clientEntity.Address)
                                  .Build()
                                  .ToFormVm();
   }
