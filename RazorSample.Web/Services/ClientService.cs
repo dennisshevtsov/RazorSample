@@ -31,18 +31,27 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public Task<QueryExecutionResult<ClientEntity>> HandleAsync(CreateClientQuery query)
+    public async Task<QueryExecutionResult<ClientEntity>> HandleAsync(CreateClientQuery query)
     {
       var clientEntity = _randomGenerator.RandomClient();
 
       if (query.ClientOwnerId != null)
       {
         clientEntity.ClientOwnerId = query.ClientOwnerId.Value;
+
+        var clientOwner = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.ClientOwnerId.Value));
+
+        if (clientOwner == null)
+        {
+          return new QueryExecutionResult<ClientEntity>($"Employee with ID {query.ClientOwnerId.Value} is not found.");
+        }
+
+        clientEntity.ClientOwner = clientOwner;
       }
 
       var queryExecutionResult = new QueryExecutionResult<ClientEntity>(clientEntity);
 
-      return Task.FromResult(queryExecutionResult);
+      return queryExecutionResult;
     }
 
     public async Task<QueryExecutionResult<ClientEntity>> HandleAsync(UpdateClientQuery query)

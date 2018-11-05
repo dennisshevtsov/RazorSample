@@ -17,7 +17,7 @@ namespace RazorSample.Data
 
     public async Task<TEntity> FirstAsync<TEntity>(Specification<TEntity> specification) where TEntity : class
     {
-      return await specification.Apply(_dbContext.Set<TEntity>()).FirstAsync();
+      return await specification.Apply(_dbContext.Set<TEntity>()).FirstOrDefaultAsync();
     }
 
     public async Task<Page<TEntity>> PageAsync<TEntity>(Specification<TEntity> specification, int pageSize, int pageNo) where TEntity : class
