@@ -17,10 +17,7 @@ namespace RazorSample.Data.Configurations
 
       builder.Property(entity => entity.Email).HasMaxLength(256);
       builder.Property(entity => entity.Phone).HasMaxLength(256);
-      builder.Property(entity => entity.Address1).HasMaxLength(256);
-      builder.Property(entity => entity.Address2).HasMaxLength(256);
-      builder.Property(entity => entity.Zip).HasMaxLength(256);
-      builder.Property(entity => entity.City).HasMaxLength(256);
+      builder.Property(entity => entity.Address).HasMaxLength(256);
 
       builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
       builder.Property(entity => entity.IsActive).IsRequired().HasDefaultValue(true);

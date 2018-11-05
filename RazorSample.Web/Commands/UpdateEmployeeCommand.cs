@@ -19,5 +19,8 @@ namespace RazorSample.Web.Commands
 
     [FromQuery]
     public Guid EmployeeId { get; set; }
+
+    public string Phone { get; set; }
+    public string Address { get; set; }
   }
 }
