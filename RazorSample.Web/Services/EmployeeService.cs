@@ -42,7 +42,9 @@ namespace RazorSample.Web.Services
                                                          .Property(employee => employee.FirstName, command.FirstName)
                                                          .Property(employee => employee.LastName, command.LastName)
                                                          .Property(employee => employee.EmployeeNo, command.EmployeeNo)
-                                                         .Property(employee => employee.Email, command.Email);
+                                                         .Property(employee => employee.Email, command.Email)
+                                                         .Property(employee => employee.Phone, command.Phone)
+                                                         .Property(employee => employee.Address, command.Address);
 
       await _repository.UpdateAsync(changeEntry.Entity, changeEntry.Properties);
 

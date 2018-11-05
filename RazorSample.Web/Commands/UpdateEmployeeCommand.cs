@@ -15,6 +15,9 @@ namespace RazorSample.Web.Commands
       LastName = employeeEntity.LastName;
       EmployeeNo = employeeEntity.EmployeeNo;
       Email = employeeEntity.Email;
+
+      Phone = employeeEntity.Phone;
+      Address = employeeEntity.Address;
     }
 
     [FromQuery]
