@@ -1,0 +1,118 @@
+﻿@import '_color';
+@import '_typography';
+
+@import 'fontawesome/fontawesome';
+@import 'fontawesome/solid';
+@import 'fontawesome/brands';
+
+.search-box {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border: none;
+  width: $inputWidth;
+  line-height: $inputLineHeight;
+  font-size: $textSize;
+
+  $fieldLineHeight: $inputLineHeight;
+  $fieldFontHeight: $textSize;
+  $fieldWidth: $inputWidth;
+  $fieldHeight: $fieldLineHeight + 2 * $borderSize + 2 * $inputPadding;
+  $fieldPadding: $inputPadding;
+
+  &__input {
+    width: $fieldWidth;
+    line-height: $fieldLineHeight;
+    padding: $fieldPadding;
+    border: $borderColor $borderSize solid;
+  }
+
+  $valueLineHeight: $fieldLineHeight - 2 * $borderSize - 2 * $inputPadding;
+  $valueHeight: $valueLineHeight + 2 * $inputPadding + 2 * $borderSize;
+  $valueWidth: $inputWidth - 2 * $inputPadding - 2 * $borderSize;
+  $valueTop: ($fieldHeight - $valueHeight) / 2;
+  $valueLeft: $inputPadding + $borderSize;
+
+  &__value {
+    position: absolute;
+    top: $valueTop;
+    left: $valueLeft;
+    display: inline-block;
+    border: $borderColor $borderSize solid;
+    border-radius: 2px;
+    line-height: $valueLineHeight;
+    width: $valueWidth;
+    padding: $inputPadding;
+    display: inline-block;
+
+    z-index: 1000;
+    background: #fff;
+  }
+
+  &__search {
+    @extend %fa-icon;
+    @extend .fas;
+
+    &:before {
+      content: fa-content($fa-var-search);
+    }
+
+    position: absolute;
+    left: $fieldWidth - $textSize;
+    top: ($fieldHeight - $textSize) / 2;
+    cursor: pointer;
+  }
+
+  &__clear {
+    @extend %fa-icon;
+    @extend .fas;
+
+    &:before {
+      content: fa-content($fa-var-times);
+    }
+
+    position: absolute;
+    left: $valueWidth - $textSize;
+    top: ($valueLineHeight + 2 * $inputPadding - $textSize) / 2;
+    cursor: pointer;
+  }
+
+  &__option-list {
+    position: absolute;
+    top: $fieldHeight + ($fieldHeight - $fieldHeight) / 2;
+    left: 0px;
+    width: $inputWidth + 2 * $inputPadding;
+    border-bottom: $borderColor $borderSize solid;
+    border-right: $borderColor $borderSize solid;
+    border-left: $borderColor $borderSize solid;
+    background: #fff;
+    display: none;
+  }
+
+  &__option {
+    line-height: $inputLineHeight;
+    padding: $inputPadding;
+  }
+
+  &__option + &__option {
+    border-top: $borderColor $borderSize solid;
+  }
+
+  &__link {
+    display: block;
+    color: $linkColor;
+    text-decoration: none;
+  }
+
+  &__link:hover {
+    color: $linkActiveColor;
+  }
+
+  &_active &__value {
+    display: none;
+  }
+
+  &_active &__option-list {
+    display: block;
+  }
+}

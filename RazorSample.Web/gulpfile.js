@@ -21,3 +21,8 @@ gulp.task('css', ['sass'], function () {
 gulp.task('default', function () {
   gulp.watch('./Content/*.scss', ['sass', 'css']);
 });
+
+gulp.task('fonts:copy', function () {
+  return gulp.src('./Content/webfonts/*.*')
+    .pipe(gulp.dest('./wwwroot/webfonts/'));
+});

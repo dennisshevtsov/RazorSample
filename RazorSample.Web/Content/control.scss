@@ -1,15 +1,12 @@
 ﻿@import '_color';
 @import '_typography';
 
-$controlItemWidth: 250px;
-
 .control {
-
 }
 
 .control__label {
   display: inline-block;
-  min-width: $controlItemWidth;
+  min-width: $inputWidth;
 }
 
 .control__label_required {
@@ -17,10 +14,17 @@ $controlItemWidth: 250px;
 }
 
 .control__field {
-  width: $controlItemWidth;
+
+  width: $inputWidth;
+  line-height: $inputLineHeight;
+  padding: $inputPadding;
+}
+
+.control__field,
+.control__field input {
   color: $textColor;
   border: $borderColor 1px solid;
+  background: #fff;
   font-size: $textSize;
   font-family: $textFontFamily;
-  padding: $textSize / 2;
 }

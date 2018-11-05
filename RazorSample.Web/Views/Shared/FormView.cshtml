@@ -13,8 +13,30 @@
     {
       <div class="control" id="control_@vm.Name">
         <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
-        <input class="control__field" type="text" value="@vm.DisplayValue">
-        <i class="icon icon_search"></i>
+
+        <div class="control__field search-box">
+          <input class="search-box__input" type="text">
+          <i class="search-box__search"></i>
+          <span class="search-box__value">@vm.DisplayValue <i class="search-box__clear"></i></span>
+          <ul class="search-box__option-list">
+            <li class="search-box__option">
+              <a href="#" class="search-box__link"><span>John, Smith</span></a>
+            </li>
+            <li class="search-box__option">
+              <a href="#" class="search-box__link"><span>John, Smith</span></a>
+            </li>
+            <li class="search-box__option">
+              <a href="#" class="search-box__link"><span>John, Smith</span></a>
+            </li>
+            <li class="search-box__option">
+              <a href="#" class="search-box__link"><span>John, Smith</span></a>
+            </li>
+            <li class="search-box__option">
+              <a href="#" class="search-box__link"><span>John, Smith</span></a>
+            </li>
+          </ul>
+        </div>
+        
         <input type="hidden" name="@vm.Name" value="@vm.Value">
       </div>
     }

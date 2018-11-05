@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Content\webfonts\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
