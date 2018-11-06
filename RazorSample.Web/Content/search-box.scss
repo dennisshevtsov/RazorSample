@@ -1,9 +1,7 @@
 ﻿@import '_color';
 @import '_typography';
 
-@import 'fontawesome/fontawesome';
-@import 'fontawesome/solid';
-@import 'fontawesome/brands';
+@import 'fontawesome/_variables';
 
 .search-box {
   position: relative;
