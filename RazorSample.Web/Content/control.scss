@@ -2,29 +2,31 @@
 @import '_typography';
 
 .control {
-}
+    &__label {
+        display: inline-block;
+        min-width: $inputWidth;
+    }
 
-.control__label {
-  display: inline-block;
-  min-width: $inputWidth;
-}
+    &__label_required {
+        font-weight: bold;
+    }
 
-.control__label_required {
-  font-weight: bold;
-}
+    &__field {
+        width: $inputWidth;
+        line-height: $inputLineHeight;
+        padding: $inputPadding;
+    }
 
-.control__field {
+    &__field,
+    &__field input {
+        color: $textColor;
+        border: $borderColor 1px solid;
+        background: #fff;
+        font-size: $textSize;
+        font-family: $textFontFamily;
+    }
 
-  width: $inputWidth;
-  line-height: $inputLineHeight;
-  padding: $inputPadding;
-}
-
-.control__field,
-.control__field input {
-  color: $textColor;
-  border: $borderColor 1px solid;
-  background: #fff;
-  font-size: $textSize;
-  font-family: $textFontFamily;
+    &__error {
+        color: $c00;
+    }
 }
