@@ -5,17 +5,17 @@
     @foreach (var vm in Model.Inputs)
     {
       <div class="control" id="control_@vm.Name">
-          <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
-          <input class="control__field" type="text" name="@vm.Name" value="@vm.Value">
-          @if (ViewContext.ModelState.TryGetValue(vm.Name, out Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry entry))
-          {
-              var error = entry.Errors.FirstOrDefault();
+        <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
+        <input class="control__field" type="text" name="@vm.Name" value="@vm.Value">
+        @if (ViewContext.ModelState.TryGetValue(vm.Name, out Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry entry))
+        {
+          var error = entry.Errors.FirstOrDefault();
 
-              if (error != null)
-              {
-                  <span class="control__error">@error.ErrorMessage</span>
-              }
+          if (error != null)
+          {
+            <span class="control__error">@error.ErrorMessage</span>
           }
+        }
       </div>
     }
     @foreach (var vm in Model.Selects)
@@ -45,8 +45,18 @@
             </li>
           </ul>
         </div>
-        
+
         <input type="hidden" name="@vm.Name" value="@vm.Value">
+
+        @if (ViewContext.ModelState.TryGetValue(vm.Name, out Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry entry))
+        {
+          var error = entry.Errors.FirstOrDefault();
+
+          if (error != null)
+          {
+            <span class="control__error">@error.ErrorMessage</span>
+          }
+        }
       </div>
     }
   </div>
