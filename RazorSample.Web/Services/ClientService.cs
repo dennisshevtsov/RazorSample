@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mapster;
@@ -58,6 +59,14 @@ namespace RazorSample.Web.Services
     {
       var clientEntity = await _repository.FirstAsync(new ClientWithIdSpecification(query.ClientId));
       var queryExecutionResult = new QueryExecutionResult<ClientEntity>(clientEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<IEnumerable<EmployeeEntity>>> HandleAsync(SearchClientOwnerQuery query)
+    {
+      var employees = await _repository.PageAsync(new EmployeesWithNameLikeSpecification(query.ClientOwnerNamePart), 10, 0);
+      var queryExecutionResult = new QueryExecutionResult<IEnumerable<EmployeeEntity>>(employees);
 
       return queryExecutionResult;
     }

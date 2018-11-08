@@ -113,13 +113,19 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpPost("/client-owner")]
-    public IActionResult SearchClientOwner(Guid clientOwnerId)
+    public async Task<IActionResult> SearchClientOwner(SearchClientOwnerQuery query)
     {
-      var resource = _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", clientOwnerId, "Smith, John")
-                             .Link(Url.AppLink(RelTypes.Search, "Search", nameof(SearchClientOwner), nameof(ClientController)))
-                             .Link(Url.AppLink(RelTypes.Action, "Smith, John", nameof(Index), nameof(ClientController)))
-                             .Build();
-      var vm = new SelectVm(resource);
+      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", null, "Smith, John")
+              .Link(Url.AppLink(RelTypes.Search, "Search", nameof(SearchClientOwner), nameof(ClientController)));
+
+      var employees = await _clientService.HandleAsync(query);
+
+      foreach (var employee in employees.Result)
+      {
+        _builder.Link(Url.AppLink(RelTypes.Action, $"{employee.LastName}, {employee.FirstName}", nameof(Index), nameof(ClientController)));
+      }
+
+      var vm = new SelectVm(_builder.Build());
 
       return PartialView("SelectPartialView", vm);
     }
@@ -135,7 +141,7 @@ namespace RazorSample.Web.Controllers
 
       _builder.Embedded(RelTypes.Select)
               .Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, $"{clientEntity.ClientOwner.LastName}, {clientEntity.ClientOwner.FirstName}")
-              .Link(Url.AppLink(RelTypes.Search, "Search", nameof(Edit), nameof(ClientController)));
+              .Link(Url.AppLink(RelTypes.Search, "Search", nameof(SearchClientOwner), nameof(ClientController)));
 
       return _builder;
     }

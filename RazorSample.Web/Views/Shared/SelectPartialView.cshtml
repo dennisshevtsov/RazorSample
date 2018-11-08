@@ -1,0 +1,32 @@
+﻿@model  RazorSample.Vm.ISelectVm
+
+<label class="control__label control__label_required" for="@Model.Name">@Model.DisplayName</label>
+
+<div class="control__field search-box search-box_active">
+  <input class="search-box__input" type="text" name="ClientOwnerName">
+  <i class="search-box__search" data-action="@Model.Search.Href"></i>
+  <span class="search-box__value">@Model.DisplayValue <i class="search-box__clear"></i></span>
+  @if (Model.HasOptions)
+  {
+    <ul class="search-box__option-list">
+      @foreach (var option in Model.Options)
+      {
+        <li class="search-box__option">
+          <a class="search-box__link" data-action="@option.Href"><span>@option.Title</span></a>
+        </li>
+      }
+    </ul>
+  }
+</div>
+
+<input type="hidden" name="@Model.Name" value="@Model.Value">
+
+@if (ViewContext.ModelState.TryGetValue(Model.Name, out Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry entry))
+{
+  var error = entry.Errors.FirstOrDefault();
+
+  if (error != null)
+  {
+    <span class="control__error">@error.ErrorMessage</span>
+  }
+}
