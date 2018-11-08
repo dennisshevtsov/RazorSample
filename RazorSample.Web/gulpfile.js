@@ -24,5 +24,10 @@ gulp.task('default', function () {
 
 gulp.task('fonts:copy', function () {
   return gulp.src('./Content/webfonts/*.*')
-    .pipe(gulp.dest('./wwwroot/webfonts/'));
+             .pipe(gulp.dest('./wwwroot/webfonts/'));
+});
+
+gulp.task('js:copy', function () {
+  return gulp.src('./Scripts/*.js')
+             .pipe(gulp.dest('./wwwroot/'));
 });

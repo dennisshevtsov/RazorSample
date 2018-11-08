@@ -104,6 +104,7 @@
 
   &__link:hover {
     color: $linkActiveColor;
+    text-decoration: underline;
   }
 
   &_active &__value {

@@ -112,9 +112,16 @@ namespace RazorSample.Web.Controllers
       return Redirect(Url.AppUri(nameof(Edit), nameof(ClientController), new UpdateClientQuery(command.ClientId)));
     }
 
-    public IActionResult ClientOwner()
+    [HttpPost("/client-owner")]
+    public IActionResult SearchClientOwner(Guid clientOwnerId)
     {
-      return NoContent();
+      var resource = _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", clientOwnerId, "Smith, John")
+                             .Link(Url.AppLink(RelTypes.Search, "Search", nameof(SearchClientOwner), nameof(ClientController)))
+                             .Link(Url.AppLink(RelTypes.Action, "Smith, John", nameof(Index), nameof(ClientController)))
+                             .Build();
+      var vm = new SelectVm(resource);
+
+      return PartialView("SelectPartialView", vm);
     }
 
     private IResourceBuilder BuildFormBase(ClientEntity clientEntity)
@@ -128,11 +135,10 @@ namespace RazorSample.Web.Controllers
 
       _builder.Embedded(RelTypes.Select)
               .Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, $"{clientEntity.ClientOwner.LastName}, {clientEntity.ClientOwner.FirstName}")
-              .Link(Url.AppLink(RelTypes.Search, "Search", nameof(ClientOwner), nameof(ClientController)));
+              .Link(Url.AppLink(RelTypes.Search, "Search", nameof(Edit), nameof(ClientController)));
 
       return _builder;
     }
-
 
     private IFormVm BuildAddForm(ClientEntity clientEntity) =>
       BuildFormBase(clientEntity).Link(Url.AppLink(RelTypes.Breadcrumb, "New Client", nameof(Add), nameof(ClientController)))

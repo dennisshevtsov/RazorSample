@@ -1,4 +1,5 @@
 ﻿using RazorSample.Hr;
+using System.Collections.Generic;
 
 namespace RazorSample.Vm
 {
@@ -7,5 +8,8 @@ namespace RazorSample.Vm
     string DisplayValue { get; }
 
     Link Search { get; }
+
+    IEnumerable<Link> Options { get; }
+    bool HasOptions { get; }
   }
 }
