@@ -2,10 +2,10 @@
 
 <label class="control__label control__label_required" for="@Model.Name">@Model.DisplayName</label>
 
-<div class="control__field search-box search-box_active">
-  <input class="search-box__input" type="text" name="ClientOwnerName">
+<div class="control__field search-box @if (Model.Value == null) {<text>search-box_active</text>}">
+  <input class="search-box__input" type="text" name="@Model.SearchName" value="@Model.SearchValue">
   <i class="search-box__search" data-action="@Model.Search.Href"></i>
-  <span class="search-box__value">@Model.DisplayValue <i class="search-box__clear"></i></span>
+  <span class="search-box__value">@Model.DisplayValue <i class="search-box__clear" data-action="@Model.Clear.Href"></i></span>
   @if (Model.HasOptions)
   {
     <ul class="search-box__option-list">

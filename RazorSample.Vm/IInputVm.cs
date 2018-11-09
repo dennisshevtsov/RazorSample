@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RazorSample.Vm
+﻿namespace RazorSample.Vm
 {
   public interface IInputVm
   {
@@ -10,5 +6,6 @@ namespace RazorSample.Vm
     string DisplayName { get; }
 
     object Value { get; }
+    string DisplayValue { get; }
   }
 }

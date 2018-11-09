@@ -21,35 +21,8 @@
     @foreach (var vm in Model.Selects)
     {
       <div class="control" id="control_@vm.Name" data-view>
-        <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
-
-        <div class="control__field search-box search-box_active">
-          <input class="search-box__input" type="text" name="@vm.Name">
-          <i class="search-box__search" data-action="@vm.Search.Href"></i>
-          <span class="search-box__value">@vm.DisplayValue <i class="search-box__clear"></i></span>
-          @if (vm.HasOptions)
-          {
-            <ul class="search-box__option-list">
-              @foreach (var option in vm.Options)
-              {
-                <li class="search-box__option">
-                  <a class="search-box__link" data-action=""><span>John, Smith</span></a>
-                </li>
-              }
-            </ul>
-          }
-        </div>
-
-        <input type="hidden" name="@vm.Name" value="@vm.Value">
-
-        @if (ViewContext.ModelState.TryGetValue(vm.Name, out Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry entry))
-        {
-          var error = entry.Errors.FirstOrDefault();
-
-          if (error != null)
-          {
-            <span class="control__error">@error.ErrorMessage</span>
-          }
+        @{
+          await Html.RenderPartialAsync("SelectPartialView", vm);
         }
       </div>
     }

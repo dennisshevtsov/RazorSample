@@ -10,6 +10,7 @@ namespace RazorSample.Web.Services
                                     IQueryHandler<CreateClientQuery, ClientEntity>,
                                     IQueryHandler<UpdateClientQuery, ClientEntity>,
                                     IQueryHandler<SearchClientOwnerQuery, IEnumerable<EmployeeEntity>>,
+                                    IQueryHandler<SelectClientOwnerQuery, EmployeeEntity>,
                                     ICommandHandler<CreateClientCommand>,
                                     ICommandHandler<UpdateClientCommand>
   { }

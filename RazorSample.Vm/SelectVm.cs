@@ -7,31 +7,33 @@ namespace RazorSample.Vm
 {
   public sealed class SelectVm : ISelectVm
   {
-    private readonly Property _property;
-    private readonly Link _search;
-    private readonly Link[] _options;
+    private readonly IResource _resource;
 
     public SelectVm(IResource resource)
     {
-      if (resource == null)
-      {
-        throw new ArgumentNullException(nameof(resource));
-      }
-
-      _property = resource.Properties.Single();
-      _search = resource.Links.Single(link => link.Rel == RelTypes.Search);
-      _options = resource.Links.Where(link => link.Rel == RelTypes.Action).ToArray();
+      _resource = resource ?? throw new ArgumentNullException(nameof(resource));
     }
 
-    public string Name => _property.Name;
-    public string DisplayName => _property.DisplayName;
+    private Property _inputProperty;
+    private Property InputProperty => _inputProperty ?? (_inputProperty = _resource.Properties.Single());
 
-    public object Value => _property.Value;
-    public string DisplayValue => _property.DisplayValue;
+    public string Name => InputProperty.Name;
+    public string DisplayName => InputProperty.DisplayName;
 
-    public Link Search => _search;
+    public object Value => InputProperty.Value;
+    public string DisplayValue => InputProperty.DisplayValue;
 
-    public IEnumerable<Link> Options => _options;
-    public bool HasOptions => _options.Length > 0;
+    private IResource _searchResource;
+    private IResource SearchResource => _searchResource ?? (_searchResource = _resource.Embedded.Single(link => link.Key == RelTypes.Search).Value);
+    private Property SearchProperty => SearchResource.Properties.Single();
+
+    public string SearchName => SearchProperty.Name;
+    public string SearchValue => SearchProperty.Value?.ToString();
+
+    public Link Search => SearchResource.Links.Single(link => link.Rel == RelTypes.Self);
+    public Link Clear => _resource.Links.Single(link => link.Rel == RelTypes.Action);
+
+    public IEnumerable<Link> Options => SearchResource.Links.Where(link => link.Rel == RelTypes.Action);
+    public bool HasOptions => Options.Any();
   }
 }

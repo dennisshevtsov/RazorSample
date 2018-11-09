@@ -17,5 +17,7 @@ namespace RazorSample.Vm
     public string DisplayName => _property.DisplayName;
 
     public object Value => _property.Value;
+
+    public string DisplayValue => _property.DisplayValue;
   }
 }

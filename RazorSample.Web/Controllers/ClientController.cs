@@ -112,18 +112,51 @@ namespace RazorSample.Web.Controllers
       return Redirect(Url.AppUri(nameof(Edit), nameof(ClientController), new UpdateClientQuery(command.ClientId)));
     }
 
-    [HttpPost("/client-owner")]
-    public async Task<IActionResult> SearchClientOwner(SearchClientOwnerQuery query)
+    [HttpPost("/client-owner/search")]
+    public async Task<IActionResult> ClientOwnerSearch(SearchClientOwnerQuery query)
     {
-      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", null, "Smith, John")
-              .Link(Url.AppLink(RelTypes.Search, "Search", nameof(SearchClientOwner), nameof(ClientController)));
+      var builder = _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", null)
+                            .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
+                            .Embedded(RelTypes.Search)
+                            .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", query.ClientOwnerNamePart)
+                            .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
 
       var employees = await _clientService.HandleAsync(query);
 
       foreach (var employee in employees.Result)
       {
-        _builder.Link(Url.AppLink(RelTypes.Action, $"{employee.LastName}, {employee.FirstName}", nameof(Index), nameof(ClientController)));
+        builder.Link(Url.AppLink(RelTypes.Action, $"{employee.LastName}, {employee.FirstName}", nameof(ClientOwnerSelect), nameof(ClientController), new SelectClientOwnerQuery(employee.EmployeeId)));
       }
+
+      var vm = new SelectVm(_builder.Build());
+
+      return PartialView("SelectPartialView", vm);
+    }
+
+    [HttpPost("/client-owner/clear")]
+    public IActionResult ClientOwnerClear()
+    {
+      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", null)
+              .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
+              .Embedded(RelTypes.Search)
+              .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
+              .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
+
+      var vm = new SelectVm(_builder.Build());
+
+      return PartialView("SelectPartialView", vm);
+    }
+
+    [HttpPost("/client-owner/select")]
+    public async Task<IActionResult> ClientOwnerSelect(SelectClientOwnerQuery query)
+    {
+      var clientOwner = await _clientService.HandleAsync(query);
+
+      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", clientOwner.Result.EmployeeId, $"{clientOwner.Result.LastName}, {clientOwner.Result.FirstName}")
+              .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
+              .Embedded(RelTypes.Search)
+              .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
+              .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
 
       var vm = new SelectVm(_builder.Build());
 
@@ -141,7 +174,10 @@ namespace RazorSample.Web.Controllers
 
       _builder.Embedded(RelTypes.Select)
               .Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, $"{clientEntity.ClientOwner.LastName}, {clientEntity.ClientOwner.FirstName}")
-              .Link(Url.AppLink(RelTypes.Search, "Search", nameof(SearchClientOwner), nameof(ClientController)));
+              .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
+              .Embedded(RelTypes.Search)
+              .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
+              .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
 
       return _builder;
     }

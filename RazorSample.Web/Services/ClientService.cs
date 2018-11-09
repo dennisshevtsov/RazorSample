@@ -71,6 +71,14 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(SelectClientOwnerQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.ClientOwnerId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
     public async Task<CommandExecutionResult> HandleAsync(CreateClientCommand command)
     {
       command.ClientId = Guid.NewGuid();
