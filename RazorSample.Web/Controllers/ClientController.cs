@@ -136,11 +136,7 @@ namespace RazorSample.Web.Controllers
     [HttpPost("/client-owner/clear")]
     public IActionResult ClientOwnerClear()
     {
-      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", null)
-              .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
-              .Embedded(RelTypes.Search)
-              .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
-              .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
+      BuildClientOwnerSelect(_builder, null);
 
       var vm = new SelectVm(_builder.Build());
 
@@ -150,13 +146,16 @@ namespace RazorSample.Web.Controllers
     [HttpPost("/client-owner/select")]
     public async Task<IActionResult> ClientOwnerSelect(SelectClientOwnerQuery query)
     {
-      var clientOwner = await _clientService.HandleAsync(query);
+      var queryExecutionResult = await _clientService.HandleAsync(query);
 
-      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", clientOwner.Result.EmployeeId, clientOwner.Result.FullName)
-              .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
-              .Embedded(RelTypes.Search)
-              .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
-              .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
+      if (queryExecutionResult.HasError)
+      {
+        BuildClientOwnerSelect(_builder, null);
+      }
+      else
+      {
+        BuildClientOwnerSelect(_builder, queryExecutionResult.Result);
+      }
 
       var vm = new SelectVm(_builder.Build());
 
@@ -172,21 +171,7 @@ namespace RazorSample.Web.Controllers
               .Property(nameof(clientEntity.ClientNo), "Client No", clientEntity.ClientNo)
               .Property(nameof(clientEntity.OrganizationNo), "Organization No", clientEntity.OrganizationNo);
 
-      var builder = _builder.Embedded(RelTypes.Select);
-
-      if (clientEntity.ClientOwner != null)
-      {
-        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, clientEntity.ClientOwner.FullName);
-      }
-      else
-      {
-        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", null);
-      }
-
-      builder.Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
-             .Embedded(RelTypes.Search)
-             .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
-             .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
+      BuildClientOwnerSelect(_builder.Embedded(RelTypes.Select), clientEntity.ClientOwner);
 
       return _builder;
     }
@@ -205,5 +190,24 @@ namespace RazorSample.Web.Controllers
                                  .Property(nameof(clientEntity.Address), "Address", clientEntity.Address)
                                  .Build()
                                  .ToFormVm();
+
+    private IResourceBuilder BuildClientOwnerSelect(IResourceBuilder builder, EmployeeEntity employeeEntity)
+    {
+      if (employeeEntity != null)
+      {
+        builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", employeeEntity.EmployeeId, employeeEntity.FullName)
+               .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)));
+      }
+      else
+      {
+        builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", null);
+      }
+
+      builder.Embedded(RelTypes.Search)
+             .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
+             .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
+
+      return _builder;
+    }
   }
 }

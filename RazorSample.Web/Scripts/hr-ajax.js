@@ -1,4 +1,6 @@
-﻿function HttpClient() {
+﻿'use strict';
+
+function HttpClient() {
   var xhttp = new XMLHttpRequest();
 
   this.execute = function (uri, data, success) {
@@ -41,7 +43,7 @@ function Control(element) {
 
   function getValue() {
     if (element.type === 'checkbox') {
-      return !!(element.checked);
+      return !!element.checked;
     }
 
     return element.value;
@@ -51,13 +53,10 @@ function Control(element) {
 function View(element) {
   var self = this;
 
-  self.bootstrap = function () {
-    new Bootstrap(element, null, self.bootstrap);
-  };
   self.data = function () {
     var data = '',
-        controls = getControls(),
-        i;
+      controls = getControls(),
+      i;
 
     for (i = 0; i < controls.length; ++i) {
       data += controls[i].name + '=' + controls[i].value + '&';
@@ -73,8 +72,8 @@ function View(element) {
 
   function getControls() {
     var controlElements = element.getElementsByTagName('input'),
-        controls = [],
-        i = 0;
+      controls = [],
+      i = 0;
 
     for (i = 0; i < controlElements.length; ++i) {
       controls.push(new Control(controlElements[i]));
@@ -86,8 +85,8 @@ function View(element) {
 
 function Bootstrap(element, before, after) {
   var http = new HttpClient(),
-      actionElements = element.querySelectorAll('[data-action]'),
-      i;
+    actionElements = element.querySelectorAll('[data-hr-action]'),
+    i;
 
   for (i = 0; i < actionElements.length; ++i) {
     action(actionElements[i]);
@@ -97,7 +96,7 @@ function Bootstrap(element, before, after) {
     var currentElement = element.parentElement;
 
     while (currentElement) {
-      if (currentElement.hasAttribute('data-view')) {
+      if (currentElement.hasAttribute('data-hr')) {
         if (!currentElement.view) {
           currentElement.view = new View(currentElement);
 
@@ -118,7 +117,7 @@ function Bootstrap(element, before, after) {
     var viewElement = viewRecursive(actionElements[i]);
 
     element.onclick = function () {
-      var uri = element.getAttribute('data-action');
+      var uri = element.getAttribute('data-hr-action');
 
       viewElement.controller.execute(uri, viewElement.view);
     };

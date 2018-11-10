@@ -13,5 +13,7 @@ namespace RazorSample.Vm
 
     IEnumerable<Link> Options { get; }
     bool HasOptions { get; }
+
+    bool IsEmpty { get; }
   }
 }

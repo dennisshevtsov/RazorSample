@@ -20,7 +20,7 @@
     }
     @foreach (var vm in Model.Selects)
     {
-      <div class="control" id="control_@vm.Name" data-view>
+      <div class="control" id="control_@vm.Name" data-hr>
         @{
           await Html.RenderPartialAsync("SelectPartialView", vm);
         }

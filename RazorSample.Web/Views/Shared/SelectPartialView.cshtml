@@ -1,21 +1,27 @@
-﻿@model  RazorSample.Vm.ISelectVm
+﻿@model RazorSample.Vm.ISelectVm
 
 <label class="control__label control__label_required" for="@Model.Name">@Model.DisplayName</label>
 
-<div class="control__field search-box @if (Model.Value == null) {<text>search-box_active</text>}">
+<div class="control__field search-box">
   <input class="search-box__input" type="text" name="@Model.SearchName" value="@Model.SearchValue">
-  <i class="search-box__search" data-action="@Model.Search.Href"></i>
-  <span class="search-box__value">@Model.DisplayValue <i class="search-box__clear" data-action="@Model.Clear.Href"></i></span>
-  @if (Model.HasOptions)
+  @if (Model.IsEmpty)
   {
-    <ul class="search-box__option-list">
-      @foreach (var option in Model.Options)
-      {
-        <li class="search-box__option">
-          <a class="search-box__link" data-action="@option.Href"><span>@option.Title</span></a>
-        </li>
-      }
-    </ul>
+    <i class="search-box__search" data-hr-action="@Model.Search.Href"></i>
+    @if (Model.HasOptions)
+    {
+      <ul class="search-box__option-list">
+        @foreach (var option in Model.Options)
+        {
+          <li class="search-box__option">
+            <a class="search-box__link" data-hr-action="@option.Href"><span>@option.Title</span></a>
+          </li>
+        }
+      </ul>
+    }
+  }
+  else
+  {
+    <span class="search-box__value">@Model.DisplayValue <i class="search-box__clear" data-hr-action="@Model.Clear.Href"></i></span>
   }
 </div>
 

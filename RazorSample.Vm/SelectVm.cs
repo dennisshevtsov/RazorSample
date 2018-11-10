@@ -35,5 +35,7 @@ namespace RazorSample.Vm
 
     public IEnumerable<Link> Options => SearchResource.Links.Where(link => link.Rel == RelTypes.Action);
     public bool HasOptions => Options.Any();
+
+    public bool IsEmpty => Value == null;
   }
 }

@@ -84,7 +84,6 @@
     border-right: $borderColor $borderSize solid;
     border-left: $borderColor $borderSize solid;
     background: #fff;
-    display: none;
   }
 
   &__option {
@@ -106,13 +105,5 @@
   &__link:hover {
     color: $linkActiveColor;
     text-decoration: underline;
-  }
-
-  &_active &__value {
-    display: none;
-  }
-
-  &_active &__option-list {
-    display: block;
   }
 }
