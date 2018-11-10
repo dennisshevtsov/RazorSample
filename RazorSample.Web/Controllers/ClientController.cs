@@ -152,7 +152,7 @@ namespace RazorSample.Web.Controllers
     {
       var clientOwner = await _clientService.HandleAsync(query);
 
-      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", clientOwner.Result.EmployeeId, $"{clientOwner.Result.LastName}, {clientOwner.Result.FirstName}")
+      _builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", clientOwner.Result.EmployeeId, clientOwner.Result.FullName)
               .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
               .Embedded(RelTypes.Search)
               .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
@@ -176,11 +176,11 @@ namespace RazorSample.Web.Controllers
 
       if (clientEntity.ClientOwner != null)
       {
-        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, $"{clientEntity.ClientOwner.LastName}, {clientEntity.ClientOwner.FirstName}");
+        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, clientEntity.ClientOwner.FullName);
       }
       else
       {
-        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", null, null);
+        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", null);
       }
 
       builder.Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
