@@ -172,12 +172,21 @@ namespace RazorSample.Web.Controllers
               .Property(nameof(clientEntity.ClientNo), "Client No", clientEntity.ClientNo)
               .Property(nameof(clientEntity.OrganizationNo), "Organization No", clientEntity.OrganizationNo);
 
-      _builder.Embedded(RelTypes.Select)
-              .Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, $"{clientEntity.ClientOwner.LastName}, {clientEntity.ClientOwner.FirstName}")
-              .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
-              .Embedded(RelTypes.Search)
-              .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
-              .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
+      var builder = _builder.Embedded(RelTypes.Select);
+
+      if (clientEntity.ClientOwner != null)
+      {
+        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", clientEntity.ClientOwnerId, $"{clientEntity.ClientOwner.LastName}, {clientEntity.ClientOwner.FirstName}");
+      }
+      else
+      {
+        builder.Property(nameof(clientEntity.ClientOwnerId), "Client Owner", null, null);
+      }
+
+      builder.Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)))
+             .Embedded(RelTypes.Search)
+             .Property(nameof(SearchClientOwnerQuery.ClientOwnerNamePart), "", "")
+             .Link(Url.AppLink(RelTypes.Self, "Search", nameof(ClientOwnerSearch), nameof(ClientController)));
 
       return _builder;
     }
