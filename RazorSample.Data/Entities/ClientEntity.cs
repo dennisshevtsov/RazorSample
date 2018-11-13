@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RazorSample.Data.Entities
 {
-  public sealed class ClientEntity
+  public sealed class ClientEntity : SubjectEntityBase
   {
     public Guid ClientId { get; set; }
 
@@ -11,15 +12,9 @@ namespace RazorSample.Data.Entities
 
     public string Name { get; set; }
 
-    public string Email { get; set; }
-    public string Phone { get; set; }
-    public string Address { get; set; }
-
-    public DateTime Created { get; set; }
-
-    public bool IsActive { get; set; }
-
     public Guid ClientOwnerId { get; set; }
     public EmployeeEntity ClientOwner { get; set; }
+
+    public ICollection<ContactEntity> Relations { get; set; }
   }
 }

@@ -10,18 +10,14 @@ namespace RazorSample.Data.Configurations
     {
       builder.ToTable("Employees");
       builder.HasKey(entity => entity.EmployeeId);
+      builder.HasBaseType<SubjectEntityBase>();
 
       builder.Property(entity => entity.EmployeeId).IsRequired().ValueGeneratedNever();
       builder.Property(entity => entity.FirstName).IsRequired().HasMaxLength(256);
       builder.Property(entity => entity.LastName).IsRequired().HasMaxLength(256);
       builder.Property(entity => entity.EmployeeNo).IsRequired().HasMaxLength(256);
 
-      builder.Property(entity => entity.Email).IsRequired().HasMaxLength(256);
-      builder.Property(entity => entity.Phone).HasMaxLength(256);
-      builder.Property(entity => entity.Address).HasMaxLength(256);
-
-      builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
-      builder.Property(entity => entity.IsActive).IsRequired().HasDefaultValue(true);
+      builder.Ignore(entity => entity.FullName);
     }
   }
 }

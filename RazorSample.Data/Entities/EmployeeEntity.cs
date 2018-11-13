@@ -2,7 +2,7 @@
 
 namespace RazorSample.Data.Entities
 {
-  public sealed class EmployeeEntity
+  public sealed class EmployeeEntity : SubjectEntityBase
   {
     public Guid EmployeeId { get; set; }
 
@@ -11,13 +11,5 @@ namespace RazorSample.Data.Entities
     public string FullName => $"{LastName}, {FirstName}";
 
     public string EmployeeNo { get; set; }
-
-    public string Email { get; set; }
-    public string Phone { get; set; }
-    public string Address { get; set; }
-
-    public DateTime Created { get; set; }
-
-    public bool IsActive { get; set; }
   }
 }

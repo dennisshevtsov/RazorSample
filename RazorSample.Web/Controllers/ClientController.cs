@@ -182,14 +182,20 @@ namespace RazorSample.Web.Controllers
                                  .Build()
                                  .ToFormVm();
 
-    private IFormVm BuildEditForm(ClientEntity clientEntity) =>
+    private IFormVm BuildEditForm(ClientEntity clientEntity)
+    {
       BuildFormBase(clientEntity).Link(Url.AppLink(RelTypes.Breadcrumb, clientEntity.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
                                  .Link(Url.AppLink(RelTypes.Self, clientEntity.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
-                                 .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController)))
-                                 .Property(nameof(clientEntity.Phone), "Phone", clientEntity.Phone)
-                                 .Property(nameof(clientEntity.Address), "Address", clientEntity.Address)
-                                 .Build()
-                                 .ToFormVm();
+                                 .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController)));
+
+      foreach (var email in clientEntity.Emails)
+      {
+        _builder.Property(nameof(UpdateClientCommand.Emails), "Emails", email.Email);
+      }
+
+      return _builder.Build()
+                     .ToFormVm();
+    }
 
     private IResourceBuilder BuildClientOwnerSelect(IResourceBuilder builder, EmployeeEntity employeeEntity)
     {

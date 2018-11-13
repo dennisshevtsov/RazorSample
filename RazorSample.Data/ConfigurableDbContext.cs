@@ -9,6 +9,12 @@ namespace RazorSample.Data
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      modelBuilder.ApplyConfiguration(new SubjectEntityBaseTypeConfiguration());
+      modelBuilder.ApplyConfiguration(new EmailEntityTypeConfiguration());
+      modelBuilder.ApplyConfiguration(new PhoneEntityTypeConfiguration());
+      modelBuilder.ApplyConfiguration(new ImEntityTypeConfiguration());
+      modelBuilder.ApplyConfiguration(new AddressEntityTypeConfiguration());
+
       modelBuilder.ApplyConfiguration(new EmployeeEntityTypeConfiguration());
       modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration());
     }

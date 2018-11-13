@@ -9,18 +9,13 @@ namespace RazorSample.Data.Configurations
     {
       builder.ToTable("Clients");
       builder.HasKey(entity => entity.ClientId);
+      builder.HasBaseType<SubjectEntityBase>();
 
       builder.Property(entity => entity.ClientId).IsRequired().ValueGeneratedNever();
       builder.Property(entity => entity.ClientNo).IsRequired().HasMaxLength(256);
       builder.Property(entity => entity.OrganizationNo).HasMaxLength(256);
       builder.Property(entity => entity.Name).IsRequired().HasMaxLength(256);
 
-      builder.Property(entity => entity.Email).HasMaxLength(256);
-      builder.Property(entity => entity.Phone).HasMaxLength(256);
-      builder.Property(entity => entity.Address).HasMaxLength(256);
-
-      builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
-      builder.Property(entity => entity.IsActive).IsRequired().HasDefaultValue(true);
       builder.Property(entity => entity.ClientOwnerId).IsRequired();
 
       builder.HasOne(entity => entity.ClientOwner).WithMany().HasForeignKey(entity => entity.ClientOwnerId);
