@@ -7,6 +7,6 @@ namespace RazorSample.Data.Entities
     public Guid SubjectId { get; set; }
 
     public string Phone { get; set; }
-    public string Description { get; }
+    public string Description { get; set; }
   }
 }

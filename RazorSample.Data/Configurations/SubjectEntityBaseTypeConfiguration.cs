@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RazorSample.Data.Entities;
+using System;
 
 namespace RazorSample.Data.Configurations
 {
@@ -11,13 +12,16 @@ namespace RazorSample.Data.Configurations
       builder.ToTable("Subjects");
       builder.HasDiscriminator<string>("SubjectType");
 
+      builder.Property<Guid>("SubjectId").IsRequired().ValueGeneratedNever().HasColumnName("SubjectId").HasColumnType("uniqueidentifier");
+      builder.HasKey("SubjectId");
+
       builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
       builder.Property(entity => entity.IsActive).IsRequired().HasDefaultValue(true);
 
-      builder.HasMany(entity => entity.Emails).WithOne().HasForeignKey().HasForeignKey(entity => entity.SubjectId);
-      builder.HasMany(entity => entity.Phones).WithOne().HasForeignKey().HasForeignKey(entity => entity.SubjectId);
-      builder.HasMany(entity => entity.Ims).WithOne().HasForeignKey().HasForeignKey(entity => entity.SubjectId);
-      builder.HasMany(entity => entity.Addresses).WithOne().HasForeignKey().HasForeignKey(entity => entity.SubjectId);
+      builder.HasMany(entity => entity.Emails).WithOne().HasForeignKey(entity => entity.SubjectId).HasForeignKey(entity => entity.SubjectId);
+      builder.HasMany(entity => entity.Phones).WithOne().HasForeignKey(entity => entity.SubjectId).HasForeignKey(entity => entity.SubjectId);
+      builder.HasMany(entity => entity.Ims).WithOne().HasForeignKey(entity => entity.SubjectId).HasForeignKey(entity => entity.SubjectId);
+      builder.HasMany(entity => entity.Addresses).WithOne().HasForeignKey(entity => entity.SubjectId).HasForeignKey(entity => entity.SubjectId);
     }
   }
 }

@@ -2,7 +2,8 @@
 {
   public sealed class UpdateClientCommand : ClientCommandBase
   {
-    public string Phone { get; set; }
-    public string Address { get; set; }
+    public string[] Emails { get; set; }
+    public string[] Phones { get; set; }
+    public string[] Addresses { get; set; }
   }
 }

@@ -14,10 +14,10 @@ namespace RazorSample.Web.Commands
       FirstName = employeeEntity.FirstName;
       LastName = employeeEntity.LastName;
       EmployeeNo = employeeEntity.EmployeeNo;
-      Email = employeeEntity.Email;
+      //Email = employeeEntity.Email;
 
-      Phone = employeeEntity.Phone;
-      Address = employeeEntity.Address;
+      //Phone = employeeEntity.Phone;
+      //Address = employeeEntity.Address;
     }
 
     [FromQuery]

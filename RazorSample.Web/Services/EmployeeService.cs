@@ -41,10 +41,10 @@ namespace RazorSample.Web.Services
       var changeEntry = new ChangeEntry<EmployeeEntity>().Key(employee => employee.EmployeeId, command.EmployeeId)
                                                          .Property(employee => employee.FirstName, command.FirstName)
                                                          .Property(employee => employee.LastName, command.LastName)
-                                                         .Property(employee => employee.EmployeeNo, command.EmployeeNo)
-                                                         .Property(employee => employee.Email, command.Email)
-                                                         .Property(employee => employee.Phone, command.Phone)
-                                                         .Property(employee => employee.Address, command.Address);
+                                                         .Property(employee => employee.EmployeeNo, command.EmployeeNo);
+                                                         //.Property(employee => employee.Email, command.Email)
+                                                         //.Property(employee => employee.Phone, command.Phone)
+                                                         //.Property(employee => employee.Address, command.Address);
 
       await _repository.UpdateAsync(changeEntry.Entity, changeEntry.Properties);
 
@@ -59,7 +59,7 @@ namespace RazorSample.Web.Services
       employeeEntity.FirstName = command.FirstName;
       employeeEntity.LastName = command.LastName;
       employeeEntity.EmployeeNo = command.EmployeeNo;
-      employeeEntity.Email = command.Email;
+      //employeeEntity.Email = command.Email;
 
       await _repository.InsertAsync(employeeEntity);
 

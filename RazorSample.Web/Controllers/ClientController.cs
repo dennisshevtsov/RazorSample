@@ -167,9 +167,9 @@ namespace RazorSample.Web.Controllers
       _builder.Link(Url.AppLink(RelTypes.Breadcrumb, "Clients", nameof(Index), nameof(ClientController)))
               .Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(EmployeeController.Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Clients", nameof(ClientController.Index), nameof(ClientController)))
-              .Property(nameof(clientEntity.Name), "Name", clientEntity.Name)
-              .Property(nameof(clientEntity.ClientNo), "Client No", clientEntity.ClientNo)
-              .Property(nameof(clientEntity.OrganizationNo), "Organization No", clientEntity.OrganizationNo);
+              .Property(nameof(ClientCommandBase.Name), "Name", clientEntity.Name)
+              .Property(nameof(ClientCommandBase.ClientNo), "Client No", clientEntity.ClientNo)
+              .Property(nameof(ClientCommandBase.OrganizationNo), "Organization No", clientEntity.OrganizationNo);
 
       BuildClientOwnerSelect(_builder.Embedded(RelTypes.Select), clientEntity.ClientOwner);
 
@@ -191,6 +191,16 @@ namespace RazorSample.Web.Controllers
       foreach (var email in clientEntity.Emails)
       {
         _builder.Property(nameof(UpdateClientCommand.Emails), "Emails", email.Email);
+      }
+
+      foreach (var phone in clientEntity.Phones)
+      {
+        _builder.Property(nameof(UpdateClientCommand.Phones), "Emails", phone.Phone);
+      }
+
+      foreach (var address in clientEntity.Addresses)
+      {
+        _builder.Property(nameof(UpdateClientCommand.Addresses), "Emails", address.Address);
       }
 
       return _builder.Build()
