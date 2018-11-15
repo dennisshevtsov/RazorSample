@@ -17,6 +17,7 @@ a.breadcrumb-bar__item {
 
 .breadcrumb-bar__item + .breadcrumb-bar__item::before {
   content: "/";
+  text-decoration: none;
   margin-right: $gapLR;
   margin-left: $gapLR;
 }

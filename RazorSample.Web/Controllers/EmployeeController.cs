@@ -114,8 +114,41 @@ namespace RazorSample.Web.Controllers
       return RedirectToAction(nameof(Index), new SearchEmployeeQuery(command.EmployeeNo));
     }
 
-    private IFormVm BuildAddFormVm(EmployeeFormCommandBase command) =>
-      BuildFormBase(command).Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Index), nameof(EmployeeController)))
+    [HttpGet]
+    public async Task<IActionResult> Addresses(UpdateEmployeeAddressesQuery query)
+    {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+
+      _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Self, "Addresses", nameof(Addresses), nameof(EmployeeController), query))
+              .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)));
+
+      if (queryExecutionResult.Result.Emails != null)
+      {
+        foreach (var email in queryExecutionResult.Result.Emails)
+        {
+          _builder.Property("Emails", "Emails", email.Email);
+        }
+      }
+
+      var vm = _builder.Build()
+                       .ToFormVm();
+
+      return View("FormView", vm);
+    }
+
+    private IFormVm BuildAddFormVm(CreateEmployeeCommand command) =>
+      BuildFormBase(command).Property(nameof(command.Email), "Email", command.Email)
+                            .Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Index), nameof(EmployeeController)))
                             .Link(Url.AppLink(RelTypes.Breadcrumb, "New Employee", nameof(Add), nameof(EmployeeController)))
                             .Build()
                             .ToFormVm();
@@ -124,10 +157,8 @@ namespace RazorSample.Web.Controllers
       BuildFormBase(command).Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(command.EmployeeId)))
                             .Link(Url.AppLink(RelTypes.Breadcrumb, $"{command.LastName}, {command.FirstName}", nameof(Edit), nameof(EmployeeController)))
                             .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
-                            //.Property(nameof(command.Phone), "Phone number", command.Phone)
-                            //.Property(nameof(command.Address), "Address", command.Address)
                             .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(command.EmployeeId)))
-                            .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Index), nameof(EmployeeController)))
+                            .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(command.EmployeeId)))
                             .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Index), nameof(EmployeeController)))
                             .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Index), nameof(EmployeeController)))
                             .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Index), nameof(EmployeeController)))
@@ -140,7 +171,6 @@ namespace RazorSample.Web.Controllers
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
               .Property(nameof(command.FirstName), "First Name", command.FirstName)
               .Property(nameof(command.LastName), "Last Name", command.LastName)
-              .Property(nameof(command.EmployeeNo), "Employee No", command.EmployeeNo)
-              .Property(nameof(command.Email), "Email", command.Email);
+              .Property(nameof(command.EmployeeNo), "Employee No", command.EmployeeNo);
   }
 }

@@ -12,8 +12,5 @@ namespace RazorSample.Web.Commands
 
     [Required]
     public string EmployeeNo { get; set; }
-
-    [Required]
-    public string Email { get; set; }
   }
 }

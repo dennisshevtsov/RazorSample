@@ -17,6 +17,7 @@ namespace RazorSample.Data.Specifications
     protected internal override IQueryable<EmployeeEntity> Apply(IQueryable<EmployeeEntity> query)
     {
       return query.Where(employee => employee.EmployeeId == EmployeeId)
+                  .Include(employee => employee.Emails)
                   .AsNoTracking();
     }
   }
