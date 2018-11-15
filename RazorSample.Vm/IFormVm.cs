@@ -9,5 +9,8 @@ namespace RazorSample.Vm
     IEnumerable<ISelectVm> Selects { get; }
 
     Link Self { get; }
+
+    IEnumerable<Link> Tabs { get; }
+    bool HasTabs { get; }
   }
 }

@@ -12,7 +12,7 @@ namespace RazorSample.Data.Configurations
       builder.ToTable("Subjects");
       builder.HasDiscriminator<string>("SubjectType");
 
-      builder.Property<Guid>("SubjectId").IsRequired().ValueGeneratedNever().HasColumnName("SubjectId").HasColumnType("uniqueidentifier");
+      builder.Property<Guid>("SubjectId").IsRequired().ValueGeneratedNever().HasColumnName("SubjectId").HasColumnType("uniqueidentifier").HasField("_subjectId");
       builder.HasKey("SubjectId");
 
       builder.Property(entity => entity.Created).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");

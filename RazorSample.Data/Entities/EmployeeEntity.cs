@@ -4,7 +4,7 @@ namespace RazorSample.Data.Entities
 {
   public sealed class EmployeeEntity : SubjectEntityBase
   {
-    public Guid EmployeeId { get; set; }
+    public Guid EmployeeId { get { return _subjectId; } set { _subjectId = value; } }
 
     public string FirstName { get; set; }
     public string LastName { get; set; }

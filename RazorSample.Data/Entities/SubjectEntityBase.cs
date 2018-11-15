@@ -5,6 +5,8 @@ namespace RazorSample.Data.Entities
 {
   public abstract class SubjectEntityBase
   {
+    protected Guid _subjectId;
+
     public IEnumerable<EmailEntity> Emails { get; set; }
     public IEnumerable<PhoneEntity> Phones { get; set; }
     public IEnumerable<ImEntity> Ims { get; set; }

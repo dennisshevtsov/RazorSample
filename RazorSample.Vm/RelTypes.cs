@@ -14,5 +14,6 @@
     public const string Last = "rt:last";
     public const string Search = "rt:search";
     public const string Select = "rt:select";
+    public const string Tab = "rt:tab";
   }
 }

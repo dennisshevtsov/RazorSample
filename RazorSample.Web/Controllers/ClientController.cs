@@ -203,6 +203,12 @@ namespace RazorSample.Web.Controllers
         _builder.Property(nameof(UpdateClientCommand.Addresses), "Emails", address.Address);
       }
 
+      _builder.Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Index), nameof(ClientController)))
+              .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Index), nameof(ClientController)))
+              .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Index), nameof(ClientController)))
+              .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Index), nameof(ClientController)));
+
       return _builder.Build()
                      .ToFormVm();
     }

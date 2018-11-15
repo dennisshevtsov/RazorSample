@@ -16,5 +16,8 @@ namespace RazorSample.Vm
                                                                .Select(resource => new SelectVm(resource.Value));
 
     public Link Self => _resource.Links.Single(link => link.Rel == RelTypes.Self);
+
+    public IEnumerable<Link> Tabs => _resource.Links.Where(link => link.Rel == RelTypes.Tab);
+    public bool HasTabs => Tabs.Any();
   }
 }

@@ -1,0 +1,20 @@
+﻿@import '_color';
+@import '_typography';
+
+.tab-bar {
+  border-right: $borderColor 1px solid;
+  display: flex;
+  flex-direction: column;
+
+  &__action {
+    color: $c20;
+    display: inline-block;
+    text-decoration: none;
+    padding-left: $gapLR;
+
+    &:hover,
+    &_selected {
+      background: $c2-3;
+    }
+  }
+}

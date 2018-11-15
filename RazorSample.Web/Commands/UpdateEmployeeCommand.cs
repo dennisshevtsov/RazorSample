@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RazorSample.Data.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace RazorSample.Web.Commands
 {
@@ -23,7 +24,9 @@ namespace RazorSample.Web.Commands
     [FromQuery]
     public Guid EmployeeId { get; set; }
 
-    public string Phone { get; set; }
-    public string Address { get; set; }
+    public IEnumerable<string> Emails { get; set; }
+    public IEnumerable<string> Ims { get; set; }
+    public IEnumerable<string> Phones { get; set; }
+    public IEnumerable<string> Addresses { get; set; }
   }
 }

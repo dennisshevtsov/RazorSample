@@ -17,6 +17,8 @@ namespace RazorSample.Data.Configurations
 
       builder.Property(entity => entity.ClientOwnerId).IsRequired();
       builder.HasOne(entity => entity.ClientOwner).WithMany().HasForeignKey(entity => entity.ClientOwnerId).OnDelete(DeleteBehavior.Restrict);
+
+      builder.Ignore(entity => entity.ClientId);
     }
   }
 }

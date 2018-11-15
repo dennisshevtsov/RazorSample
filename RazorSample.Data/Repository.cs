@@ -77,5 +77,19 @@ namespace RazorSample.Data
 
       await _dbContext.SaveChangesAsync();
     }
+
+    public async Task RemoveAsync<TEntity>(TEntity entity) where TEntity : class
+    {
+      var entry = _dbContext.Attach(entity);
+
+      entry.State = EntityState.Deleted;
+
+      await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<ITransaction> BeginTransactionAsync()
+    {
+      return new Transaction(await _dbContext.Database.BeginTransactionAsync());
+    }
   }
 }

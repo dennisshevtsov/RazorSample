@@ -17,6 +17,8 @@ namespace RazorSample.Data.Configurations
       builder.Property(entity => entity.EmployeeNo).IsRequired().HasMaxLength(256);
 
       builder.Ignore(entity => entity.FullName);
+
+      builder.Ignore(entity => entity.EmployeeId);
     }
   }
 }

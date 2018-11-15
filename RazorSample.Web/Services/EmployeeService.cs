@@ -48,6 +48,46 @@ namespace RazorSample.Web.Services
 
       await _repository.UpdateAsync(changeEntry.Entity, changeEntry.Properties);
 
+      foreach (var email in command.Emails)
+      {
+        var emailEntity = new EmailEntity();
+
+        emailEntity.Email = email;
+        emailEntity.SubjectId = command.EmployeeId;
+
+        await _repository.InsertAsync(emailEntity);
+      }
+
+      foreach (var address in command.Addresses)
+      {
+        var addressEntity = new AddressEntity();
+
+        addressEntity.Address = address;
+        addressEntity.SubjectId = command.EmployeeId;
+
+        await _repository.InsertAsync(addressEntity);
+      }
+
+      foreach (var phone in command.Phones)
+      {
+        var phoneEntity = new PhoneEntity();
+
+        phoneEntity.Phone = phone;
+        phoneEntity.SubjectId = command.EmployeeId;
+
+        await _repository.InsertAsync(phoneEntity);
+      }
+
+      foreach (var im in command.Ims)
+      {
+        var imEntity = new ImEntity();
+
+        imEntity.Im = im;
+        imEntity.SubjectId = command.EmployeeId;
+
+        await _repository.InsertAsync(imEntity);
+      }
+
       return CommandExecutionResult.Success;
     }
 
@@ -59,9 +99,15 @@ namespace RazorSample.Web.Services
       employeeEntity.FirstName = command.FirstName;
       employeeEntity.LastName = command.LastName;
       employeeEntity.EmployeeNo = command.EmployeeNo;
-      //employeeEntity.Email = command.Email;
 
       await _repository.InsertAsync(employeeEntity);
+
+      var emailEntity = new EmailEntity();
+
+      emailEntity.Email = command.Email;
+      emailEntity.SubjectId = employeeEntity.EmployeeId;
+
+      await _repository.InsertAsync(emailEntity);
 
       return CommandExecutionResult.Success;
     }

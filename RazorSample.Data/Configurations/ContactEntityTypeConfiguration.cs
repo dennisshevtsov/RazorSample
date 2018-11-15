@@ -16,7 +16,9 @@ namespace RazorSample.Data.Configurations
       //builder.Property(entity => entity.ContactId).IsRequired().ValueGeneratedNever().HasColumnName("SubjectId");
 
       builder.Property(entity => entity.Name).IsRequired().HasMaxLength(256);
-      builder.Property(entity => entity.Name).HasMaxLength(256);
+      builder.Property(entity => entity.Desciption).HasMaxLength(256);
+
+      builder.Ignore(entity => entity.ContactId);
     }
   }
 }
