@@ -1,50 +1,52 @@
 ﻿@model RazorSample.Vm.IFormVm
 
-@if (Model.HasTabs)
-{
-<nav class="tab-bar">
-  @foreach (var tab in Model.Tabs)
+<div class="panel">
+  @if (Model.HasTabs)
   {
-    if (tab != Model.Self)
-    {
-      <a href="@tab.Href" class="tab-bar__action tab-bar__action_selected"><span>@tab.Title</span></a>
-    }
-    else
-    {
-      <a href="@tab.Href" class="tab-bar__action"><span>@tab.Title</span></a>
-    }
-  }
-</nav>
-}
-
-<form id="employee" method="post" class="form" data-view>
-  <div class="form__controls">
-    @foreach (var vm in Model.Inputs)
-    {
-      <div class="control" id="control_@vm.Name">
-        <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
-        <input class="control__field" type="text" name="@vm.Name" value="@vm.Value">
-        @if (ViewContext.ModelState.TryGetValue(vm.Name, out Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry entry))
+    <nav class="tab-bar">
+      @foreach (var tab in Model.Tabs)
+      {
+        if (tab != Model.Self)
         {
-          var error = entry.Errors.FirstOrDefault();
+          <a href="@tab.Href" class="tab-bar__action tab-bar__action_selected"><span>@tab.Title</span></a>
+        }
+        else
+        {
+          <a href="@tab.Href" class="tab-bar__action"><span>@tab.Title</span></a>
+        }
+      }
+    </nav>
+  }
 
-          if (error != null)
+  <form id="employee" method="post" class="form" data-view>
+    <div class="form__controls">
+      @foreach (var vm in Model.Inputs)
+      {
+        <div class="control" id="control_@vm.Name">
+          <label class="control__label control__label_required" for="@vm.Name">@vm.DisplayName</label>
+          <input class="control__field" type="text" name="@vm.Name" value="@vm.Value">
+          @if (ViewContext.ModelState.TryGetValue(vm.Name, out Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry entry))
           {
-            <span class="control__error">@error.ErrorMessage</span>
+            var error = entry.Errors.FirstOrDefault();
+
+            if (error != null)
+            {
+              <span class="control__error">@error.ErrorMessage</span>
+            }
           }
-        }
-      </div>
-    }
-    @foreach (var vm in Model.Selects)
-    {
-      <div class="control" id="control_@vm.Name" data-hr>
-        @{
-          await Html.RenderPartialAsync("SelectPartialView", vm);
-        }
-      </div>
-    }
-  </div>
-  <div class="form__actions">
-    <button type="submit" class="action action_primary"><span>Ok</span></button>
-  </div>
-</form>
+        </div>
+      }
+      @foreach (var vm in Model.Selects)
+      {
+        <div class="control" id="control_@vm.Name" data-hr>
+          @{
+            await Html.RenderPartialAsync("SelectPartialView", vm);
+          }
+        </div>
+      }
+    </div>
+    <div class="form__actions">
+      <button type="submit" class="action action_primary"><span>Ok</span></button>
+    </div>
+  </form>
+</div>
