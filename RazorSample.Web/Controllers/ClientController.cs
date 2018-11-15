@@ -188,21 +188,6 @@ namespace RazorSample.Web.Controllers
                                  .Link(Url.AppLink(RelTypes.Self, clientEntity.Name, nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
                                  .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController)));
 
-      foreach (var email in clientEntity.Emails)
-      {
-        _builder.Property(nameof(UpdateClientCommand.Emails), "Emails", email.Email);
-      }
-
-      foreach (var phone in clientEntity.Phones)
-      {
-        _builder.Property(nameof(UpdateClientCommand.Phones), "Emails", phone.Phone);
-      }
-
-      foreach (var address in clientEntity.Addresses)
-      {
-        _builder.Property(nameof(UpdateClientCommand.Addresses), "Emails", address.Address);
-      }
-
       _builder.Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(ClientController), new UpdateClientQuery(clientEntity.ClientId)))
               .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Index), nameof(ClientController)))
               .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Index), nameof(ClientController)))

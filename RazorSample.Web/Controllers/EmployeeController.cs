@@ -121,7 +121,7 @@ namespace RazorSample.Web.Controllers
                             .ToFormVm();
 
     private IFormVm BuildEditFormVm(UpdateEmployeeCommand command) =>
-      BuildFormBase(command).Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Index), nameof(EmployeeController)))
+      BuildFormBase(command).Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(command.EmployeeId)))
                             .Link(Url.AppLink(RelTypes.Breadcrumb, $"{command.LastName}, {command.FirstName}", nameof(Edit), nameof(EmployeeController)))
                             .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
                             //.Property(nameof(command.Phone), "Phone number", command.Phone)

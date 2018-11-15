@@ -6,7 +6,7 @@
     <nav class="tab-bar">
       @foreach (var tab in Model.Tabs)
       {
-        if (tab != Model.Self)
+        if (tab == Model.Self)
         {
           <a href="@tab.Href" class="tab-bar__action tab-bar__action_selected"><span>@tab.Title</span></a>
         }
