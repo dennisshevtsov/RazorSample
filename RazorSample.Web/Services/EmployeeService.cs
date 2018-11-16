@@ -27,11 +27,10 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<QueryExecutionResult<UpdateEmployeeCommand>> HandleAsync(UpdateEmployeeQuery query)
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeeGeneralInfoQuery query)
     {
       var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
-      var updateEmployeeCommand = new UpdateEmployeeCommand(employeeEntity);
-      var queryExecutionResult = new QueryExecutionResult<UpdateEmployeeCommand>(updateEmployeeCommand);
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
 
       return queryExecutionResult;
     }
@@ -68,57 +67,14 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeCommand command)
+    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeGeneralInfoCommand command)
     {
       var changeEntry = new ChangeEntry<EmployeeEntity>().Key(employee => employee.EmployeeId, command.EmployeeId)
                                                          .Property(employee => employee.FirstName, command.FirstName)
                                                          .Property(employee => employee.LastName, command.LastName)
                                                          .Property(employee => employee.EmployeeNo, command.EmployeeNo);
-                                                         //.Property(employee => employee.Email, command.Email)
-                                                         //.Property(employee => employee.Phone, command.Phone)
-                                                         //.Property(employee => employee.Address, command.Address);
 
       await _repository.UpdateAsync(changeEntry.Entity, changeEntry.Properties);
-
-      foreach (var email in command.Emails)
-      {
-        var emailEntity = new EmailEntity();
-
-        emailEntity.Email = email;
-        emailEntity.SubjectId = command.EmployeeId;
-
-        await _repository.InsertAsync(emailEntity);
-      }
-
-      foreach (var address in command.Addresses)
-      {
-        var addressEntity = new AddressEntity();
-
-        addressEntity.Address = address;
-        addressEntity.SubjectId = command.EmployeeId;
-
-        await _repository.InsertAsync(addressEntity);
-      }
-
-      foreach (var phone in command.Phones)
-      {
-        var phoneEntity = new PhoneEntity();
-
-        phoneEntity.Phone = phone;
-        phoneEntity.SubjectId = command.EmployeeId;
-
-        await _repository.InsertAsync(phoneEntity);
-      }
-
-      foreach (var im in command.Ims)
-      {
-        var imEntity = new ImEntity();
-
-        imEntity.Im = im;
-        imEntity.SubjectId = command.EmployeeId;
-
-        await _repository.InsertAsync(imEntity);
-      }
 
       return CommandExecutionResult.Success;
     }

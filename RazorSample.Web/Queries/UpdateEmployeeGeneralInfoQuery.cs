@@ -3,11 +3,11 @@ using System;
 
 namespace RazorSample.Web.Queries
 {
-  public sealed class UpdateEmployeeQuery
+  public sealed class UpdateEmployeeGeneralInfoQuery
   {
-    public UpdateEmployeeQuery() { }
+    public UpdateEmployeeGeneralInfoQuery() { }
 
-    public UpdateEmployeeQuery(Guid employeeId)
+    public UpdateEmployeeGeneralInfoQuery(Guid employeeId)
     {
       EmployeeId = employeeId;
     }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using RazorSample.Data.Entities;
 using RazorSample.Hr;
 using RazorSample.Random;
 using RazorSample.Vm;
@@ -55,7 +57,7 @@ namespace RazorSample.Web.Controllers
                   .Property("name", "Name", employee.FullName)
                   .Property(nameof(employee.EmployeeNo), "Employee No", employee.EmployeeNo)
                   .Property(nameof(employee.Created), "Created", employee.Created)
-                  .Link(Url.AppLink(RelTypes.Self, "Name", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(employee.EmployeeId)))
+                  .Link(Url.AppLink(RelTypes.Self, "Name", nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(employee.EmployeeId)))
                   .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController), new CreateClientQuery(employee.EmployeeId)));
         }
       }
@@ -91,20 +93,21 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(UpdateEmployeeQuery query)
+    public async Task<IActionResult> GeneralInfo(UpdateEmployeeGeneralInfoQuery query)
     {
-      var command = await _employeeService.HandleAsync(query);
-      var vm = BuildEditFormVm(command.Result);
+      var employeeEntity = await _employeeService.HandleAsync(query);
+      var vm = BuildGeneralInfoForm(employeeEntity.Result);
 
       return View("FormView", vm);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(UpdateEmployeeQuery query, UpdateEmployeeCommand command)
+    public async Task<IActionResult> GeneralInfo(UpdateEmployeeGeneralInfoQuery query, UpdateEmployeeGeneralInfoCommand command)
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildEditFormVm(command);
+        var employeeEntity = command.Adapt<EmployeeEntity>();
+        var vm = BuildGeneralInfoForm(employeeEntity);
 
         return View("FormView", vm);
       }
@@ -122,9 +125,9 @@ namespace RazorSample.Web.Controllers
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Addresses", nameof(Addresses), nameof(EmployeeController), query))
-              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
@@ -154,9 +157,9 @@ namespace RazorSample.Web.Controllers
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Emails", nameof(Emails), nameof(EmployeeController), query))
-              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
@@ -186,9 +189,9 @@ namespace RazorSample.Web.Controllers
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Phones", nameof(Phones), nameof(EmployeeController), query))
-              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
@@ -218,9 +221,9 @@ namespace RazorSample.Web.Controllers
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "IM", nameof(Ims), nameof(EmployeeController), query))
-              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
@@ -249,18 +252,6 @@ namespace RazorSample.Web.Controllers
                             .Build()
                             .ToFormVm();
 
-    private IFormVm BuildEditFormVm(UpdateEmployeeCommand command) =>
-      BuildFormBase(command).Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(command.EmployeeId)))
-                            .Link(Url.AppLink(RelTypes.Breadcrumb, $"{command.LastName}, {command.FirstName}", nameof(Edit), nameof(EmployeeController)))
-                            .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
-                            .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(command.EmployeeId)))
-                            .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(command.EmployeeId)))
-                            .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Index), nameof(EmployeeController)))
-                            .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Index), nameof(EmployeeController)))
-                            .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Index), nameof(EmployeeController)))
-                            .Build()
-                            .ToFormVm();
-
     private IResourceBuilder BuildFormBase(EmployeeFormCommandBase command) =>
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
@@ -268,5 +259,27 @@ namespace RazorSample.Web.Controllers
               .Property(nameof(command.FirstName), "First Name", command.FirstName)
               .Property(nameof(command.LastName), "Last Name", command.LastName)
               .Property(nameof(command.EmployeeNo), "Employee No", command.EmployeeNo);
+
+    private IResourceBuilder BuildPageBase() =>
+      _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Nav, "Client", nameof(ClientController.Index), nameof(ClientController)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)));
+
+    private IResourceBuilder BuildEditBase(EmployeeEntity employeeEntity) =>
+      BuildPageBase().Link(Url.AppLink(RelTypes.Breadcrumb, employeeEntity.FullName, nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
+                     .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)))
+                     .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
+                     .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
+                     .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)))
+                     .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)))
+                     .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Ims), nameof(EmployeeController), new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)));
+
+    private IFormVm BuildGeneralInfoForm(EmployeeEntity employeeEntity) =>
+      BuildEditBase(employeeEntity).Link(Url.AppLink(RelTypes.Self, "Employees", nameof(GeneralInfo), nameof(EmployeeController), new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
+                                   .Property(nameof(UpdateEmployeeGeneralInfoCommand.FirstName), "First Name", employeeEntity.FirstName)
+                                   .Property(nameof(UpdateEmployeeGeneralInfoCommand.LastName), "Last Name", employeeEntity.LastName)
+                                   .Property(nameof(UpdateEmployeeGeneralInfoCommand.EmployeeNo), "Employee No", employeeEntity.EmployeeNo)
+                                   .Build()
+                                   .ToFormVm();
   }
 }
