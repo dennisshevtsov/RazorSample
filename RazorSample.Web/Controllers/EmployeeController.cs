@@ -72,7 +72,7 @@ namespace RazorSample.Web.Controllers
     public IActionResult Add()
     {
       var command = _randomGenerator.RandomEmployee();
-      var vm = BuildAddFormVm(command);
+      var vm = BuildAddForm(command);
 
       return View("FormView", vm);
     }
@@ -82,7 +82,7 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddFormVm(command);
+        var vm = BuildAddForm(command);
 
         return View("FormView", vm);
       }
@@ -245,21 +245,6 @@ namespace RazorSample.Web.Controllers
       return View("FormView", vm);
     }
 
-    private IFormVm BuildAddFormVm(CreateEmployeeCommand command) =>
-      BuildFormBase(command).Property(nameof(command.Email), "Email", command.Email)
-                            .Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Index), nameof(EmployeeController)))
-                            .Link(Url.AppLink(RelTypes.Breadcrumb, "New Employee", nameof(Add), nameof(EmployeeController)))
-                            .Build()
-                            .ToFormVm();
-
-    private IResourceBuilder BuildFormBase(EmployeeFormCommandBase command) =>
-      _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
-              .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
-              .Property(nameof(command.FirstName), "First Name", command.FirstName)
-              .Property(nameof(command.LastName), "Last Name", command.LastName)
-              .Property(nameof(command.EmployeeNo), "Employee No", command.EmployeeNo);
-
     private IResourceBuilder BuildPageBase() =>
       _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Nav, "Client", nameof(ClientController.Index), nameof(ClientController)))
@@ -281,5 +266,15 @@ namespace RazorSample.Web.Controllers
                                    .Property(nameof(UpdateEmployeeGeneralInfoCommand.EmployeeNo), "Employee No", employeeEntity.EmployeeNo)
                                    .Build()
                                    .ToFormVm();
+
+    private IFormVm BuildAddForm(CreateEmployeeCommand command) =>
+      BuildPageBase().Link(Url.AppLink(RelTypes.Self, "Employees", nameof(Add), nameof(EmployeeController)))
+                     .Link(Url.AppLink(RelTypes.Breadcrumb, "New Employee", nameof(Add), nameof(EmployeeController)))
+                     .Property(nameof(CreateEmployeeCommand.FirstName), "First Name", command.FirstName)
+                     .Property(nameof(CreateEmployeeCommand.LastName), "Last Name", command.LastName)
+                     .Property(nameof(CreateEmployeeCommand.EmployeeNo), "Employee No", command.EmployeeNo)
+                     .Property(nameof(CreateEmployeeCommand.Email), "Email", command.Email)
+                     .Build()
+                     .ToFormVm();
   }
 }
