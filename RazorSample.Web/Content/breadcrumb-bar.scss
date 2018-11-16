@@ -5,19 +5,15 @@
   background: $backgroundColor;
   border-bottom: $borderColor 1px solid;
   padding-left: $gapLR;
-}
 
-span.breadcrumb-bar__item {
   color: $textColor;
-}
 
-a.breadcrumb-bar__item {
-  color: $linkColor;
-}
+  &__item {
+    margin-right: $gapLR;
 
-.breadcrumb-bar__item + .breadcrumb-bar__item::before {
-  content: "/";
-  text-decoration: none;
-  margin-right: $gapLR;
-  margin-left: $gapLR;
+    @at-root a#{&} {
+      color: $linkColor;
+      text-decoration: underline;
+    }
+  }
 }

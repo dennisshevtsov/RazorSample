@@ -43,6 +43,7 @@
         while (enumerator.MoveNext())
         {
           <a class="breadcrumb-bar__item" rel="@current.Rel" title="@current.Title" href="@current.Href"><span>@current.Title</span></a>
+          <span class="breadcrumb-bar__item">/</span>
 
           current = enumerator.Current;
         }

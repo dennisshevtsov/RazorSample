@@ -123,13 +123,45 @@ namespace RazorSample.Web.Controllers
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
               .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
-              .Link(Url.AppLink(RelTypes.Breadcrumb, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Addresses", nameof(Addresses), nameof(EmployeeController), query))
               .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
-              .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Index), nameof(EmployeeController)))
-              .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Ims), nameof(EmployeeController), new UpdateEmployeeImsQuery(query.EmployeeId)))
               .Link(Url.AppLink(RelTypes.Self, "Addresses", nameof(Addresses), nameof(EmployeeController), query))
+              .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)));
+
+      if (queryExecutionResult.Result.Emails != null)
+      {
+        foreach (var address in queryExecutionResult.Result.Addresses)
+        {
+          _builder.Property("Addresses", "Addresses", address.Address);
+        }
+      }
+
+      var vm = _builder.Build()
+                       .ToFormVm();
+
+      return View("FormView", vm);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Emails(UpdateEmployeeEmailsQuery query)
+    {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+
+      _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Emails", nameof(Emails), nameof(EmployeeController), query))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Ims), nameof(EmployeeController), new UpdateEmployeeImsQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Self, "Emails", nameof(Emails), nameof(EmployeeController), query))
               .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)));
 
       if (queryExecutionResult.Result.Emails != null)
@@ -137,6 +169,70 @@ namespace RazorSample.Web.Controllers
         foreach (var email in queryExecutionResult.Result.Emails)
         {
           _builder.Property("Emails", "Emails", email.Email);
+        }
+      }
+
+      var vm = _builder.Build()
+                       .ToFormVm();
+
+      return View("FormView", vm);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Phones(UpdateEmployeePhonesQuery query)
+    {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+
+      _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Phones", nameof(Phones), nameof(EmployeeController), query))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Ims), nameof(EmployeeController), new UpdateEmployeeImsQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Self, "Phones", nameof(Phones), nameof(EmployeeController), query))
+              .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)));
+
+      if (queryExecutionResult.Result.Emails != null)
+      {
+        foreach (var phone in queryExecutionResult.Result.Phones)
+        {
+          _builder.Property("Phones", "Phones", phone.Phone);
+        }
+      }
+
+      var vm = _builder.Build()
+                       .ToFormVm();
+
+      return View("FormView", vm);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Ims(UpdateEmployeeImsQuery query)
+    {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+
+      _builder.Link(Url.AppLink(RelTypes.Nav, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "Employees", nameof(Index), nameof(EmployeeController)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, queryExecutionResult.Result.FullName, nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Breadcrumb, "IM", nameof(Ims), nameof(EmployeeController), query))
+              .Link(Url.AppLink(RelTypes.Tab, "General Info", nameof(Edit), nameof(EmployeeController), new UpdateEmployeeQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Addresses", nameof(Addresses), nameof(EmployeeController), new UpdateEmployeeAddressesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Emails", nameof(Emails), nameof(EmployeeController), new UpdateEmployeeEmailsQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "Phones", nameof(Phones), nameof(EmployeeController), new UpdateEmployeePhonesQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Tab, "IM", nameof(Ims), nameof(EmployeeController), new UpdateEmployeeImsQuery(query.EmployeeId)))
+              .Link(Url.AppLink(RelTypes.Self, "IM", nameof(Ims), nameof(EmployeeController), query))
+              .Link(Url.AppLink(RelTypes.Action, "+ new employee", nameof(EmployeeController.Add), nameof(EmployeeController)));
+
+      if (queryExecutionResult.Result.Emails != null)
+      {
+        foreach (var im in queryExecutionResult.Result.Ims)
+        {
+          _builder.Property("Ims", "IM", im.Im);
         }
       }
 

@@ -44,6 +44,30 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeeEmailsQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeePhonesQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeeImsQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
     public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeCommand command)
     {
       var changeEntry = new ChangeEntry<EmployeeEntity>().Key(employee => employee.EmployeeId, command.EmployeeId)

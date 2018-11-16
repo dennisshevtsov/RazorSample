@@ -9,6 +9,9 @@ namespace RazorSample.Web.Services
     IQueryHandler<SearchEmployeeQuery, Page<EmployeeEntity>>,
     IQueryHandler<UpdateEmployeeQuery, UpdateEmployeeCommand>,
     IQueryHandler<UpdateEmployeeAddressesQuery, EmployeeEntity>,
+    IQueryHandler<UpdateEmployeeEmailsQuery, EmployeeEntity>,
+    IQueryHandler<UpdateEmployeePhonesQuery, EmployeeEntity>,
+    IQueryHandler<UpdateEmployeeImsQuery, EmployeeEntity>,
     ICommandHandler<UpdateEmployeeCommand>,
     ICommandHandler<CreateEmployeeCommand>
   { }
