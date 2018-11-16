@@ -17,7 +17,9 @@ namespace RazorSample.Data
 
     public async Task<TEntity> FirstAsync<TEntity>(Specification<TEntity> specification) where TEntity : class
     {
-      return await specification.Apply(_dbContext.Set<TEntity>()).FirstOrDefaultAsync();
+      return await specification.Apply(_dbContext.Set<TEntity>())
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync();
     }
 
     public async Task<Page<TEntity>> PageAsync<TEntity>(Specification<TEntity> specification, int pageSize, int pageNo) where TEntity : class
@@ -46,7 +48,8 @@ namespace RazorSample.Data
 
       query = query.Take(pageSize);
 
-      var entities = await query.ToArrayAsync();
+      var entities = await query.AsNoTracking()
+                                .ToArrayAsync();
 
       return new Page<TEntity>(entities, currentPageNo, totalPages, pageSize);
     }
@@ -78,11 +81,16 @@ namespace RazorSample.Data
       await _dbContext.SaveChangesAsync();
     }
 
-    public async Task RemoveAsync<TEntity>(TEntity entity) where TEntity : class
+    public async Task RemoveAsync<TEntity>(Specification<TEntity> specification) where TEntity : class
     {
-      var entry = _dbContext.Attach(entity);
+      var entities = specification.Apply(_dbContext.Set<TEntity>());
 
-      entry.State = EntityState.Deleted;
+      foreach (var entity in entities)
+      {
+        var entry = _dbContext.Entry(entity);
+
+        entry.State = EntityState.Deleted;
+      }
 
       await _dbContext.SaveChangesAsync();
     }

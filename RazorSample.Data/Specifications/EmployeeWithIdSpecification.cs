@@ -20,8 +20,7 @@ namespace RazorSample.Data.Specifications
                   .Include(employee => employee.Addresses)
                   .Include(employee => employee.Emails)
                   .Include(employee => employee.Phones)
-                  .Include(employee => employee.Ims)
-                  .AsNoTracking();
+                  .Include(employee => employee.Ims);
     }
   }
 }

@@ -12,7 +12,7 @@ namespace RazorSample.Data
     Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class;
     Task UpdateAsync<TEntity>(TEntity entity, IEnumerable<string> properties) where TEntity : class;
 
-    Task RemoveAsync<TEntity>(TEntity entity) where TEntity : class;
+    Task RemoveAsync<TEntity>(Specification<TEntity> specification) where TEntity : class;
 
     Task<ITransaction> BeginTransactionAsync();
   }

@@ -28,5 +28,30 @@ namespace RazorSample.Hr
 
       return source.Property(new Property(name, displayName, value, displayValue));
     }
+
+    public static IResourceBuilder Link(this IResourceBuilder source, string rel, string title, string href)
+    {
+      if (source == null)
+      {
+        throw new ArgumentNullException(nameof(source));
+      }
+
+      if (rel == null)
+      {
+        throw new ArgumentNullException(nameof(rel));
+      }
+
+      if (title == null)
+      {
+        throw new ArgumentNullException(nameof(title));
+      }
+
+      if (href == null)
+      {
+        throw new ArgumentNullException(nameof(href));
+      }
+
+      return source.Link(new Link(rel, title, href));
+    }
   }
 }

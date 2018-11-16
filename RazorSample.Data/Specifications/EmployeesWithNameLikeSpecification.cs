@@ -35,8 +35,7 @@ namespace RazorSample.Data.Specifications
       }
 
       return query.OrderBy(employee => employee.EmployeeId)
-                  .OrderBy(employee => employee.Created)
-                  .AsNoTracking();
+                  .OrderBy(employee => employee.Created);
     }
   }
 }

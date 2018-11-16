@@ -13,9 +13,9 @@ namespace RazorSample.Data.Configurations
 
       builder.Property<Guid>("AddressId").IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
       builder.Property(entity => entity.Address).IsRequired().HasMaxLength(256);
-      builder.Property(entity => entity.Zip).IsRequired().HasMaxLength(256);
-      builder.Property(entity => entity.City).IsRequired().HasMaxLength(256);
-      builder.Property(entity => entity.Country).IsRequired().HasMaxLength(256);
+      builder.Property(entity => entity.Zip).HasMaxLength(256);
+      builder.Property(entity => entity.City).HasMaxLength(256);
+      builder.Property(entity => entity.Country).HasMaxLength(256);
 
       builder.Property(entity => entity.Description).HasMaxLength(256);
       builder.Property(entity => entity.SubjectId).IsRequired();

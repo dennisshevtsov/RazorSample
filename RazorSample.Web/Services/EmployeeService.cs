@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using RazorSample.Data;
 using RazorSample.Data.Entities;
@@ -67,18 +68,6 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeGeneralInfoCommand command)
-    {
-      var changeEntry = new ChangeEntry<EmployeeEntity>().Key(employee => employee.EmployeeId, command.EmployeeId)
-                                                         .Property(employee => employee.FirstName, command.FirstName)
-                                                         .Property(employee => employee.LastName, command.LastName)
-                                                         .Property(employee => employee.EmployeeNo, command.EmployeeNo);
-
-      await _repository.UpdateAsync(changeEntry.Entity, changeEntry.Properties);
-
-      return CommandExecutionResult.Success;
-    }
-
     public async Task<CommandExecutionResult> HandleAsync(CreateEmployeeCommand command)
     {
       var employeeEntity = new EmployeeEntity();
@@ -96,6 +85,51 @@ namespace RazorSample.Web.Services
       emailEntity.SubjectId = employeeEntity.EmployeeId;
 
       await _repository.InsertAsync(emailEntity);
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeGeneralInfoCommand command)
+    {
+      var changeEntry = new ChangeEntry<EmployeeEntity>().Key(employee => employee.EmployeeId, command.EmployeeId)
+                                                         .Property(employee => employee.FirstName, command.FirstName)
+                                                         .Property(employee => employee.LastName, command.LastName)
+                                                         .Property(employee => employee.EmployeeNo, command.EmployeeNo);
+
+      await _repository.UpdateAsync(changeEntry.Entity, changeEntry.Properties);
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeAddressesCommand command)
+    {
+      using (var transaction = await _repository.BeginTransactionAsync())
+      try
+      {
+        await _repository.RemoveAsync(new AddressesOfEmployeeSpecification(command.EmployeeId));
+
+        var newAddresses = command.Addresses.Select(address => new AddressEntity
+        {
+          SubjectId = command.EmployeeId,
+          Address = address,
+          City = address,
+          Country = address,
+          Zip = address,
+        });
+
+        foreach (var address in newAddresses)
+        {
+          await _repository.InsertAsync(address);
+        }
+
+        await transaction.CommitAsync();
+      }
+      catch
+      {
+        await transaction.RollbackAsync();
+
+        return new CommandExecutionResult("An error occured.");
+      }
 
       return CommandExecutionResult.Success;
     }

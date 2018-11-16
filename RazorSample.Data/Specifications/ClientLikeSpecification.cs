@@ -22,8 +22,7 @@ namespace RazorSample.Data.Specifications
       }
 
       return query.OrderBy(client => client.ClientId)
-                  .OrderBy(client => client.Name)
-                  .AsNoTracking();
+                  .OrderBy(client => client.Name);
     }
   }
 }
