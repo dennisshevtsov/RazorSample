@@ -153,6 +153,23 @@ namespace RazorSample.Web.Controllers
       return View("FormView", vm);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Emails(UpdateEmployeeEmailsQuery query, UpdateEmployeeEmailsCommand command)
+    {
+      {
+        if (ModelState.IsValid == false)
+        {
+          var vm = BuildAddressesForm(command.Adapt<EmployeeEntity>());
+
+          return View("FormView", vm);
+        }
+
+        await _employeeService.HandleAsync(command);
+
+        return Redirect(EmailsUri(query));
+      }
+    }
+
     [HttpGet]
     public async Task<IActionResult> Phones(UpdateEmployeePhonesQuery query)
     {
@@ -162,6 +179,21 @@ namespace RazorSample.Web.Controllers
       return View("FormView", vm);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Phones(UpdateEmployeePhonesQuery query, UpdateEmployeePhonesCommand command)
+    {
+      if (ModelState.IsValid == false)
+      {
+        var vm = BuildAddressesForm(command.Adapt<EmployeeEntity>());
+
+        return View("FormView", vm);
+      }
+
+      await _employeeService.HandleAsync(command);
+
+      return Redirect(PhonesUri(query));
+    }
+
     [HttpGet]
     public async Task<IActionResult> Ims(UpdateEmployeeImsQuery query)
     {
@@ -169,6 +201,21 @@ namespace RazorSample.Web.Controllers
       var vm = BuildImsForm(queryExecutionResult.Result);
 
       return View("FormView", vm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Ims(UpdateEmployeeImsQuery query, UpdateEmployeeImsCommand command)
+    {
+      if (ModelState.IsValid == false)
+      {
+        var vm = BuildAddressesForm(command.Adapt<EmployeeEntity>());
+
+        return View("FormView", vm);
+      }
+
+      await _employeeService.HandleAsync(command);
+
+      return Redirect(ImsUri(query));
     }
 
     private IResourceBuilder BuildPageBase() =>

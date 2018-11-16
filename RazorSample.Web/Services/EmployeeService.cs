@@ -133,5 +133,95 @@ namespace RazorSample.Web.Services
 
       return CommandExecutionResult.Success;
     }
+
+    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeEmailsCommand command)
+    {
+      using (var transaction = await _repository.BeginTransactionAsync())
+        try
+        {
+          await _repository.RemoveAsync(new EmailsOfEmployeeSpecification(command.EmployeeId));
+
+          var newEmails = command.Emails.Select(email => new EmailEntity
+          {
+            SubjectId = command.EmployeeId,
+            Email = email,
+          });
+
+          foreach (var email in newEmails)
+          {
+            await _repository.InsertAsync(email);
+          }
+
+          await transaction.CommitAsync();
+        }
+        catch
+        {
+          await transaction.RollbackAsync();
+
+          return new CommandExecutionResult("An error occured.");
+        }
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeePhonesCommand command)
+    {
+      using (var transaction = await _repository.BeginTransactionAsync())
+        try
+        {
+          await _repository.RemoveAsync(new PhonesOfEmployeeSpecification(command.EmployeeId));
+
+          var newPhones = command.Phones.Select(phone => new PhoneEntity
+          {
+            SubjectId = command.EmployeeId,
+            Phone = phone,
+          });
+
+          foreach (var phone in newPhones)
+          {
+            await _repository.InsertAsync(phone);
+          }
+
+          await transaction.CommitAsync();
+        }
+        catch
+        {
+          await transaction.RollbackAsync();
+
+          return new CommandExecutionResult("An error occured.");
+        }
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeImsCommand command)
+    {
+      using (var transaction = await _repository.BeginTransactionAsync())
+        try
+        {
+          await _repository.RemoveAsync(new ImsOfEmployeeSpecification(command.EmployeeId));
+
+          var newIms = command.Ims.Select(im => new ImEntity
+          {
+            SubjectId = command.EmployeeId,
+            Im = im,
+          });
+
+          foreach (var im in newIms)
+          {
+            await _repository.InsertAsync(im);
+          }
+
+          await transaction.CommitAsync();
+        }
+        catch
+        {
+          await transaction.RollbackAsync();
+
+          return new CommandExecutionResult("An error occured.");
+        }
+
+      return CommandExecutionResult.Success;
+    }
   }
 }
