@@ -8,6 +8,7 @@ $actionsHeight: $lineHeight + $actionsBorderHeight;
   display: grid;
   grid-template-rows: 1fr $actionsHeight;
   line-height: $lineHeight;
+  height: 100%;
 }
 
 .form__controls {

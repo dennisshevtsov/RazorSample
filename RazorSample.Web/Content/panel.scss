@@ -5,12 +5,12 @@
   display: flex;
   flex-direction: row;
 
-  & > .tab-bar {
+  &__tabs {
     width: 200px;
+    flex: 0 1 auto;
   }
 
-  & > .form,
-  & > .grid {
+  &__content {
     flex: 1 1 auto;
   }
 }

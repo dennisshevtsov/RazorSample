@@ -253,7 +253,8 @@ namespace RazorSample.Web.Controllers
     private IPageVm BuildAddressesVm(EmployeeEntity employeeEntity)
     {
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)));
+                                   .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Action, "+ new address", AddUri());
 
       if (employeeEntity.Addresses != null)
       {
@@ -264,7 +265,8 @@ namespace RazorSample.Web.Controllers
                   .Property("Zip", "Zip", address.Zip)
                   .Property("City", "City", address.City)
                   .Property("Country", "Country", address.Country)
-                  .Property("Description", "Description", address.Description);
+                  .Property("Description", "Description", address.Description)
+                  .Link(RelTypes.Action, "remove", AddUri());
         }
       }
 
