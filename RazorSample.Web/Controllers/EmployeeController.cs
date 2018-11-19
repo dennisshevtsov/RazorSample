@@ -148,9 +148,9 @@ namespace RazorSample.Web.Controllers
     public async Task<IActionResult> Emails(UpdateEmployeeEmailsQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
-      var vm = BuildEmailsForm(queryExecutionResult.Result);
+      var vm = BuildEmailsVm(queryExecutionResult.Result);
 
-      return View("FormView", vm);
+      return View(vm);
     }
 
     [HttpPost]
@@ -161,7 +161,7 @@ namespace RazorSample.Web.Controllers
         {
           var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
 
-          return View("FormView", vm);
+          return View(vm);
         }
 
         await _employeeService.HandleAsync(command);
@@ -174,9 +174,9 @@ namespace RazorSample.Web.Controllers
     public async Task<IActionResult> Phones(UpdateEmployeePhonesQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
-      var vm = BuildPhonesForm(queryExecutionResult.Result);
+      var vm = BuildPhonesVm(queryExecutionResult.Result);
 
-      return View("FormView", vm);
+      return View(vm);
     }
 
     [HttpPost]
@@ -186,7 +186,7 @@ namespace RazorSample.Web.Controllers
       {
         var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
 
-        return View("FormView", vm);
+        return View(vm);
       }
 
       await _employeeService.HandleAsync(command);
@@ -198,9 +198,9 @@ namespace RazorSample.Web.Controllers
     public async Task<IActionResult> Ims(UpdateEmployeeImsQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
-      var vm = BuildImsForm(queryExecutionResult.Result);
+      var vm = BuildImsVm(queryExecutionResult.Result);
 
-      return View("FormView", vm);
+      return View(vm);
     }
 
     [HttpPost]
@@ -210,7 +210,7 @@ namespace RazorSample.Web.Controllers
       {
         var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
 
-        return View("FormView", vm);
+        return View(vm);
       }
 
       await _employeeService.HandleAsync(command);
@@ -274,61 +274,69 @@ namespace RazorSample.Web.Controllers
                      .ToGridVm();
     }
 
-    private IFormVm BuildEmailsForm(EmployeeEntity employeeEntity)
+    private IGridVm BuildEmailsVm(EmployeeEntity employeeEntity)
     {
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)));
+                                   .Link(RelTypes.Breadcrumb, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Action, "+ new email", AddUri());
 
       if (employeeEntity.Emails != null)
       {
         foreach (var emails in employeeEntity.Emails)
         {
-          _builder.Property("Emails", "Email", emails.Email);
+          _builder.Embedded(RelTypes.Row)
+                  .Property("Email", "Email", emails.Email)
+                  .Property("Description", "Description", emails.Description)
+                  .Link(RelTypes.Action, "remove", AddUri());
         }
       }
 
-      _builder.Property("Emails", "Email", null);
-
       return _builder.Build()
-                     .ToFormVm();
+                     .ToGridVm();
     }
 
-    private IFormVm BuildPhonesForm(EmployeeEntity employeeEntity)
+    private IGridVm BuildPhonesVm(EmployeeEntity employeeEntity)
     {
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)));
+                                   .Link(RelTypes.Breadcrumb, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Action, "+ new phone", AddUri());
 
       if (employeeEntity.Phones != null)
       {
         foreach (var phone in employeeEntity.Phones)
         {
-          _builder.Property("Phones", "Phone", phone.Phone);
+          _builder.Embedded(RelTypes.Row)
+                  .Property("Phones", "Phone", phone.Phone)
+                  .Property("Description", "Description", phone.Description)
+                  .Link(RelTypes.Action, "remove", AddUri());
         }
       }
 
       _builder.Property("Phones", "Phone", null);
 
       return _builder.Build()
-                     .ToFormVm();
+                     .ToGridVm();
     }
 
-    private IFormVm BuildImsForm(EmployeeEntity employeeEntity)
+    private IGridVm BuildImsVm(EmployeeEntity employeeEntity)
     {
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)));
+                                   .Link(RelTypes.Breadcrumb, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Action, "+ new im", AddUri());
 
       if (employeeEntity.Ims != null)
       {
         foreach (var im in employeeEntity.Ims)
         {
-          _builder.Property("Ims", "IM", im.Im);
+          _builder.Embedded(RelTypes.Row)
+                  .Property("Ims", "IM", im.Im)
+                  .Property("Description", "Description", im.Description)
+                  .Link(RelTypes.Action, "remove", AddUri());
         }
       }
 
-      _builder.Property("Ims", "IM", null);
-
       return _builder.Build()
-                     .ToFormVm();
+                     .ToGridVm();
     }
 
     private string SearchUri(SearchEmployeeQuery query) => Url.AppUri(nameof(Index), nameof(EmployeeController), query);
