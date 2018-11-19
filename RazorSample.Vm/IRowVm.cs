@@ -5,7 +5,7 @@ namespace RazorSample.Vm
 {
   public interface IRowVm
   {
-    IEnumerable<Property> Properties { get; }
+    IEnumerable<ICellVm> Properties { get; }
 
     IEnumerable<Link> Actions { get; }
 

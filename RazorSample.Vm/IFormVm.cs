@@ -1,5 +1,4 @@
-﻿using RazorSample.Hr;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RazorSample.Vm
 {
@@ -7,10 +6,5 @@ namespace RazorSample.Vm
   {
     IEnumerable<IInputVm> Inputs { get; }
     IEnumerable<ISelectVm> Selects { get; }
-
-    Link Self { get; }
-
-    IEnumerable<Link> Tabs { get; }
-    bool HasTabs { get; }
   }
 }

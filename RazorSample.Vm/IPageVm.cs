@@ -12,5 +12,10 @@ namespace RazorSample.Vm
     IEnumerable<Link> Actions { get; }
 
     Link SelectedNav { get; }
+
+    IEnumerable<Link> Tabs { get; }
+    bool HasTabs { get; }
+
+    Link Self { get; }
   }
 }

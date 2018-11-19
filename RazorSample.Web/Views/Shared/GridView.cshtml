@@ -28,7 +28,9 @@
           @foreach (var property in item.Properties)
           {
             <td>
-              @if (item.Self.Title == property.DisplayName)
+              @if (property.Value != null &&
+                   item.Self != null &&
+                   property.Value.ToString() == item.Self?.Title)
               {
                 <a href="@item.Self.Href" rel="@item.Self.Rel" title="@item.Self.Title">@property.Value</a>
               }

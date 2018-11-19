@@ -9,8 +9,8 @@ namespace RazorSample.Vm
     public GridVm(IResource resource) : base(resource) { }
 
     public IEnumerable<IColumnVm> Columns => _resource.Embedded.FirstOrDefault(resource => resource.Key == RelTypes.Row)
-                                                            .Value?.Properties.Select(property => new ColumnVm(property.Name,
-                                                                                                             property.DisplayName));
+                                                               .Value?.Properties.Select(property => new ColumnVm(property.Name,
+                                                                                                                  property.DisplayName));
 
     public IEnumerable<IRowVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
                                                          .Select(resource => new RowVm(resource.Value));

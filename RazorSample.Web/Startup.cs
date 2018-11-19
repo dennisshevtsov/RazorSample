@@ -14,7 +14,7 @@ namespace RazorSample.Web
   {
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddMvc();
+      services.AddMvc(options => options.Filters.Add(new ViewNameActionFilter()));
 
       services.AddScoped<DbConfiguration>();
       services.AddDbContext<DbContext, ConfigurableDbContext>((factory, options) =>

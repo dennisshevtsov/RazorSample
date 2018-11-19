@@ -1,24 +1,6 @@
 ﻿@model RazorSample.Vm.IFormVm
 
-<div class="panel">
-  @if (Model.HasTabs)
-  {
-    <nav class="tab-bar">
-      @foreach (var tab in Model.Tabs)
-      {
-        if (tab == Model.Self)
-        {
-          <a href="@tab.Href" class="tab-bar__action tab-bar__action_selected"><span>@tab.Title</span></a>
-        }
-        else
-        {
-          <a href="@tab.Href" class="tab-bar__action"><span>@tab.Title</span></a>
-        }
-      }
-    </nav>
-  }
-
-  <form id="employee" method="post" class="form" data-view>
+<form id="employee" method="post" class="form" data-view>
     <div class="form__controls">
       @foreach (var vm in Model.Inputs)
       {
@@ -49,4 +31,3 @@
       <button type="submit" class="action action_primary"><span>Ok</span></button>
     </div>
   </form>
-</div>

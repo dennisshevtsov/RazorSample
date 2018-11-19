@@ -28,5 +28,10 @@ namespace RazorSample.Vm
 
     private IEnumerable<Link> _actions;
     public IEnumerable<Link> Actions => _actions ?? (_actions = _resource.Links.Where(link => link.Rel == RelTypes.Action));
+
+    public IEnumerable<Link> Tabs => _resource.Links.Where(link => link.Rel == RelTypes.Tab);
+    public bool HasTabs => Tabs.Any();
+
+    public Link Self => _resource.Links.Single(link => link.Rel == RelTypes.Self);
   }
 }

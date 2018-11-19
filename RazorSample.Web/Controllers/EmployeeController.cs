@@ -60,7 +60,7 @@ namespace RazorSample.Web.Controllers
                   .Property("name", "Name", employee.FullName)
                   .Property(nameof(employee.EmployeeNo), "Employee No", employee.EmployeeNo)
                   .Property(nameof(employee.Created), "Created", employee.Created)
-                  .Link(RelTypes.Self, "Name", GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employee.EmployeeId)))
+                  .Link(RelTypes.Self, employee.FullName, GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employee.EmployeeId)))
                   .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController), new CreateClientQuery(employee.EmployeeId)));
         }
       }
@@ -68,7 +68,7 @@ namespace RazorSample.Web.Controllers
       var vm = _builder.Build()
                        .ToGridVm();
 
-      return View("GridView", vm);
+      return View(vm);
     }
 
     [HttpGet]
@@ -124,9 +124,9 @@ namespace RazorSample.Web.Controllers
     public async Task<IActionResult> Addresses(UpdateEmployeeAddressesQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
-      var vm = BuildAddressesForm(queryExecutionResult.Result);
+      var vm = BuildAddressesVm(queryExecutionResult.Result);
 
-      return View("FormView", vm);
+      return View("GridView", vm);
     }
 
     [HttpPost]
@@ -134,7 +134,7 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddressesForm(command.Adapt<EmployeeEntity>());
+        var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
 
         return View("FormView", vm);
       }
@@ -159,7 +159,7 @@ namespace RazorSample.Web.Controllers
       {
         if (ModelState.IsValid == false)
         {
-          var vm = BuildAddressesForm(command.Adapt<EmployeeEntity>());
+          var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
 
           return View("FormView", vm);
         }
@@ -184,7 +184,7 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddressesForm(command.Adapt<EmployeeEntity>());
+        var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
 
         return View("FormView", vm);
       }
@@ -208,7 +208,7 @@ namespace RazorSample.Web.Controllers
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddressesForm(command.Adapt<EmployeeEntity>());
+        var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
 
         return View("FormView", vm);
       }
@@ -250,7 +250,7 @@ namespace RazorSample.Web.Controllers
                                    .Build()
                                    .ToFormVm();
 
-    private IFormVm BuildAddressesForm(EmployeeEntity employeeEntity)
+    private IPageVm BuildAddressesVm(EmployeeEntity employeeEntity)
     {
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
                                    .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)));
@@ -259,14 +259,17 @@ namespace RazorSample.Web.Controllers
       {
         foreach (var address in employeeEntity.Addresses)
         {
-          _builder.Property("Addresses", "Address", address.Address);
+          _builder.Embedded(RelTypes.Row)
+                  .Property("Address", "Address", address.Address)
+                  .Property("Zip", "Zip", address.Zip)
+                  .Property("City", "City", address.City)
+                  .Property("Country", "Country", address.Country)
+                  .Property("Description", "Description", address.Description);
         }
       }
 
-      _builder.Property("Addresses", "Address", null);
-
       return _builder.Build()
-                     .ToFormVm();
+                     .ToGridVm();
     }
 
     private IFormVm BuildEmailsForm(EmployeeEntity employeeEntity)

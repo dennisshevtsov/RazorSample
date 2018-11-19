@@ -2,19 +2,15 @@
 @import '_typography';
 
 .panel {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  grid-template-rows: 1fr;
+  display: flex;
+  flex-direction: row;
 
   & > .tab-bar {
-    grid-column: 1 / 2;
+    width: 200px;
   }
 
-  & > .form {
-    grid-column: 1 / 3;
-  }
-
-  & > .tab-bar + .form {
-    grid-column: 2 / 3;
+  & > .form,
+  & > .grid {
+    flex: 1 1 auto;
   }
 }
