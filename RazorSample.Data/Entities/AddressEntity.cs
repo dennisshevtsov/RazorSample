@@ -4,6 +4,7 @@ namespace RazorSample.Data.Entities
 {
   public sealed class AddressEntity
   {
+    public Guid AddressId { get; set; }
     public Guid SubjectId { get; set; }
 
     public string Address { get; set; }

@@ -77,6 +77,14 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(RemoveEmployeeAddressQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
     public async Task<CommandExecutionResult> HandleAsync(CreateEmployeeCommand command)
     {
       var employeeEntity = new EmployeeEntity();
@@ -113,32 +121,32 @@ namespace RazorSample.Web.Services
     public async Task<CommandExecutionResult> HandleAsync(UpdateEmployeeAddressesCommand command)
     {
       using (var transaction = await _repository.BeginTransactionAsync())
-      try
-      {
-        await _repository.RemoveAsync(new AddressesOfEmployeeSpecification(command.EmployeeId));
-
-        var newAddresses = command.Addresses.Select(address => new AddressEntity
+        try
         {
-          SubjectId = command.EmployeeId,
-          Address = address,
-          City = address,
-          Country = address,
-          Zip = address,
-        });
+          await _repository.RemoveAsync(new AddressesOfEmployeeSpecification(command.EmployeeId));
 
-        foreach (var address in newAddresses)
-        {
-          await _repository.InsertAsync(address);
+          var newAddresses = command.Addresses.Select(address => new AddressEntity
+          {
+            SubjectId = command.EmployeeId,
+            Address = address,
+            City = address,
+            Country = address,
+            Zip = address,
+          });
+
+          foreach (var address in newAddresses)
+          {
+            await _repository.InsertAsync(address);
+          }
+
+          await transaction.CommitAsync();
         }
+        catch
+        {
+          await transaction.RollbackAsync();
 
-        await transaction.CommitAsync();
-      }
-      catch
-      {
-        await transaction.RollbackAsync();
-
-        return new CommandExecutionResult("An error occured.");
-      }
+          return new CommandExecutionResult("An error occured.");
+        }
 
       return CommandExecutionResult.Success;
     }
@@ -241,6 +249,13 @@ namespace RazorSample.Web.Services
       var addressEntity = command.Adapt<AddressEntity>();
 
       await _repository.InsertAsync(addressEntity);
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(RemoveEmployeeAddressCommand command)
+    {
+      await _repository.RemoveAsync(new AddressForIdSpecification(command.AddressId));
 
       return CommandExecutionResult.Success;
     }

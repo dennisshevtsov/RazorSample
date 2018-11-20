@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RazorSample.Data.Entities;
-using System;
 
 namespace RazorSample.Data.Configurations
 {
@@ -11,7 +10,7 @@ namespace RazorSample.Data.Configurations
     {
       builder.ToTable("Addresses");
 
-      builder.Property<Guid>("AddressId").IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+      builder.Property(entity => entity.AddressId).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
       builder.Property(entity => entity.Address).IsRequired().HasMaxLength(256);
       builder.Property(entity => entity.Zip).HasMaxLength(256);
       builder.Property(entity => entity.City).HasMaxLength(256);
@@ -20,7 +19,7 @@ namespace RazorSample.Data.Configurations
       builder.Property(entity => entity.Description).HasMaxLength(256);
       builder.Property(entity => entity.SubjectId).IsRequired();
 
-      builder.HasKey("AddressId");
+      builder.HasKey(entity => entity.AddressId);
     }
   }
 }

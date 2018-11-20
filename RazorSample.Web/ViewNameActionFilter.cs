@@ -19,6 +19,17 @@ namespace RazorSample.Web
           viewResult.ViewName = "FormView";
         }
       }
+      else if (context.Result is PartialViewResult partialViewResult)
+      {
+        if (partialViewResult.Model is IGridVm)
+        {
+          partialViewResult.ViewName = "GridView";
+        }
+        else if (partialViewResult.Model is IFormVm)
+        {
+          partialViewResult.ViewName = "FormView";
+        }
+      }
     }
 
     public void OnActionExecuting(ActionExecutingContext context) { }

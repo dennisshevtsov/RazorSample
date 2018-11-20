@@ -3,7 +3,7 @@ using System;
 
 namespace RazorSample.Web.Commands
 {
-  public class RemoveAddressCommand
+  public class RemoveEmployeeAddressCommand
   {
     [FromQuery]
     public Guid AddressId { get; set; }

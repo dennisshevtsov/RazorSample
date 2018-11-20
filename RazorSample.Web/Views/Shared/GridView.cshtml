@@ -42,9 +42,13 @@
           }
           <td>
             <nav class="action-list">
+              @*@foreach (var nav in item.Navs)
+              {
+                <a class="action-list__item" title="@nav.Title" href="@nav.Href" rel="@nav.Rel"><span>@nav.Title</span></a>
+              }*@
               @foreach (var action in item.Actions)
               {
-                <a class="action-list__item" title="@action.Title" href="@action.Href" rel="@action.Rel"><span>@action.Title</span></a>
+                <a class="action-list__item" title="@action.Title" data-hr-action="@action.Href" ><span>@action.Title</span></a>
               }
             </nav>
           </td>

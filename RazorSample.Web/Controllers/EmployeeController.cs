@@ -154,6 +154,17 @@ namespace RazorSample.Web.Controllers
       return Redirect(AddressesUri(new UpdateEmployeeAddressesQuery(query.EmployeeId)));
     }
 
+    [HttpPost]
+    public async Task<IActionResult> RemoveAddress(RemoveEmployeeAddressQuery query, RemoveEmployeeAddressCommand command)
+    {
+      await _employeeService.HandleAsync(command);
+
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildAddressesVm(queryExecutionResult.Result);
+
+      return PartialView(vm);
+    }
+
     [HttpGet]
     public async Task<IActionResult> Emails(UpdateEmployeeEmailsQuery query)
     {
@@ -234,14 +245,14 @@ namespace RazorSample.Web.Controllers
               .Link(RelTypes.Breadcrumb, "Employees", SearchUri(null));
 
     private IFormVm BuildAddForm(CreateEmployeeCommand command) =>
-  BuildPageBase().Link(RelTypes.Self, "Employees", AddUri())
-                 .Link(RelTypes.Breadcrumb, "New Employee", AddUri())
-                 .Property(nameof(CreateEmployeeCommand.FirstName), "First Name", command.FirstName)
-                 .Property(nameof(CreateEmployeeCommand.LastName), "Last Name", command.LastName)
-                 .Property(nameof(CreateEmployeeCommand.EmployeeNo), "Employee No", command.EmployeeNo)
-                 .Property(nameof(CreateEmployeeCommand.Email), "Email", command.Email)
-                 .Build()
-                 .ToFormVm();
+      BuildPageBase().Link(RelTypes.Self, "New Employee", AddUri())
+                     .Link(RelTypes.Breadcrumb, "New Employee", AddUri())
+                     .Property(nameof(CreateEmployeeCommand.FirstName), "First Name", command.FirstName)
+                     .Property(nameof(CreateEmployeeCommand.LastName), "Last Name", command.LastName)
+                     .Property(nameof(CreateEmployeeCommand.EmployeeNo), "Employee No", command.EmployeeNo)
+                     .Property(nameof(CreateEmployeeCommand.Email), "Email", command.Email)
+                     .Build()
+                     .ToFormVm();
 
     private IResourceBuilder BuildEditBase(EmployeeEntity employeeEntity) =>
       BuildPageBase().Link(RelTypes.Breadcrumb, employeeEntity.FullName, GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
@@ -278,7 +289,7 @@ namespace RazorSample.Web.Controllers
                   .Property("City", "City", address.City)
                   .Property("Country", "Country", address.Country)
                   .Property("Description", "Description", address.Description)
-                  .Link(RelTypes.Action, "remove", AddUri());
+                  .Link(RelTypes.Action, "remove", RemoveAddressUri(new RemoveEmployeeAddressQuery(employeeEntity.EmployeeId, address.AddressId)));
         }
       }
 
@@ -366,6 +377,7 @@ namespace RazorSample.Web.Controllers
     private string GeneralInfoUri(UpdateEmployeeGeneralInfoQuery query) => Url.AppUri(nameof(GeneralInfo), nameof(EmployeeController), query);
     private string AddressesUri(UpdateEmployeeAddressesQuery query) => Url.AppUri(nameof(Addresses), nameof(EmployeeController), query);
     private string AddAddressUri(AddEmployeeAddressQuery query) => Url.AppUri(nameof(AddAddress), nameof(EmployeeController), query);
+    private string RemoveAddressUri(RemoveEmployeeAddressQuery query) => Url.AppUri(nameof(RemoveAddress), nameof(EmployeeController), query);
     private string EmailsUri(UpdateEmployeeEmailsQuery query) => Url.AppUri(nameof(Emails), nameof(EmployeeController), query);
     private string PhonesUri(UpdateEmployeePhonesQuery query) => Url.AppUri(nameof(Phones), nameof(EmployeeController), query);
     private string ImsUri(UpdateEmployeeImsQuery query) => Url.AppUri(nameof(Ims), nameof(EmployeeController), query);
