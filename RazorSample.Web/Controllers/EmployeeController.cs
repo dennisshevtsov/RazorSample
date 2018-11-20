@@ -129,19 +129,29 @@ namespace RazorSample.Web.Controllers
       return View("GridView", vm);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> AddAddress(AddEmployeeAddressQuery query)
+    {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildNewAddressVm(queryExecutionResult.Result, new AddEmployeeAddressCommand());
+
+      return View(vm);
+    }
+
     [HttpPost]
-    public async Task<IActionResult> Addresses(UpdateEmployeeAddressesQuery query, UpdateEmployeeAddressesCommand command)
+    public async Task<IActionResult> AddAddress(AddEmployeeAddressQuery query, AddEmployeeAddressCommand command)
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
+        var queryExecutionResult = await _employeeService.HandleAsync(query);
+        var vm = BuildNewAddressVm(queryExecutionResult.Result, command);
 
         return View("FormView", vm);
       }
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(AddressesUri(query));
+      return Redirect(AddressesUri(new UpdateEmployeeAddressesQuery(query.EmployeeId)));
     }
 
     [HttpGet]
@@ -250,11 +260,13 @@ namespace RazorSample.Web.Controllers
                                    .Build()
                                    .ToFormVm();
 
+    private IResourceBuilder BuildeAddressesTab(EmployeeEntity employeeEntity) =>
+      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)));
+
     private IPageVm BuildAddressesVm(EmployeeEntity employeeEntity)
     {
-      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Action, "+ new address", AddUri());
+      BuildeAddressesTab(employeeEntity).Link(RelTypes.Action, "+ new address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)));
 
       if (employeeEntity.Addresses != null)
       {
@@ -273,6 +285,16 @@ namespace RazorSample.Web.Controllers
       return _builder.Build()
                      .ToGridVm();
     }
+
+    private IPageVm BuildNewAddressVm(EmployeeEntity employeeEntity, AddEmployeeAddressCommand command) =>
+      BuildeAddressesTab(employeeEntity).Link(RelTypes.Breadcrumb, "New Address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)))
+                                        .Property(nameof(AddEmployeeAddressCommand.Address), "Address", command.Address)
+                                        .Property(nameof(AddEmployeeAddressCommand.Zip), "ZIP", command.Zip)
+                                        .Property(nameof(AddEmployeeAddressCommand.City), "City", command.City)
+                                        .Property(nameof(AddEmployeeAddressCommand.Country), "Country", command.Country)
+                                        .Property(nameof(AddEmployeeAddressCommand.Description), "Description", command.Description)
+                                        .Build()
+                                        .ToFormVm();
 
     private IGridVm BuildEmailsVm(EmployeeEntity employeeEntity)
     {
@@ -343,6 +365,7 @@ namespace RazorSample.Web.Controllers
     private string AddUri() => Url.AppUri(nameof(Add), nameof(EmployeeController));
     private string GeneralInfoUri(UpdateEmployeeGeneralInfoQuery query) => Url.AppUri(nameof(GeneralInfo), nameof(EmployeeController), query);
     private string AddressesUri(UpdateEmployeeAddressesQuery query) => Url.AppUri(nameof(Addresses), nameof(EmployeeController), query);
+    private string AddAddressUri(AddEmployeeAddressQuery query) => Url.AppUri(nameof(AddAddress), nameof(EmployeeController), query);
     private string EmailsUri(UpdateEmployeeEmailsQuery query) => Url.AppUri(nameof(Emails), nameof(EmployeeController), query);
     private string PhonesUri(UpdateEmployeePhonesQuery query) => Url.AppUri(nameof(Phones), nameof(EmployeeController), query);
     private string ImsUri(UpdateEmployeeImsQuery query) => Url.AppUri(nameof(Ims), nameof(EmployeeController), query);

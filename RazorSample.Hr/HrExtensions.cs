@@ -4,6 +4,11 @@ namespace RazorSample.Hr
 {
   public static class HrExtensions
   {
+    public static IResourceBuilder Property(this IResourceBuilder source, string name, string displayName)
+    {
+      return source.Property(name, displayName, null, null);
+    }
+
     public static IResourceBuilder Property(this IResourceBuilder source, string name, string displayName, object value)
     {
       return source.Property(name, displayName, value, null);

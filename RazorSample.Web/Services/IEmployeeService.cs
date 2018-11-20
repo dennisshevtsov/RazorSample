@@ -12,11 +12,13 @@ namespace RazorSample.Web.Services
     IQueryHandler<UpdateEmployeeEmailsQuery, EmployeeEntity>,
     IQueryHandler<UpdateEmployeePhonesQuery, EmployeeEntity>,
     IQueryHandler<UpdateEmployeeImsQuery, EmployeeEntity>,
+    IQueryHandler<AddEmployeeAddressQuery, EmployeeEntity>,
     ICommandHandler<CreateEmployeeCommand>,
     ICommandHandler<UpdateEmployeeGeneralInfoCommand>,
     ICommandHandler<UpdateEmployeeAddressesCommand>,
     ICommandHandler<UpdateEmployeeEmailsCommand>,
     ICommandHandler<UpdateEmployeePhonesCommand>,
-    ICommandHandler<UpdateEmployeeImsCommand>
+    ICommandHandler<UpdateEmployeeImsCommand>,
+    ICommandHandler<AddEmployeeAddressCommand>
   { }
 }

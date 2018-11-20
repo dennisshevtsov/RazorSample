@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Mapster;
 using RazorSample.Data;
 using RazorSample.Data.Entities;
 using RazorSample.Data.Specifications;
@@ -61,6 +62,14 @@ namespace RazorSample.Web.Services
     }
 
     public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeeImsQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(AddEmployeeAddressQuery query)
     {
       var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
       var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
@@ -220,6 +229,18 @@ namespace RazorSample.Web.Services
 
           return new CommandExecutionResult("An error occured.");
         }
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(AddEmployeeAddressCommand command)
+    {
+      //TypeAdapterConfig<AddEmployeeAddressCommand, AddressEntity>.NewConfig()
+      //                                                           .Map(entity => entity.SubjectId, cmd => cmd.EmployeeId);
+
+      var addressEntity = command.Adapt<AddressEntity>();
+
+      await _repository.InsertAsync(addressEntity);
 
       return CommandExecutionResult.Success;
     }
