@@ -1,4 +1,5 @@
 ﻿using RazorSample.Hr;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,8 @@ namespace RazorSample.Vm
 
     public IEnumerable<IColumnVm> Columns => _resource.Embedded.FirstOrDefault(resource => resource.Key == RelTypes.Row)
                                                                .Value?.Properties.Select(property => new ColumnVm(property.Name,
-                                                                                                                  property.DisplayName));
+                                                                                                                  property.DisplayName,
+                                                                                                                  _resource.Links.SingleOrDefault(link => link.Rel == RelTypes.Search && link.Href.Contains($"={property.Name}", StringComparison.InvariantCultureIgnoreCase))));
 
     public IEnumerable<IRowVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
                                                          .Select(resource => new RowVm(resource.Value));

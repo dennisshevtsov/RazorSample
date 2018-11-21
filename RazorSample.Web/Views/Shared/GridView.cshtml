@@ -12,13 +12,24 @@
         }
         <th class="grid_col"></th>
       </tr>
+      @if (Model.Columns.Any(column => column.Search != null))
+      {
       <tr>
         <th></th>
-        <th></th>
-        <th><input type="text" placeholder="Employee No"></th>
-        <th></th>
+        @foreach (var col in Model.Columns)
+        {
+          if (col.Search != null)
+          {
+            <th><input type="text" name="@col.Name" placeholder="@col.DisplayName" data-hr-nav="@col.Search.Href"></th>
+          }
+          else
+          {
+            <th></th>
+          }
+        }
         <th></th>
       </tr>
+      }
     </thead>
     <tbody>
       @foreach (var item in Model.Rows)

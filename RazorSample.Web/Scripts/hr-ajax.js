@@ -86,10 +86,15 @@ function View(element) {
 function Bootstrap(element, before, after) {
   var http = new HttpClient(),
     actionElements = element.querySelectorAll('[data-hr-action]'),
+    navElements = element.querySelectorAll('[data-hr-nav]'),
     i;
 
   for (i = 0; i < actionElements.length; ++i) {
     action(actionElements[i]);
+  }
+
+  for (i = 0; i < navElements.length; ++i) {
+    nav(navElements[i]);
   }
 
   function viewRecursive(element) {
@@ -121,6 +126,21 @@ function Bootstrap(element, before, after) {
 
       viewElement.controller.execute(uri, viewElement.view);
     };
+  }
+
+  function nav(element) {
+    if (element.tagName === 'INPUT') {
+      element.onkeyup  = function (event) {
+        var uri = element.getAttribute('data-hr-nav'),
+            name = element.name,
+            value = element.value,
+            regex = new RegExp(`=${name}`, 'ig');
+
+        if (event.keyCode === 13) {
+          location.href = uri.replace(regex, `=${value}`);
+        }
+      };
+    }
   }
 }
 

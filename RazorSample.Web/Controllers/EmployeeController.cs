@@ -36,7 +36,8 @@ namespace RazorSample.Web.Controllers
               .Link(Url.AppLink(RelTypes.Nav, "Client", "index", "client"))
               .Link(RelTypes.Breadcrumb, "Employees", SearchUri(query))
               .Link(RelTypes.Action, "+ new employee", AddUri())
-              .Link(RelTypes.Self, "Employees", SearchUri(query));
+              .Link(RelTypes.Self, "Employees", SearchUri(query))
+              .Link(RelTypes.Search, "Search", SearchUri(new SearchEmployeeQuery(nameof(SearchEmployeeQuery.EmployeeNo))));
 
       var queryExecutionResult = await _employeeService.HandleAsync(query);
 
