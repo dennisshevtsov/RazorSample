@@ -14,6 +14,12 @@ namespace RazorSample.Web.Services
     IQueryHandler<UpdateEmployeeImsQuery, EmployeeEntity>,
     IQueryHandler<AddEmployeeAddressQuery, EmployeeEntity>,
     IQueryHandler<RemoveEmployeeAddressQuery, EmployeeEntity>,
+    IQueryHandler<AddEmployeeEmailQuery, EmployeeEntity>,
+    IQueryHandler<RemoveEmployeeEmailQuery, EmployeeEntity>,
+    IQueryHandler<AddEmployeePhoneQuery, EmployeeEntity>,
+    IQueryHandler<RemoveEmployeePhoneQuery, EmployeeEntity>,
+    IQueryHandler<AddEmployeeImQuery, EmployeeEntity>,
+    IQueryHandler<RemoveEmployeeImQuery, EmployeeEntity>,
     ICommandHandler<CreateEmployeeCommand>,
     ICommandHandler<UpdateEmployeeGeneralInfoCommand>,
     ICommandHandler<UpdateEmployeeAddressesCommand>,
@@ -21,6 +27,12 @@ namespace RazorSample.Web.Services
     ICommandHandler<UpdateEmployeePhonesCommand>,
     ICommandHandler<UpdateEmployeeImsCommand>,
     ICommandHandler<AddEmployeeAddressCommand>,
-    ICommandHandler<RemoveEmployeeAddressCommand>
+    ICommandHandler<RemoveEmployeeAddressCommand>,
+    ICommandHandler<AddEmployeeEmailCommand>,
+    ICommandHandler<RemoveEmployeeEmailCommand>,
+    ICommandHandler<AddEmployeePhoneCommand>,
+    ICommandHandler<RemoveEmployeePhoneCommand>,
+    ICommandHandler<AddEmployeeImCommand>,
+    ICommandHandler<RemoveEmployeeImCommand>
   { }
 }

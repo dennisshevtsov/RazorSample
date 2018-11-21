@@ -85,6 +85,54 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(AddEmployeeEmailQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(RemoveEmployeeEmailQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(AddEmployeePhoneQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(RemoveEmployeePhoneQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(AddEmployeeImQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(RemoveEmployeeImQuery query)
+    {
+      var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
+      var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
+
+      return queryExecutionResult;
+    }
+
     public async Task<CommandExecutionResult> HandleAsync(CreateEmployeeCommand command)
     {
       var employeeEntity = new EmployeeEntity();
@@ -256,6 +304,54 @@ namespace RazorSample.Web.Services
     public async Task<CommandExecutionResult> HandleAsync(RemoveEmployeeAddressCommand command)
     {
       await _repository.RemoveAsync(new AddressForIdSpecification(command.AddressId));
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(AddEmployeeEmailCommand command)
+    {
+      var emailEntity = command.Adapt<EmailEntity>();
+
+      await _repository.InsertAsync(emailEntity);
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(RemoveEmployeeEmailCommand command)
+    {
+      await _repository.RemoveAsync(new EmailForIdSpecification(command.EmailId));
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(AddEmployeePhoneCommand command)
+    {
+      var phoneEntity = command.Adapt<PhoneEntity>();
+
+      await _repository.InsertAsync(phoneEntity);
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(RemoveEmployeePhoneCommand command)
+    {
+      await _repository.RemoveAsync(new PhoneForIdSpecification(command.PhoneId));
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(AddEmployeeImCommand command)
+    {
+      var phoneEntity = command.Adapt<ImEntity>();
+
+      await _repository.InsertAsync(phoneEntity);
+
+      return CommandExecutionResult.Success;
+    }
+
+    public async Task<CommandExecutionResult> HandleAsync(RemoveEmployeeImCommand command)
+    {
+      await _repository.RemoveAsync(new ImForIdSpecification(command.ImId));
 
       return CommandExecutionResult.Success;
     }

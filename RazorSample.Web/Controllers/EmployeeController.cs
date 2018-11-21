@@ -146,7 +146,7 @@ namespace RazorSample.Web.Controllers
         var queryExecutionResult = await _employeeService.HandleAsync(query);
         var vm = BuildNewAddressVm(queryExecutionResult.Result, command);
 
-        return View("FormView", vm);
+        return View(vm);
       }
 
       await _employeeService.HandleAsync(command);
@@ -174,21 +174,40 @@ namespace RazorSample.Web.Controllers
       return View(vm);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Emails(UpdateEmployeeEmailsQuery query, UpdateEmployeeEmailsCommand command)
+    [HttpGet]
+    public async Task<IActionResult> AddEmail(AddEmployeeEmailQuery query)
     {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildNewEmailVm(queryExecutionResult.Result, new AddEmployeeEmailCommand());
+
+      return View(vm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddEmail(AddEmployeeEmailQuery query, AddEmployeeEmailCommand command)
+    {
+      if (ModelState.IsValid == false)
       {
-        if (ModelState.IsValid == false)
-        {
-          var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
+        var queryExecutionResult = await _employeeService.HandleAsync(query);
+        var vm = BuildNewEmailVm(queryExecutionResult.Result, command);
 
-          return View(vm);
-        }
-
-        await _employeeService.HandleAsync(command);
-
-        return Redirect(EmailsUri(query));
+        return View(vm);
       }
+
+      await _employeeService.HandleAsync(command);
+
+      return Redirect(EmailsUri(new UpdateEmployeeEmailsQuery(query.EmployeeId)));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveEmail(RemoveEmployeeEmailQuery query, RemoveEmployeeEmailCommand command)
+    {
+      await _employeeService.HandleAsync(command);
+
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildEmailsVm(queryExecutionResult.Result);
+
+      return PartialView(vm);
     }
 
     [HttpGet]
@@ -200,19 +219,40 @@ namespace RazorSample.Web.Controllers
       return View(vm);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> AddPhone(AddEmployeePhoneQuery query)
+    {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildNewPhoneVm(queryExecutionResult.Result, new AddEmployeePhoneCommand());
+
+      return View(vm);
+    }
+
     [HttpPost]
-    public async Task<IActionResult> Phones(UpdateEmployeePhonesQuery query, UpdateEmployeePhonesCommand command)
+    public async Task<IActionResult> AddPhone(AddEmployeePhoneQuery query, AddEmployeePhoneCommand command)
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
+        var queryExecutionResult = await _employeeService.HandleAsync(query);
+        var vm = BuildNewPhoneVm(queryExecutionResult.Result, command);
 
         return View(vm);
       }
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(PhonesUri(query));
+      return Redirect(PhonesUri(new UpdateEmployeePhonesQuery(query.EmployeeId)));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemovePhone(RemoveEmployeePhoneQuery query, RemoveEmployeePhoneCommand command)
+    {
+      await _employeeService.HandleAsync(command);
+
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildPhonesVm(queryExecutionResult.Result);
+
+      return PartialView(vm);
     }
 
     [HttpGet]
@@ -224,19 +264,40 @@ namespace RazorSample.Web.Controllers
       return View(vm);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> AddIm(AddEmployeeImQuery query)
+    {
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildNewImVm(queryExecutionResult.Result, new AddEmployeeImCommand());
+
+      return View(vm);
+    }
+
     [HttpPost]
-    public async Task<IActionResult> Ims(UpdateEmployeeImsQuery query, UpdateEmployeeImsCommand command)
+    public async Task<IActionResult> AddIm(AddEmployeeImQuery query, AddEmployeeImCommand command)
     {
       if (ModelState.IsValid == false)
       {
-        var vm = BuildAddressesVm(command.Adapt<EmployeeEntity>());
+        var queryExecutionResult = await _employeeService.HandleAsync(query);
+        var vm = BuildNewImVm(queryExecutionResult.Result, command);
 
         return View(vm);
       }
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(ImsUri(query));
+      return Redirect(ImsUri(new UpdateEmployeeImsQuery(query.EmployeeId)));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveIm(RemoveEmployeeImQuery query, RemoveEmployeeImCommand command)
+    {
+      await _employeeService.HandleAsync(command);
+
+      var queryExecutionResult = await _employeeService.HandleAsync(query);
+      var vm = BuildImsVm(queryExecutionResult.Result);
+
+      return PartialView(vm);
     }
 
     private IResourceBuilder BuildPageBase() =>
@@ -307,20 +368,22 @@ namespace RazorSample.Web.Controllers
                                         .Build()
                                         .ToFormVm();
 
-    private IGridVm BuildEmailsVm(EmployeeEntity employeeEntity)
-    {
+    private IResourceBuilder BuildeEmailTab(EmployeeEntity employeeEntity) =>
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Action, "+ new email", AddUri());
+                                   .Link(RelTypes.Breadcrumb, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)));
+
+    private IPageVm BuildEmailsVm(EmployeeEntity employeeEntity)
+    {
+      BuildeEmailTab(employeeEntity).Link(RelTypes.Action, "+ new email", AddEmailUri(new AddEmployeeEmailQuery(employeeEntity.EmployeeId)));
 
       if (employeeEntity.Emails != null)
       {
-        foreach (var emails in employeeEntity.Emails)
+        foreach (var email in employeeEntity.Emails)
         {
           _builder.Embedded(RelTypes.Row)
-                  .Property("Email", "Email", emails.Email)
-                  .Property("Description", "Description", emails.Description)
-                  .Link(RelTypes.Action, "remove", AddUri());
+                  .Property("Email", "Email", email.Email)
+                  .Property("Description", "Description", email.Description)
+                  .Link(RelTypes.Action, "remove", RemoveEmailUri(new RemoveEmployeeEmailQuery(employeeEntity.EmployeeId, email.EmailId)));
         }
       }
 
@@ -328,11 +391,20 @@ namespace RazorSample.Web.Controllers
                      .ToGridVm();
     }
 
-    private IGridVm BuildPhonesVm(EmployeeEntity employeeEntity)
-    {
+    private IPageVm BuildNewEmailVm(EmployeeEntity employeeEntity, AddEmployeeEmailCommand command) =>
+      BuildeEmailTab(employeeEntity).Link(RelTypes.Breadcrumb, "New Email", AddEmailUri(new AddEmployeeEmailQuery(employeeEntity.EmployeeId)))
+                                    .Property(nameof(AddEmployeeEmailCommand.Email), "Email", command.Email)
+                                    .Property(nameof(AddEmployeeEmailCommand.Description), "Description", command.Description)
+                                    .Build()
+                                    .ToFormVm();
+
+    private IResourceBuilder BuildePhoneTab(EmployeeEntity employeeEntity) =>
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Action, "+ new phone", AddUri());
+                                   .Link(RelTypes.Breadcrumb, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)));
+
+    private IPageVm BuildPhonesVm(EmployeeEntity employeeEntity)
+    {
+      BuildePhoneTab(employeeEntity).Link(RelTypes.Action, "+ new phone", AddPhoneUri(new AddEmployeePhoneQuery(employeeEntity.EmployeeId)));
 
       if (employeeEntity.Phones != null)
       {
@@ -341,21 +413,28 @@ namespace RazorSample.Web.Controllers
           _builder.Embedded(RelTypes.Row)
                   .Property("Phones", "Phone", phone.Phone)
                   .Property("Description", "Description", phone.Description)
-                  .Link(RelTypes.Action, "remove", AddUri());
+                  .Link(RelTypes.Action, "remove", RemovePhoneUri(new RemoveEmployeePhoneQuery(employeeEntity.EmployeeId, phone.PhoneId)));
         }
       }
-
-      _builder.Property("Phones", "Phone", null);
 
       return _builder.Build()
                      .ToGridVm();
     }
 
-    private IGridVm BuildImsVm(EmployeeEntity employeeEntity)
-    {
+    private IPageVm BuildNewPhoneVm(EmployeeEntity employeeEntity, AddEmployeePhoneCommand command) =>
+      BuildePhoneTab(employeeEntity).Link(RelTypes.Breadcrumb, "New Email", AddEmailUri(new AddEmployeeEmailQuery(employeeEntity.EmployeeId)))
+                                    .Property(nameof(AddEmployeePhoneCommand.Phone), "Phone", command.Phone)
+                                    .Property(nameof(AddEmployeePhoneCommand.Description), "Description", command.Description)
+                                    .Build()
+                                    .ToFormVm();
+
+    private IResourceBuilder BuildImTab(EmployeeEntity employeeEntity) =>
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Action, "+ new im", AddUri());
+                                   .Link(RelTypes.Breadcrumb, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)));
+
+    private IPageVm BuildImsVm(EmployeeEntity employeeEntity)
+    {
+      BuildImTab(employeeEntity).Link(RelTypes.Action, "+ new im", AddImUri(new AddEmployeeImQuery(employeeEntity.EmployeeId)));
 
       if (employeeEntity.Ims != null)
       {
@@ -364,13 +443,20 @@ namespace RazorSample.Web.Controllers
           _builder.Embedded(RelTypes.Row)
                   .Property("Ims", "IM", im.Im)
                   .Property("Description", "Description", im.Description)
-                  .Link(RelTypes.Action, "remove", AddUri());
+                  .Link(RelTypes.Action, "remove", RemoveImUri(new RemoveEmployeeImQuery(employeeEntity.EmployeeId, im.ImId)));
         }
       }
 
       return _builder.Build()
                      .ToGridVm();
     }
+
+    private IPageVm BuildNewImVm(EmployeeEntity employeeEntity, AddEmployeeImCommand command) =>
+      BuildImTab(employeeEntity).Link(RelTypes.Breadcrumb, "New Email", AddImUri(new AddEmployeeImQuery(employeeEntity.EmployeeId)))
+                                .Property(nameof(AddEmployeeImCommand.Im), "IM", command.Im)
+                                .Property(nameof(AddEmployeeImCommand.Description), "Description", command.Description)
+                                .Build()
+                                .ToFormVm();
 
     private string SearchUri(SearchEmployeeQuery query) => Url.AppUri(nameof(Index), nameof(EmployeeController), query);
     private string AddUri() => Url.AppUri(nameof(Add), nameof(EmployeeController));
@@ -379,7 +465,13 @@ namespace RazorSample.Web.Controllers
     private string AddAddressUri(AddEmployeeAddressQuery query) => Url.AppUri(nameof(AddAddress), nameof(EmployeeController), query);
     private string RemoveAddressUri(RemoveEmployeeAddressQuery query) => Url.AppUri(nameof(RemoveAddress), nameof(EmployeeController), query);
     private string EmailsUri(UpdateEmployeeEmailsQuery query) => Url.AppUri(nameof(Emails), nameof(EmployeeController), query);
+    private string AddEmailUri(AddEmployeeEmailQuery query) => Url.AppUri(nameof(AddEmail), nameof(EmployeeController), query);
+    private string RemoveEmailUri(RemoveEmployeeEmailQuery query) => Url.AppUri(nameof(RemoveEmail), nameof(EmployeeController), query);
     private string PhonesUri(UpdateEmployeePhonesQuery query) => Url.AppUri(nameof(Phones), nameof(EmployeeController), query);
+    private string AddPhoneUri(AddEmployeePhoneQuery query) => Url.AppUri(nameof(AddPhone), nameof(EmployeeController), query);
+    private string RemovePhoneUri(RemoveEmployeePhoneQuery query) => Url.AppUri(nameof(RemovePhone), nameof(EmployeeController), query);
     private string ImsUri(UpdateEmployeeImsQuery query) => Url.AppUri(nameof(Ims), nameof(EmployeeController), query);
+    private string AddImUri(AddEmployeeImQuery query) => Url.AppUri(nameof(AddIm), nameof(EmployeeController), query);
+    private string RemoveImUri(RemoveEmployeeImQuery query) => Url.AppUri(nameof(RemoveIm), nameof(EmployeeController), query);
   }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RazorSample.Data.Entities;
-using System;
 
 namespace RazorSample.Data.Configurations
 {
@@ -11,8 +10,8 @@ namespace RazorSample.Data.Configurations
     {
       builder.ToTable("Phones");
 
-      builder.Property<Guid>("PhoneId").IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-      builder.HasKey("PhoneId");
+      builder.Property(entity => entity.PhoneId).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+      builder.HasKey(entity => entity.PhoneId);
 
       builder.Property(entity => entity.Phone).IsRequired().HasMaxLength(256);
 
