@@ -37,7 +37,7 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeeAddressesQuery query)
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(SearchEmployeeAddressQuery query)
     {
       var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
       var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
@@ -45,7 +45,7 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeeEmailsQuery query)
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(SearchEmployeeEmailQuery query)
     {
       var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
       var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
@@ -53,7 +53,7 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeePhonesQuery query)
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(SearchEmployeePhoneQuery query)
     {
       var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
       var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);
@@ -61,7 +61,7 @@ namespace RazorSample.Web.Services
       return queryExecutionResult;
     }
 
-    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(UpdateEmployeeImsQuery query)
+    public async Task<QueryExecutionResult<EmployeeEntity>> HandleAsync(SearchEmployeeImQuery query)
     {
       var employeeEntity = await _repository.FirstAsync(new EmployeeWithIdSpecification(query.EmployeeId));
       var queryExecutionResult = new QueryExecutionResult<EmployeeEntity>(employeeEntity);

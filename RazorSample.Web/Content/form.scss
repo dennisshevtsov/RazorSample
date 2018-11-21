@@ -13,9 +13,12 @@ $actionsHeight: $lineHeight + $actionsBorderHeight;
 
 .form__controls {
   grid-row: 1 / 2;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: $lineHeight;
+
+  //display: grid;
+  //grid-template-columns: repeat(2, 1fr);
+  //grid-auto-rows: $lineHeight;
+  display: flex;
+  flex-direction: column;
 }
 
 .form__actions {

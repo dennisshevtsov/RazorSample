@@ -2,11 +2,11 @@
 
 namespace RazorSample.Web.Queries
 {
-  public sealed class UpdateEmployeeImsQuery
+  public sealed class SearchEmployeePhoneQuery
   {
-    public UpdateEmployeeImsQuery() { }
+    public SearchEmployeePhoneQuery() { }
 
-    public UpdateEmployeeImsQuery(Guid employeeId)
+    public SearchEmployeePhoneQuery(Guid employeeId)
     {
       EmployeeId = employeeId;
     }

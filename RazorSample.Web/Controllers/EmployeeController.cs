@@ -121,7 +121,7 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Addresses(UpdateEmployeeAddressesQuery query)
+    public async Task<IActionResult> Addresses(SearchEmployeeAddressQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
       var vm = BuildAddressesVm(queryExecutionResult.Result);
@@ -151,7 +151,7 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(AddressesUri(new UpdateEmployeeAddressesQuery(query.EmployeeId)));
+      return Redirect(AddressesUri(new SearchEmployeeAddressQuery(query.EmployeeId)));
     }
 
     [HttpPost]
@@ -166,7 +166,7 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Emails(UpdateEmployeeEmailsQuery query)
+    public async Task<IActionResult> Emails(SearchEmployeeEmailQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
       var vm = BuildEmailsVm(queryExecutionResult.Result);
@@ -196,7 +196,7 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(EmailsUri(new UpdateEmployeeEmailsQuery(query.EmployeeId)));
+      return Redirect(EmailsUri(new SearchEmployeeEmailQuery(query.EmployeeId)));
     }
 
     [HttpPost]
@@ -211,7 +211,7 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Phones(UpdateEmployeePhonesQuery query)
+    public async Task<IActionResult> Phones(SearchEmployeePhoneQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
       var vm = BuildPhonesVm(queryExecutionResult.Result);
@@ -241,7 +241,7 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(PhonesUri(new UpdateEmployeePhonesQuery(query.EmployeeId)));
+      return Redirect(PhonesUri(new SearchEmployeePhoneQuery(query.EmployeeId)));
     }
 
     [HttpPost]
@@ -256,7 +256,7 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Ims(UpdateEmployeeImsQuery query)
+    public async Task<IActionResult> Ims(SearchEmployeeImQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
       var vm = BuildImsVm(queryExecutionResult.Result);
@@ -286,7 +286,7 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(ImsUri(new UpdateEmployeeImsQuery(query.EmployeeId)));
+      return Redirect(ImsUri(new SearchEmployeeImQuery(query.EmployeeId)));
     }
 
     [HttpPost]
@@ -319,10 +319,10 @@ namespace RazorSample.Web.Controllers
       BuildPageBase().Link(RelTypes.Breadcrumb, employeeEntity.FullName, GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Action, "+ new employee", AddUri())
                      .Link(RelTypes.Tab, "General Info", GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
-                     .Link(RelTypes.Tab, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
-                     .Link(RelTypes.Tab, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)))
-                     .Link(RelTypes.Tab, "Phones", PhonesUri( new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)))
-                     .Link(RelTypes.Tab, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)));
+                     .Link(RelTypes.Tab, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)))
+                     .Link(RelTypes.Tab, "Emails", EmailsUri(new SearchEmployeeEmailQuery(employeeEntity.EmployeeId)))
+                     .Link(RelTypes.Tab, "Phones", PhonesUri( new SearchEmployeePhoneQuery(employeeEntity.EmployeeId)))
+                     .Link(RelTypes.Tab, "IM", ImsUri(new SearchEmployeeImQuery(employeeEntity.EmployeeId)));
 
     private IFormVm BuildGeneralInfoForm(EmployeeEntity employeeEntity) =>
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Employees", GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
@@ -333,8 +333,8 @@ namespace RazorSample.Web.Controllers
                                    .ToFormVm();
 
     private IResourceBuilder BuildeAddressesTab(EmployeeEntity employeeEntity) =>
-      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new UpdateEmployeeAddressesQuery(employeeEntity.EmployeeId)));
+      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)));
 
     private IPageVm BuildAddressesVm(EmployeeEntity employeeEntity)
     {
@@ -369,8 +369,8 @@ namespace RazorSample.Web.Controllers
                                         .ToFormVm();
 
     private IResourceBuilder BuildeEmailTab(EmployeeEntity employeeEntity) =>
-      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Emails", EmailsUri(new UpdateEmployeeEmailsQuery(employeeEntity.EmployeeId)));
+      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Emails", EmailsUri(new SearchEmployeeEmailQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Breadcrumb, "Emails", EmailsUri(new SearchEmployeeEmailQuery(employeeEntity.EmployeeId)));
 
     private IPageVm BuildEmailsVm(EmployeeEntity employeeEntity)
     {
@@ -399,8 +399,8 @@ namespace RazorSample.Web.Controllers
                                     .ToFormVm();
 
     private IResourceBuilder BuildePhoneTab(EmployeeEntity employeeEntity) =>
-      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Phones", PhonesUri(new UpdateEmployeePhonesQuery(employeeEntity.EmployeeId)));
+      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Phones", PhonesUri(new SearchEmployeePhoneQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Breadcrumb, "Phones", PhonesUri(new SearchEmployeePhoneQuery(employeeEntity.EmployeeId)));
 
     private IPageVm BuildPhonesVm(EmployeeEntity employeeEntity)
     {
@@ -429,8 +429,8 @@ namespace RazorSample.Web.Controllers
                                     .ToFormVm();
 
     private IResourceBuilder BuildImTab(EmployeeEntity employeeEntity) =>
-      BuildEditBase(employeeEntity).Link(RelTypes.Self, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "IM", ImsUri(new UpdateEmployeeImsQuery(employeeEntity.EmployeeId)));
+      BuildEditBase(employeeEntity).Link(RelTypes.Self, "IM", ImsUri(new SearchEmployeeImQuery(employeeEntity.EmployeeId)))
+                                   .Link(RelTypes.Breadcrumb, "IM", ImsUri(new SearchEmployeeImQuery(employeeEntity.EmployeeId)));
 
     private IPageVm BuildImsVm(EmployeeEntity employeeEntity)
     {
@@ -461,16 +461,16 @@ namespace RazorSample.Web.Controllers
     private string SearchUri(SearchEmployeeQuery query) => Url.AppUri(nameof(Index), nameof(EmployeeController), query);
     private string AddUri() => Url.AppUri(nameof(Add), nameof(EmployeeController));
     private string GeneralInfoUri(UpdateEmployeeGeneralInfoQuery query) => Url.AppUri(nameof(GeneralInfo), nameof(EmployeeController), query);
-    private string AddressesUri(UpdateEmployeeAddressesQuery query) => Url.AppUri(nameof(Addresses), nameof(EmployeeController), query);
+    private string AddressesUri(SearchEmployeeAddressQuery query) => Url.AppUri(nameof(Addresses), nameof(EmployeeController), query);
     private string AddAddressUri(AddEmployeeAddressQuery query) => Url.AppUri(nameof(AddAddress), nameof(EmployeeController), query);
     private string RemoveAddressUri(RemoveEmployeeAddressQuery query) => Url.AppUri(nameof(RemoveAddress), nameof(EmployeeController), query);
-    private string EmailsUri(UpdateEmployeeEmailsQuery query) => Url.AppUri(nameof(Emails), nameof(EmployeeController), query);
+    private string EmailsUri(SearchEmployeeEmailQuery query) => Url.AppUri(nameof(Emails), nameof(EmployeeController), query);
     private string AddEmailUri(AddEmployeeEmailQuery query) => Url.AppUri(nameof(AddEmail), nameof(EmployeeController), query);
     private string RemoveEmailUri(RemoveEmployeeEmailQuery query) => Url.AppUri(nameof(RemoveEmail), nameof(EmployeeController), query);
-    private string PhonesUri(UpdateEmployeePhonesQuery query) => Url.AppUri(nameof(Phones), nameof(EmployeeController), query);
+    private string PhonesUri(SearchEmployeePhoneQuery query) => Url.AppUri(nameof(Phones), nameof(EmployeeController), query);
     private string AddPhoneUri(AddEmployeePhoneQuery query) => Url.AppUri(nameof(AddPhone), nameof(EmployeeController), query);
     private string RemovePhoneUri(RemoveEmployeePhoneQuery query) => Url.AppUri(nameof(RemovePhone), nameof(EmployeeController), query);
-    private string ImsUri(UpdateEmployeeImsQuery query) => Url.AppUri(nameof(Ims), nameof(EmployeeController), query);
+    private string ImsUri(SearchEmployeeImQuery query) => Url.AppUri(nameof(Ims), nameof(EmployeeController), query);
     private string AddImUri(AddEmployeeImQuery query) => Url.AppUri(nameof(AddIm), nameof(EmployeeController), query);
     private string RemoveImUri(RemoveEmployeeImQuery query) => Url.AppUri(nameof(RemoveIm), nameof(EmployeeController), query);
   }
