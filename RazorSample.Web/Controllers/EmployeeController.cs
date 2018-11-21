@@ -318,6 +318,7 @@ namespace RazorSample.Web.Controllers
     private IResourceBuilder BuildEditBase(EmployeeEntity employeeEntity) =>
       BuildPageBase().Link(RelTypes.Breadcrumb, employeeEntity.FullName, GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Action, "+ new employee", AddUri())
+                     .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController), new CreateClientQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Tab, "General Info", GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Tab, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Tab, "Emails", EmailsUri(new SearchEmployeeEmailQuery(employeeEntity.EmployeeId)))

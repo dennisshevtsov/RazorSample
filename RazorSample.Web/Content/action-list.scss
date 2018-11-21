@@ -8,6 +8,7 @@
 .action-list__item {
   color: $linkColor;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .action-list__item:hover {
