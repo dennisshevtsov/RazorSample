@@ -57,15 +57,19 @@
     @if (Model.HasInfo)
     {
     <div class="message message_info">
-      <span><i class="message__icon"></i> @Model.Info <i class="message__close" onclick="var message = this.closest('.message'); message.parentElement.removeChild(message);"></i></span>
+      <i class="message__icon"></i>
+      <span>@Model.Info</span>
+      <i class="message__close" onclick="this.parentElement.parentElement.removeChild(this.parentElement);"></i>
     </div>
     }
 
     @if (Model.HasError)
     {
-      <div class="message message_error">
-        <span><i class="message__icon"></i> @Model.Error <i class="message__close" onclick="var message = this.closest('.message'); message.parentElement.removeChild(message);"></i></span>
-      </div>
+    <div class="message message_error">
+      <i class="message__icon"></i>
+      <span>@Model.Error</span>
+      <i class="message__close" onclick="this.parentElement.parentElement.removeChild(this.parentElement);"></i>
+    </div>
     }
 
     @if (Model.Actions != null && Model.Actions.Any())

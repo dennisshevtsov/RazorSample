@@ -15,7 +15,7 @@
   }
 
   &_info &__icon:before {
-    content: fa-content($fa-var-info);
+    content: fa-content($fa-var-info-circle);
   }
 
   &_error {
@@ -31,7 +31,7 @@
     @extend %fa-icon;
     @extend .fas;
 
-    width: 50px - $gapLR;
+    margin-right: $gapLR;
     font-size: $headerSize;
   }
 
@@ -46,7 +46,7 @@
     cursor: pointer;
 
     position: absolute;
-    top: ($lineHeight - $gapLR) / 2;
+    top: ($lineHeight - $textSize) / 2;
     right: $gapLR;
   }
 }
