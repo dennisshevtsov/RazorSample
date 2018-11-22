@@ -14,21 +14,21 @@
       </tr>
       @if (Model.Columns.Any(column => column.Search != null))
       {
-      <tr>
-        <th></th>
-        @foreach (var col in Model.Columns)
-        {
-          if (col.Search != null)
+        <tr>
+          <th></th>
+          @foreach (var col in Model.Columns)
           {
-            <th><input type="text" name="@col.Name" placeholder="@col.DisplayName" data-hr-nav="@col.Search.Href"></th>
+            if (col.Search != null)
+            {
+              <th><input type="text" name="@col.Name" placeholder="@col.DisplayName" data-hr-nav="@col.Search.Href"></th>
+            }
+            else
+            {
+              <th></th>
+            }
           }
-          else
-          {
-            <th></th>
-          }
-        }
-        <th></th>
-      </tr>
+          <th></th>
+        </tr>
       }
     </thead>
     <tbody>
@@ -40,8 +40,8 @@
           {
             <td>
               @if (property.Value != null &&
-                   item.Self != null &&
-                   property.Value.ToString() == item.Self?.Title)
+                  item.Self != null &&
+                  property.Value.ToString() == item.Self?.Title)
               {
                 <a href="@item.Self.Href" rel="@item.Self.Rel" title="@item.Self.Title">@property.Value</a>
               }
@@ -59,7 +59,7 @@
               }
               @foreach (var action in item.Actions)
               {
-                <a class="action-list__item" title="@action.Title" data-hr-action="@action.Href" ><span>@action.Title</span></a>
+                <a class="action-list__item" title="@action.Title" data-hr-action="@action.Href"><span>@action.Title</span></a>
               }
             </nav>
           </td>

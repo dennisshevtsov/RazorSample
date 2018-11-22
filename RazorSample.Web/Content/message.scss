@@ -1,0 +1,52 @@
+﻿@import '_color';
+@import '_typography';
+
+@import 'fontawesome/_variables';
+
+.message {
+  padding-left: $gapLR;
+  color: #fff;
+  border-bottom: 1px solid #fff;
+  position: relative;
+
+  &_info {
+    background: $c3-1;
+    border-color: $c3-1;
+  }
+
+  &_info &__icon:before {
+    content: fa-content($fa-var-info);
+  }
+
+  &_error {
+    background: $c0-1;
+    border-color: $c0-1;
+  }
+
+  &_error &__icon:before {
+    content: fa-content($fa-var-ban);
+  }
+
+  &__icon {
+    @extend %fa-icon;
+    @extend .fas;
+
+    width: 50px - $gapLR;
+    font-size: $headerSize;
+  }
+
+  &__close {
+    @extend %fa-icon;
+    @extend .fas;
+
+    &:before {
+      content: fa-content($fa-var-window-close);
+    }
+
+    cursor: pointer;
+
+    position: absolute;
+    top: ($lineHeight - $gapLR) / 2;
+    right: $gapLR;
+  }
+}

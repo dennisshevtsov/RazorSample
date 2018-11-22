@@ -32,6 +32,12 @@ namespace RazorSample.Vm
     public IEnumerable<Link> Tabs => _resource.Links.Where(link => link.Rel == RelTypes.Tab);
     public bool HasTabs => Tabs.Any();
 
+    public string Info => _resource.Properties.FirstOrDefault(property => property.Name.Equals("info", StringComparison.InvariantCultureIgnoreCase))?.Value.ToString();
+    public bool HasInfo => string.IsNullOrWhiteSpace(Info) == false;
+
+    public string Error => _resource.Properties.FirstOrDefault(property => property.Name.Equals("error", StringComparison.InvariantCultureIgnoreCase))?.Value.ToString();
+    public bool HasError => string.IsNullOrWhiteSpace(Error) == false;
+
     public Link Self => _resource.Links.Single(link => link.Rel == RelTypes.Self);
   }
 }

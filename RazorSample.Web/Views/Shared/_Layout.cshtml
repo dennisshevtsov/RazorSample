@@ -54,6 +54,20 @@
   </nav>
 
   <main class="main">
+    @if (Model.HasInfo)
+    {
+    <div class="message message_info">
+      <span><i class="message__icon"></i> @Model.Info <i class="message__close" onclick="var message = this.closest('.message'); message.parentElement.removeChild(message);"></i></span>
+    </div>
+    }
+
+    @if (Model.HasError)
+    {
+      <div class="message message_error">
+        <span><i class="message__icon"></i> @Model.Error <i class="message__close" onclick="var message = this.closest('.message'); message.parentElement.removeChild(message);"></i></span>
+      </div>
+    }
+
     @if (Model.Actions != null && Model.Actions.Any())
     {
       <nav class="action-bar">

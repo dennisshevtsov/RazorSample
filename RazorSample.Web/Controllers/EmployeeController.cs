@@ -125,7 +125,7 @@ namespace RazorSample.Web.Controllers
     public async Task<IActionResult> Addresses(SearchEmployeeAddressQuery query)
     {
       var queryExecutionResult = await _employeeService.HandleAsync(query);
-      var vm = BuildAddressesVm(queryExecutionResult.Result);
+      var vm = BuildAddressesVm(queryExecutionResult.Result, query);
 
       return View("GridView", vm);
     }
@@ -152,7 +152,10 @@ namespace RazorSample.Web.Controllers
 
       await _employeeService.HandleAsync(command);
 
-      return Redirect(AddressesUri(new SearchEmployeeAddressQuery(query.EmployeeId)));
+      var messageId = Guid.NewGuid();
+      TempData[messageId.ToString()] = "A new address is added to the employee address list.";
+
+      return Redirect(AddressesUri(new SearchEmployeeAddressQuery(query.EmployeeId, messageId)));
     }
 
     [HttpPost]
@@ -161,7 +164,7 @@ namespace RazorSample.Web.Controllers
       await _employeeService.HandleAsync(command);
 
       var queryExecutionResult = await _employeeService.HandleAsync(query);
-      var vm = BuildAddressesVm(queryExecutionResult.Result);
+      var vm = BuildAddressesVm(queryExecutionResult.Result, new SearchEmployeeAddressQuery());
 
       return PartialView(vm);
     }
@@ -338,7 +341,7 @@ namespace RazorSample.Web.Controllers
       BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)))
                                    .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)));
 
-    private IPageVm BuildAddressesVm(EmployeeEntity employeeEntity)
+    private IPageVm BuildAddressesVm(EmployeeEntity employeeEntity, SearchEmployeeAddressQuery query)
     {
       BuildeAddressesTab(employeeEntity).Link(RelTypes.Action, "+ new address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)));
 
@@ -353,6 +356,16 @@ namespace RazorSample.Web.Controllers
                   .Property("Country", "Country", address.Country)
                   .Property("Description", "Description", address.Description)
                   .Link(RelTypes.Action, "remove", RemoveAddressUri(new RemoveEmployeeAddressQuery(employeeEntity.EmployeeId, address.AddressId)));
+        }
+      }
+
+      if (query.MessageId != null)
+      {
+        var messageObj = TempData[query.MessageId.ToString()];
+
+        if (messageObj != null)
+        {
+          _builder.Property("info", "Info", messageObj);
         }
       }
 
