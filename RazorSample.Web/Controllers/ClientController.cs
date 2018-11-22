@@ -125,7 +125,7 @@ namespace RazorSample.Web.Controllers
 
       foreach (var employee in employees.Result)
       {
-        builder.Link(Url.AppLink(RelTypes.Action, $"{employee.LastName}, {employee.FirstName}", nameof(ClientOwnerSelect), nameof(ClientController), new SelectClientOwnerQuery(employee.EmployeeId)));
+        builder.Link(Url.AppLink(RelTypes.Action, $"{employee.FullName} <{employee.EmployeeNo}>", nameof(ClientOwnerSelect), nameof(ClientController), new SelectClientOwnerQuery(employee.EmployeeId)));
       }
 
       var vm = new SelectVm(_builder.Build());
@@ -202,7 +202,7 @@ namespace RazorSample.Web.Controllers
     {
       if (employeeEntity != null)
       {
-        builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", employeeEntity.EmployeeId, employeeEntity.FullName)
+        builder.Property(nameof(ClientCommandBase.ClientOwnerId), "Client Owner", employeeEntity.EmployeeId, $"{employeeEntity.FullName} <{employeeEntity.EmployeeNo}>")
                .Link(Url.AppLink(RelTypes.Action, "Clear", nameof(ClientOwnerClear), nameof(ClientController)));
       }
       else
