@@ -8,7 +8,8 @@ namespace RazorSample.Data.Entities
 
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string FullName => $"{LastName}, {FirstName} <{EmployeeNo}>";
+    public string FullName => $"{LastName}, {FirstName}";
+    public string LongName => $"{LastName}, {FirstName} <{EmployeeNo}>";
 
     public string EmployeeNo { get; set; }
   }
