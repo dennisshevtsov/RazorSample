@@ -7,9 +7,11 @@ namespace RazorSample.Web.Commands
   {
     public Guid ClientId { get; set; }
 
+    [Required]
     public string ClientNo { get; set; }
     public string OrganizationNo { get; set; }
 
+    [Required]
     public string Name { get; set; }
 
     [Required]

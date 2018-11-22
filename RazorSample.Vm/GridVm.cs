@@ -1,7 +1,7 @@
 ﻿using RazorSample.Hr;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RazorSample.Vm
 {
@@ -12,7 +12,16 @@ namespace RazorSample.Vm
     public IEnumerable<IColumnVm> Columns => _resource.Embedded.FirstOrDefault(resource => resource.Key == RelTypes.Row)
                                                                .Value?.Properties.Select(property => new ColumnVm(property.Name,
                                                                                                                   property.DisplayName,
-                                                                                                                  _resource.Links.SingleOrDefault(link => link.Rel == RelTypes.Search && link.Href.Contains($"={property.Name}", StringComparison.InvariantCultureIgnoreCase))));
+                                                                                                                  GetColumnSearchAction(_resource, property)));
+    private Link GetColumnSearchAction(IResource resource, Property property)
+    {
+      var pattern = $"(\\?|\\&){property.Name}\\=";
+      var regex = new Regex(pattern, RegexOptions.IgnoreCase);
+      var action = _resource.Links.SingleOrDefault(link => link.Rel == RelTypes.Search &&
+                                                           regex.IsMatch(link.Href));
+
+      return action;
+    }
 
     public IEnumerable<IRowVm> Rows => _resource.Embedded.Where(resource => resource.Key == RelTypes.Row)
                                                          .Select(resource => new RowVm(resource.Value));

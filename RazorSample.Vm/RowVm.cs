@@ -17,6 +17,7 @@ namespace RazorSample.Vm
     public IEnumerable<ICellVm> Properties => _resource.Properties.Select(property => new CellVm(property));
 
     public IEnumerable<Link> Actions => _resource.Links.Where(link => link.Rel == RelTypes.Action);
+    public IEnumerable<Link> Navs => _resource.Links.Where(link => link.Rel == RelTypes.Nav);
 
     public Link Self => _resource.Links.SingleOrDefault(link => link.Rel == RelTypes.Self);
   }

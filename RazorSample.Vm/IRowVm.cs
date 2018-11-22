@@ -8,6 +8,7 @@ namespace RazorSample.Vm
     IEnumerable<ICellVm> Properties { get; }
 
     IEnumerable<Link> Actions { get; }
+    IEnumerable<Link> Navs { get; }
 
     Link Self { get; }
   }

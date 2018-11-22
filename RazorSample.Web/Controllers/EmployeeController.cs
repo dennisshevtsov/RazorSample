@@ -62,7 +62,7 @@ namespace RazorSample.Web.Controllers
                   .Property(nameof(employee.EmployeeNo), "Employee No", employee.EmployeeNo)
                   .Property(nameof(employee.Created), "Created", employee.Created)
                   .Link(RelTypes.Self, employee.FullName, GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employee.EmployeeId)))
-                  .Link(Url.AppLink(RelTypes.Action, "+ new client", nameof(ClientController.Add), nameof(ClientController), new CreateClientQuery(employee.EmployeeId)));
+                  .Link(Url.AppLink(RelTypes.Nav, "+ new client", nameof(ClientController.Add), nameof(ClientController), new CreateClientQuery(employee.EmployeeId)));
         }
       }
 
