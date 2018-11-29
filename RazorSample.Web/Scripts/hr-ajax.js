@@ -9,7 +9,11 @@ function HttpClient() {
 
     xhttp.onreadystatechange = function () {
       if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-        success(xhttp.responseText);
+        if (xhttp.responseURL.endsWith(uri)) {
+          success(xhttp.responseText);
+        } else {
+          location.replace(xhttp.responseURL);
+        }
       }
     };
 
@@ -125,6 +129,8 @@ function Bootstrap(element, before, after) {
       var uri = element.getAttribute('data-hr-action');
 
       viewElement.controller.execute(uri, viewElement.view);
+
+      return false;
     };
   }
 

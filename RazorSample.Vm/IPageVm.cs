@@ -16,11 +16,8 @@ namespace RazorSample.Vm
     IEnumerable<Link> Tabs { get; }
     bool HasTabs { get; }
 
-    string Info { get; }
-    bool HasInfo { get; }
-
-    string Error { get; }
-    bool HasError { get; }
+    IEnumerable<INotificationVm> Notifications { get; }
+    bool HasNotifications { get; }
 
     Link Self { get; }
   }

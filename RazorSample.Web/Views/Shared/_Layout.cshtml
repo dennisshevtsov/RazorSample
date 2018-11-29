@@ -54,22 +54,24 @@
   </nav>
 
   <main class="main">
-    @if (Model.HasInfo)
+    @foreach (var notification in Model.Notifications)
     {
-    <div class="message message_info">
-      <i class="message__icon"></i>
-      <span>@Model.Info</span>
-      <i class="message__close" onclick="this.parentElement.parentElement.removeChild(this.parentElement);"></i>
-    </div>
-    }
-
-    @if (Model.HasError)
-    {
-    <div class="message message_error">
-      <i class="message__icon"></i>
-      <span>@Model.Error</span>
-      <i class="message__close" onclick="this.parentElement.parentElement.removeChild(this.parentElement);"></i>
-    </div>
+      if (notification.IsInfo)
+      {
+        <div class="message message_info" data-hr>
+          <i class="message__icon"></i>
+          <span>@notification.Title</span>
+          <i class="message__close" data-hr-action="@notification.Close.Href"></i>
+        </div>
+      }
+      else if (notification.IsError)
+      {
+        <div class="message message_error" data-hr>
+          <i class="message__icon"></i>
+          <span>@notification.Title</span>
+          <i class="message__close" data-hr-action="@notification.Close.Href"></i>
+        </div>
+      }
     }
 
     @if (Model.Actions != null && Model.Actions.Any())

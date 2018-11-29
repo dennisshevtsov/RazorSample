@@ -18,6 +18,8 @@ namespace RazorSample.Data
       modelBuilder.ApplyConfiguration(new EmployeeEntityTypeConfiguration());
       modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration());
       modelBuilder.ApplyConfiguration(new ContactEntityTypeConfiguration());
+
+      modelBuilder.ApplyConfiguration(new NotificationEntityTypeConfiguration());
     }
   }
 }

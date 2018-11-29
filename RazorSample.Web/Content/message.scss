@@ -11,7 +11,6 @@
 
   &_info {
     background: $c3-1;
-    border-color: $c3-1;
   }
 
   &_info &__icon:before {
@@ -20,7 +19,6 @@
 
   &_error {
     background: $c0-1;
-    border-color: $c0-1;
   }
 
   &_error &__icon:before {
@@ -48,5 +46,9 @@
     position: absolute;
     top: ($lineHeight - $textSize) / 2;
     right: $gapLR;
+  }
+
+  &:empty {
+    display: none;
   }
 }

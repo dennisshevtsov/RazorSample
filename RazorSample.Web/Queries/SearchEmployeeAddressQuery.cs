@@ -11,12 +11,6 @@ namespace RazorSample.Web.Queries
       EmployeeId = employeeId;
     }
 
-    public SearchEmployeeAddressQuery(Guid employeeId, Guid messageId) : this(employeeId)
-    {
-      MessageId = messageId;
-    }
-
     public Guid EmployeeId { get; set; }
-    public Guid? MessageId { get; set; }
   }
 }

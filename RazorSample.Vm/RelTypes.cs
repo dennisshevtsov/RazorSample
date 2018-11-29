@@ -15,5 +15,6 @@
     public const string Search = "rt:search";
     public const string Select = "rt:select";
     public const string Tab = "rt:tab";
+    public const string Notification = "rt:notification";
   }
 }

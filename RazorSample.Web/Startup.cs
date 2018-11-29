@@ -14,6 +14,7 @@ namespace RazorSample.Web
   {
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddMemoryCache();
       services.AddMvc(options => options.Filters.Add(new ViewNameActionFilter()));
 
       services.AddScoped<DbConfiguration>();
@@ -25,6 +26,8 @@ namespace RazorSample.Web
       services.AddScoped<IResourceBuilder, ResourceBuilder>();
 
       services.AddScoped<IRandomGenerator, RandomGenerator>();
+      services.AddScoped<INotificationService, NotificationService>();
+
       services.AddScoped<IEmployeeService, EmployeeService>();
       services.AddScoped<IClientService, ClientService>();
     }

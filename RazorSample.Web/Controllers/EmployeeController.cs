@@ -18,15 +18,18 @@ namespace RazorSample.Web.Controllers
     private readonly IResourceBuilder _builder;
     private readonly IEmployeeService _employeeService;
     private readonly IRandomGenerator _randomGenerator;
+    private readonly INotificationService _notificationService;
 
     public EmployeeController(
       IResourceBuilder builder,
       IEmployeeService employeeService,
-      IRandomGenerator randomGenerator)
+      IRandomGenerator randomGenerator,
+      INotificationService notificationService)
     {
       _builder = builder ?? throw new ArgumentNullException(nameof(builder));
       _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
       _randomGenerator = randomGenerator ?? throw new ArgumentNullException(nameof(randomGenerator));
+      _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
     }
 
     [HttpGet]
@@ -88,7 +91,7 @@ namespace RazorSample.Web.Controllers
       {
         var vm = BuildAddForm(command);
 
-        return View("FormView", vm);
+        return PartialView(vm);
       }
 
       await _employeeService.HandleAsync(command);
@@ -113,7 +116,7 @@ namespace RazorSample.Web.Controllers
         var employeeEntity = command.Adapt<EmployeeEntity>();
         var vm = BuildGeneralInfoForm(employeeEntity);
 
-        return View("FormView", vm);
+        return PartialView(vm);
       }
 
       await _employeeService.HandleAsync(command);
@@ -124,6 +127,14 @@ namespace RazorSample.Web.Controllers
     [HttpGet]
     public async Task<IActionResult> Addresses(SearchEmployeeAddressQuery query)
     {
+      var notifications = await _notificationService.HandleAsync(new GetOpenNotificationsQuery(query.EmployeeId));
+
+      foreach (var notification in notifications.Result)
+      {
+        _builder.Embedded(RelTypes.Notification).Property("title", "", notification.Title)
+                .Link(RelTypes.Action, "", Url.AppUri(nameof(CloseNotification), nameof(EmployeeController), new CloseNotificationQuery(notification.NotificationId)));
+      }
+
       var queryExecutionResult = await _employeeService.HandleAsync(query);
       var vm = BuildAddressesVm(queryExecutionResult.Result, query);
 
@@ -140,22 +151,36 @@ namespace RazorSample.Web.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddAddress(AddEmployeeAddressQuery query, AddEmployeeAddressCommand command)
+    public async Task<IActionResult> CloseNotification(
+      CloseNotificationQuery query,
+      CloseNotificationCommand command)
     {
-      if (ModelState.IsValid == false)
+      await _notificationService.HandleAsync(command);
+
+      return new EmptyResult();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddAddress(
+        AddEmployeeAddressQuery query,
+        AddEmployeeAddressCommand command)
+    {
+      CommandExecutionResult cer = null;
+
+      if (ModelState.IsValid == false ||
+          (cer = await _employeeService.HandleAsync(command))?.HasError == true)
       {
+        _builder.Property("error", "error", cer?.ErrorMessage);
+
         var queryExecutionResult = await _employeeService.HandleAsync(query);
         var vm = BuildNewAddressVm(queryExecutionResult.Result, command);
 
         return View(vm);
       }
 
-      await _employeeService.HandleAsync(command);
+      await _notificationService.HandleAsync(new CreateNotificationCommand(query.EmployeeId, "A new address is added to the employee address list."));
 
-      var messageId = Guid.NewGuid();
-      TempData[messageId.ToString()] = "A new address is added to the employee address list.";
-
-      return Redirect(AddressesUri(new SearchEmployeeAddressQuery(query.EmployeeId, messageId)));
+      return Redirect(AddressesUri(new SearchEmployeeAddressQuery(query.EmployeeId)));
     }
 
     [HttpPost]
@@ -326,7 +351,7 @@ namespace RazorSample.Web.Controllers
                      .Link(RelTypes.Tab, "General Info", GeneralInfoUri(new UpdateEmployeeGeneralInfoQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Tab, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Tab, "Emails", EmailsUri(new SearchEmployeeEmailQuery(employeeEntity.EmployeeId)))
-                     .Link(RelTypes.Tab, "Phones", PhonesUri( new SearchEmployeePhoneQuery(employeeEntity.EmployeeId)))
+                     .Link(RelTypes.Tab, "Phones", PhonesUri(new SearchEmployeePhoneQuery(employeeEntity.EmployeeId)))
                      .Link(RelTypes.Tab, "IM", ImsUri(new SearchEmployeeImQuery(employeeEntity.EmployeeId)));
 
     private IFormVm BuildGeneralInfoForm(EmployeeEntity employeeEntity) =>
@@ -338,12 +363,12 @@ namespace RazorSample.Web.Controllers
                                    .ToFormVm();
 
     private IResourceBuilder BuildeAddressesTab(EmployeeEntity employeeEntity) =>
-      BuildEditBase(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)))
-                                   .Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)));
+      BuildEditBase(employeeEntity).Link(RelTypes.Breadcrumb, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)));
 
     private IPageVm BuildAddressesVm(EmployeeEntity employeeEntity, SearchEmployeeAddressQuery query)
     {
-      BuildeAddressesTab(employeeEntity).Link(RelTypes.Action, "+ new address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)));
+      BuildeAddressesTab(employeeEntity).Link(RelTypes.Self, "Addresses", AddressesUri(new SearchEmployeeAddressQuery(employeeEntity.EmployeeId)))
+                                        .Link(RelTypes.Action, "+ new address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)));
 
       if (employeeEntity.Addresses != null)
       {
@@ -359,22 +384,13 @@ namespace RazorSample.Web.Controllers
         }
       }
 
-      if (query.MessageId != null)
-      {
-        var messageObj = TempData[query.MessageId.ToString()];
-
-        if (messageObj != null)
-        {
-          _builder.Property("info", "Info", messageObj);
-        }
-      }
-
       return _builder.Build()
                      .ToGridVm();
     }
 
     private IPageVm BuildNewAddressVm(EmployeeEntity employeeEntity, AddEmployeeAddressCommand command) =>
-      BuildeAddressesTab(employeeEntity).Link(RelTypes.Breadcrumb, "New Address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)))
+      BuildeAddressesTab(employeeEntity).Link(RelTypes.Self, "New Address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)))
+                                        .Link(RelTypes.Breadcrumb, "New Address", AddAddressUri(new AddEmployeeAddressQuery(employeeEntity.EmployeeId)))
                                         .Property(nameof(AddEmployeeAddressCommand.Address), "Address", command.Address)
                                         .Property(nameof(AddEmployeeAddressCommand.Zip), "ZIP", command.Zip)
                                         .Property(nameof(AddEmployeeAddressCommand.City), "City", command.City)

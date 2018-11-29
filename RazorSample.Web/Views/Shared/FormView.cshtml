@@ -1,6 +1,6 @@
 ﻿@model RazorSample.Vm.IFormVm
 
-<form method="post" class="form">
+<form method="post" class="form" action="@Model.Self.Href">
     <div class="form__controls">
       @foreach (var vm in Model.Inputs)
       {
@@ -28,6 +28,6 @@
       }
     </div>
     <div class="form__actions">
-      <button type="submit" class="action action_primary"><span>Ok</span></button>
+      <button type="submit" class="action action_primary" data-hr-action="@Model.Self.Href"><span>Ok</span></button>
     </div>
   </form>
