@@ -175,7 +175,7 @@ namespace RazorSample.Web.Controllers
         var queryExecutionResult = await _employeeService.HandleAsync(query);
         var vm = BuildNewAddressVm(queryExecutionResult.Result, command);
 
-        return View(vm);
+        return PartialView(vm);
       }
 
       await _notificationService.HandleAsync(new CreateNotificationCommand(query.EmployeeId, "A new address is added to the employee address list."));
@@ -187,6 +187,7 @@ namespace RazorSample.Web.Controllers
     public async Task<IActionResult> RemoveAddress(RemoveEmployeeAddressQuery query, RemoveEmployeeAddressCommand command)
     {
       await _employeeService.HandleAsync(command);
+      await _notificationService.HandleAsync(new CreateNotificationCommand(query.EmployeeId, "The address is removed from the employee address list."));
 
       var queryExecutionResult = await _employeeService.HandleAsync(query);
       var vm = BuildAddressesVm(queryExecutionResult.Result, new SearchEmployeeAddressQuery());

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,8 @@ namespace RazorSample.Web
   {
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddMemoryCache();
+      services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+              .AddCookie(options => options.LoginPath = "/account/login/");
       services.AddMvc(options => options.Filters.Add(new ViewNameActionFilter()));
 
       services.AddScoped<DbConfiguration>();
@@ -27,6 +29,7 @@ namespace RazorSample.Web
 
       services.AddScoped<IRandomGenerator, RandomGenerator>();
       services.AddScoped<INotificationService, NotificationService>();
+      services.AddScoped<IPasswordHasher, PasswordHasher>();
 
       services.AddScoped<IEmployeeService, EmployeeService>();
       services.AddScoped<IClientService, ClientService>();
@@ -41,6 +44,7 @@ namespace RazorSample.Web
         scope.ServiceProvider.GetRequiredService<DbContext>().Database.EnsureCreated();
       }
 
+      app.UseAuthentication();
       app.UseStaticFiles();
       app.UseMvc(options => options.MapRoute("default", "{controller=employee}/{action=index}"));
     }
